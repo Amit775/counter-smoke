@@ -1,0 +1,13 @@
+<div class="container bg">
+    <div class="button-wrapper">
+        <button mat-button class="smoke-button" (click)="inc()">
+            I Smoke
+        </button>
+    </div>
+    <div class="counter">
+        <span *ngIf="(loading$ | async) === false; else loader"> {{ todayCount$ | async }}</span>
+        <ng-template #loader>
+            <mat-spinner color="warn" diameter="40"></mat-spinner>
+        </ng-template>
+    </div>
+</div>
