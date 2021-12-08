@@ -1,6 +1,6 @@
-<div class="container bg">
+<div class="container">
     <div class="button-wrapper">
-        <button mat-button class="smoke-button" (click)="inc()">
+        <button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async">
             I Smoke
         </button>
     </div>

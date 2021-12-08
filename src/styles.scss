@@ -55,3 +55,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: inherit;
   filter: invert(17%) sepia(77%) saturate(3501%) hue-rotate(176deg) brightness(94%) contrast(99%);
 }
+
+app-top-bar {
+  height: 100%;
+
+  .mat-tab-group {
+    height: 100%;
+
+    .mat-tab-header { 
+      background-color: #01657D;
+      opacity: 0.7;
+      
+      .mat-tab-label {
+        color: whitesmoke;
+      }
+    }
+
+    .mat-tab-body-wrapper {
+      height: 100%;
+    }
+  }
+}
