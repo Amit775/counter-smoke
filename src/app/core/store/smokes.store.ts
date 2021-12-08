@@ -1,9 +1,15 @@
 import { Injectable } from "@angular/core";
 import { EntityState, EntityStore, StoreConfig } from "@datorama/akita";
 
-export interface ISmoke {
-    id: string;
+export interface Smokes {
+    [id: string]: SmokeContent
+}
+export interface SmokeContent {
     timestamp: number;
+}
+
+export interface ISmoke extends SmokeContent {
+    id: string;
 }
 
 export interface SmokesState extends EntityState<ISmoke, string> { };

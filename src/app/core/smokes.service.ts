@@ -1,23 +1,38 @@
 import { Injectable } from "@angular/core";
-import { guid } from "@datorama/akita";
-import { Observable, tap } from "rxjs";
 import { ApiService } from "./api.service";
-import { ISmoke, SmokesStore } from "./store/smokes.store";
+import { SmokerService } from "./smoker.service";
+import { ISmoke, SmokeContent, Smokes, SmokesStore } from "./store/smokes.store";
+
+export function DToList(smokes: { [id: string]: SmokeContent}): ISmoke[] {
+    return Object.entries(smokes).map(([id, smoke]) => ({id, ...smoke} as ISmoke));
+}
 
 @Injectable({ providedIn: 'root' })
 export class SmokesService {
-    constructor(private api: ApiService, private store: SmokesStore) { }
+    constructor(
+        private api: ApiService,
+        private store: SmokesStore,
+        private smoker: SmokerService
+    ) { }
 
-    inc(): Observable<ISmoke> {
-        const smoke: ISmoke = { id: guid(), timestamp: Date.now() };
+    inc(): void {
+        const smoker = this.smoker.getCurrentSmoker();
+        const smoke: SmokeContent = { timestamp: Date.now() };
         this.store.setLoading(true);
-        return this.api.newSmoke(smoke).pipe(
-            tap(result => this.store.add(result)), 
-            tap(() => this.store.setLoading(false))
-        );
+        this.api.newSmoke(smoker.id, smoke);
     }
 
-    load(): Observable<ISmoke[]> {
-        return this.api.getSmokes().pipe(tap(_ => this.store.set(_)));
+    reset(): void {
+        const smoker = this.smoker.getCurrentSmoker();
+        this.api.reset(smoker.id);
+    }
+
+    syncData(): void {
+        const smoker = this.smoker.getCurrentSmoker();
+        this.store.setLoading(true);
+        this.api.sync(smoker.id, (smokes: Smokes) => {
+            this.store.set(DToList(smokes));
+            this.store.setLoading(false);
+        });
     }
 }

@@ -15,12 +15,11 @@ export class ISmokeComponent implements OnInit {
   loading$ = this.smokes.selectLoading();
 
   ngOnInit(): void {
-    this.service.load().subscribe();
-    this.loading$.subscribe(console.log);
+    this.service.syncData();
   }
 
   inc(): void {
-    this.service.inc().subscribe();
+    this.service.inc();
   }
 
 }

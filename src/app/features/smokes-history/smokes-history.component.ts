@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SmokesService } from 'src/app/core/smokes.service';
 
 @Component({
   selector: 'app-smokes-history',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SmokesHistoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: SmokesService) { }
 
   ngOnInit(): void {
+  }
+
+  reset(): void {
+    this.service.reset();
   }
 
 }
