@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group mat-align-tabs="center" [disablePagination]="true">
     <mat-tab>
         <ng-template matTabLabel>
             <mat-icon>add_alarm</mat-icon>
@@ -13,6 +13,14 @@
         </ng-template>
         <ng-template matTabContent>
             <app-smokes-history></app-smokes-history>
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template matTabLabel>
+            <mat-icon>settings</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+            <app-settings></app-settings>
         </ng-template>
     </mat-tab>
 </mat-tab-group>

@@ -15,13 +15,15 @@ import { NG_ENTITY_SERVICE_CONFIG } from '@datorama/akita-ng-entity-service';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 import { TopBarComponent } from './layout/top-bar/top-bar.component';
+import { SettingsComponent } from './features/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ISmokeComponent,
     SmokesHistoryComponent,
-    TopBarComponent
+    TopBarComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

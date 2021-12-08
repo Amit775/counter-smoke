@@ -65,9 +65,10 @@ app-top-bar {
     .mat-tab-header { 
       background-color: #01657D;
       opacity: 0.7;
-      
+
       .mat-tab-label {
         color: whitesmoke;
+        min-width: 100px;
       }
     }
 
