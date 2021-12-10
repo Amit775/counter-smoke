@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Database, onValue, ref, set, Unsubscribe } from "@firebase/database";
 import { push } from "firebase/database";
 import { FIREBASE_DB } from "./firebase.app";
-import { SmokeContent, Smokes } from "./store/smokes.store";
+import { SmokeContent, Smokes } from "./smokes/smokes.store";
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {

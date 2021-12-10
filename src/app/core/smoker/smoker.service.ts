@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ISmoker, SmokerStore } from "./store/smoker.store";
+import { ISmoker, SmokerStore } from "./smoker.store";
 
 @Injectable({ providedIn: 'root' })
 export class SmokerService {

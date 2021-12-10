@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SmokesService } from 'src/app/core/smokes.service';
-import { SmokesQuery } from 'src/app/core/store/smokes.query';
+import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 
 @Component({
   selector: 'app-i-smoke',

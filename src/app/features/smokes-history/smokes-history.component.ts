@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SmokesService } from 'src/app/core/smokes.service';
+import { SmokesService } from 'src/app/core/smokes/smokes.service';
 
 @Component({
   selector: 'app-smokes-history',

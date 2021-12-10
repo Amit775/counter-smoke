@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { ApiService } from "./api.service";
-import { SmokerService } from "./smoker.service";
-import { ISmoke, SmokeContent, Smokes, SmokesStore } from "./store/smokes.store";
+import { ApiService } from "../api.service";
+import { SmokerService } from "../smoker/smoker.service";
+import { ISmoke, SmokeContent, Smokes, SmokesStore } from "./smokes.store";
 
 export function DToList(smokes: { [id: string]: SmokeContent}): ISmoke[] {
     return Object.entries(smokes).map(([id, smoke]) => ({id, ...smoke} as ISmoke));
