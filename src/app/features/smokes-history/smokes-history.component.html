@@ -1,1 +1,9 @@
-<button (click)="reset()">Reset</button>
+<!-- <div> {{ smokes$ | async | json }} </div> -->
+<div class="smokes">
+    <div class="smoke" *ngFor="let smoke of smokes$ | async; trackBy: trackById">
+        <span> {{ smoke.timestamp | date : dateFormat }} </span>
+        <button mat-icon-button (click)="edit(smoke)">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+</div>

@@ -16,12 +16,12 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 import { TopBarComponent } from './layout/top-bar/top-bar.component';
 import { SettingsComponent } from './features/settings/settings.component';
+import { SmokesHistoryModule } from './features/smokes-history/smokes-history.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ISmokeComponent,
-    SmokesHistoryComponent,
     TopBarComponent,
     SettingsComponent
   ],
@@ -33,7 +33,8 @@ import { SettingsComponent } from './features/settings/settings.component';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatIconModule,
-    environment.production ? [] : AkitaNgDevtools.forRoot()
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    SmokesHistoryModule
   ],
   providers: [{ provide: NG_ENTITY_SERVICE_CONFIG, useValue: { baseUrl: 'https://jsonplaceholder.typicode.com' }}],
   bootstrap: [AppComponent]

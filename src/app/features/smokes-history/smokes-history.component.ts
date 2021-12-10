@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Order } from '@datorama/akita';
+import { Observable, tap } from 'rxjs';
+import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { ISmoke } from 'src/app/core/smokes/smokes.store';
 
 @Component({
   selector: 'app-smokes-history',
@@ -8,13 +12,21 @@ import { SmokesService } from 'src/app/core/smokes/smokes.service';
 })
 export class SmokesHistoryComponent implements OnInit {
 
-  constructor(private service: SmokesService) { }
+  smokes$: Observable<ISmoke[]> = this.smokes.selectAll({ sortBy: 'timestamp', sortByOrder: Order.DESC });
+  constructor(
+    private smokes: SmokesQuery
+  ) { }
 
-  ngOnInit(): void {
+  dateFormat = "dd/MM/yyyy HH:mm:ss";
+  trackById(index: number, smoke: ISmoke): string {
+    return smoke.id;
   }
 
-  reset(): void {
-    this.service.reset();
+  edit(smoke: ISmoke): void {
+    console.log(smoke);
+  }
+
+  ngOnInit(): void {
   }
 
 }
