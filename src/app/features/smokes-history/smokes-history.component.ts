@@ -27,5 +27,9 @@ export class SmokesHistoryComponent {
     this.service.updateSmoke(smoke);
   }
 
+  smokeRemoved(smoke: ISmoke) {
+    this.service.removeSmoke(smoke);
+  }
+
 }
 

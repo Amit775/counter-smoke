@@ -63,4 +63,10 @@ export class SmokesService {
     this.store.setLoading(true);
     this.api.updateSmoke(smoker.id, smoke.id, withoutId(smoke));
   }
+
+  removeSmoke(smoke: ISmoke): void {
+    const smoker = this.smoker.getCurrentSmoker();
+    this.store.setLoading(true);
+    this.api.removeSmoke(smoker.id, smoke.id);
+  }
 }

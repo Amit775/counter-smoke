@@ -34,6 +34,11 @@ export class ApiService {
     update(refs, smoke);
   }
 
+  removeSmoke(smokerId: string, smokeId: string): void {
+    const refs = ref(this.db, `smokes/${smokerId}/${smokeId}/`);
+    set(refs, null);
+  }
+
   sync(smokerId: string, listeners: IListeners<ISmoke>): Unsubscribe {
     if (this.isSynced) {
       console.error('sync should only be called once');

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ISmoke, SmokeContent } from 'src/app/core/smokes/smokes.store';
+import { ISmoke } from 'src/app/core/smokes/smokes.store';
 
 @Component({
   selector: 'app-smoke-record',
@@ -10,6 +10,8 @@ export class SmokeRecordComponent {
 
   @Input() smoke!: ISmoke;
   @Output() smokeChange = new EventEmitter<ISmoke>();
+  @Output() removed = new EventEmitter<ISmoke>();
+
   readonly dateFormat: string = "dd/MM/yyyy HH:mm";
 
   public currentTime: Date = new Date();
@@ -19,6 +21,10 @@ export class SmokeRecordComponent {
 
   edit(smoke: ISmoke): void {
     this.smokeChange.emit(smoke);
+  }
+
+  remove(): void {
+    this.removed.emit(this.smoke);
   }
 
   
