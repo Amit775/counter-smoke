@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Order } from '@datorama/akita';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { SmokesQuery, today } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
@@ -24,7 +24,6 @@ export class SmokesHistoryComponent {
   }
 
   smokeEdited(smoke: ISmoke) {
-    console.log(smoke);
     this.service.updateSmoke(smoke);
   }
 

@@ -4,6 +4,7 @@
     <input
       #time
       [ngxTimepicker]="timePicker"
+      [max]="(currentTime | date : dateFormat | slice : -5)!"
       hidden
       [format]="24"
     />
@@ -13,6 +14,7 @@
     <ngx-material-timepicker
       #timePicker
       [defaultTime]="(smoke.timestamp | date : dateFormat | slice : -5)!"
+      (opened)="setCurrentTime()"
       (timeSet)="timeChange($event)"
     ></ngx-material-timepicker>
   </span>
