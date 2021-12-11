@@ -7,6 +7,11 @@ export function DToList(smokes: { [id: string]: SmokeContent}): ISmoke[] {
     return Object.entries(smokes).map(([id, smoke]) => ({id, ...smoke} as ISmoke));
 }
 
+export function withoutId<S, T extends S & { id: any }>(obj: T): S {
+    delete obj.id;
+    return obj;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SmokesService {
     constructor(
@@ -34,5 +39,11 @@ export class SmokesService {
             this.store.set(DToList(smokes));
             this.store.setLoading(false);
         });
+    }
+
+    updateSmoke(smoke: ISmoke): void {
+        const smoker = this.smoker.getCurrentSmoker();
+        this.store.setLoading(true);
+        this.api.updateSmoke(smoker.id, smoke.id, withoutId(smoke));
     }
 }

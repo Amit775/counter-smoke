@@ -1,9 +1,7 @@
-<!-- <div> {{ smokes$ | async | json }} </div> -->
 <div class="smokes">
-    <div class="smoke" *ngFor="let smoke of smokes$ | async; trackBy: trackById">
-        <span> {{ smoke.timestamp | date : dateFormat }} </span>
-        <button mat-icon-button (click)="edit(smoke)">
-            <mat-icon>edit</mat-icon>
-        </button>
-    </div>
+  <app-smoke-record
+    *ngFor="let smoke of smokes$ | async; trackBy: trackById"
+    [smoke]="smoke"
+    (smokeChange)="smokeEdited($event)"
+  ></app-smoke-record>
 </div>

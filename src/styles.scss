@@ -38,6 +38,27 @@ $counter-smoke-theme: mat.define-light-theme((
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* width */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 4px #01657D;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #01657D;
+	border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #01657D;
+}
+
 .bg { 
   background-color: rgb(44 217 225 / 25%);
 }

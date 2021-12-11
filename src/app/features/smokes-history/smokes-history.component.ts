@@ -1,32 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Order } from '@datorama/akita';
-import { Observable, tap } from 'rxjs';
-import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
+import { Observable } from 'rxjs';
+import { SmokesQuery, today } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
 
 @Component({
   selector: 'app-smokes-history',
   templateUrl: './smokes-history.component.html',
-  styleUrls: ['./smokes-history.component.scss']
+  styleUrls: ['./smokes-history.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SmokesHistoryComponent implements OnInit {
+export class SmokesHistoryComponent {
 
-  smokes$: Observable<ISmoke[]> = this.smokes.selectAll({ sortBy: 'timestamp', sortByOrder: Order.DESC });
+  smokes$: Observable<ISmoke[]> = this.smokes.selectAll({ sortBy: 'timestamp', sortByOrder: Order.DESC, filterBy: today });
   constructor(
-    private smokes: SmokesQuery
+    private smokes: SmokesQuery,
+    private service: SmokesService
   ) { }
 
-  dateFormat = "dd/MM/yyyy HH:mm:ss";
   trackById(index: number, smoke: ISmoke): string {
     return smoke.id;
   }
 
-  edit(smoke: ISmoke): void {
+  smokeEdited(smoke: ISmoke) {
     console.log(smoke);
-  }
-
-  ngOnInit(): void {
+    this.service.updateSmoke(smoke);
   }
 
 }
+
