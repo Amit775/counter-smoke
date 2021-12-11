@@ -39,7 +39,6 @@ export class AuthService {
 
   sendSMS(phoneNumber: string): Observable<boolean> {
     phoneNumber = `+972${phoneNumber.slice(1)}`;
-    console.log(phoneNumber);
     return from(
       signInWithPhoneNumber(this.auth, phoneNumber, this.verifier!)
         .then((result: ConfirmationResult) => {

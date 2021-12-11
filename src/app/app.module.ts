@@ -17,14 +17,14 @@ import { environment } from '../environments/environment';
 import { TopBarComponent } from './layout/top-bar/top-bar.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { SmokesHistoryModule } from './features/smokes-history/smokes-history.module';
-import { AuthModule } from './features/auth/auth.module';
+import { AuthModule } from './layout/auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ISmokeComponent,
     TopBarComponent,
-    SettingsComponent
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +36,14 @@ import { AuthModule } from './features/auth/auth.module';
     MatIconModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
     SmokesHistoryModule,
-    AuthModule
+    AuthModule,
   ],
-  providers: [{ provide: NG_ENTITY_SERVICE_CONFIG, useValue: { baseUrl: 'https://jsonplaceholder.typicode.com' }}],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: NG_ENTITY_SERVICE_CONFIG,
+      useValue: { baseUrl: 'https://jsonplaceholder.typicode.com' },
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

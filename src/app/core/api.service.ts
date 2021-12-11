@@ -22,7 +22,6 @@ export interface IListeners<T> {
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   constructor(@Inject(FIREBASE_DB) private db: Database) {}
-  private isSynced: boolean = false;
 
   newSmoke(smokerId: string, smoke: SmokeContent): void {
     const refs = ref(this.db, `smokes/${smokerId}/`);
@@ -40,13 +39,7 @@ export class ApiService {
   }
 
   sync(smokerId: string, listeners: IListeners<ISmoke>): Unsubscribe {
-    if (this.isSynced) {
-      console.error('sync should only be called once');
-      return () => {};
-    }
-
     const refs = ref(this.db, `smokes/${smokerId}/`);
-    this.isSynced = true;
 
     const subs = [
       listeners.onAdd

@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { SmokerQuery } from 'src/app/core/smoker/smoker.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
+  constructor(private service: SmokesService) {}
 
-  constructor(private service: SmokesService) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   reset(): void {
     this.service.reset();
   }
-
-
 }
