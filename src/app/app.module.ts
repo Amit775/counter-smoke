@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 import { TopBarComponent } from './layout/top-bar/top-bar.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { SmokesHistoryModule } from './features/smokes-history/smokes-history.module';
+import { AuthModule } from './features/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SmokesHistoryModule } from './features/smokes-history/smokes-history.mo
     MatTabsModule,
     MatIconModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
-    SmokesHistoryModule
+    SmokesHistoryModule,
+    AuthModule
   ],
   providers: [{ provide: NG_ENTITY_SERVICE_CONFIG, useValue: { baseUrl: 'https://jsonplaceholder.typicode.com' }}],
   bootstrap: [AppComponent]

@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Order } from '@datorama/akita';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SmokesQuery, today } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
+
 
 @Component({
   selector: 'app-smokes-history',
