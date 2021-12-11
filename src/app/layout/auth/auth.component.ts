@@ -7,12 +7,12 @@ import { AuthService } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent implements OnInit, AfterViewInit {
+export class AuthComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) private tabs!: MatTabGroup;
+  @ViewChild('phone') private phone!: HTMLInputElement;
+  @ViewChild('code') private code!: HTMLImageElement;
 
   constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.authService.initVerifier();

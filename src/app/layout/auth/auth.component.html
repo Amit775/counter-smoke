@@ -4,7 +4,7 @@
     <ng-template matTabContent>
       <div class="verify-row">
         <mat-form-field>
-          <input matInput placeholder="enter phone number" #phone />
+          <input matInput placeholder="enter phone number" #phone autocomplete="off" autofocus />
         </mat-form-field>
         <span class="actions">
           <button mat-button (click)="sendSMS(phone.value)" id="sign-in-button">
@@ -20,7 +20,7 @@
     <ng-template matTabContent>
       <div class="verify-row">
         <mat-form-field>
-          <input matInput placeholder="enter code" #code />
+          <input matInput placeholder="enter code" #code autocomplete="off" autofocus />
         </mat-form-field>
         <span class="actions">
           <button mat-button (click)="verifyCode(code.value)">
