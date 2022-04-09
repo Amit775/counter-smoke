@@ -9,8 +9,8 @@ import { AuthService } from './auth.service';
 })
 export class AuthComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) private tabs!: MatTabGroup;
-  @ViewChild('phone') private phone!: HTMLInputElement;
-  @ViewChild('code') private code!: HTMLImageElement;
+  readonly phonePattern = '^05[0234789][0-9]{7}&';
+  readonly codePattern = '^[0-9]{6}&';
 
   constructor(private authService: AuthService) {}
 
@@ -19,9 +19,11 @@ export class AuthComponent implements AfterViewInit {
   }
 
   sendSMS(phoneNumber: string): void {
-    this.authService.sendSMS(phoneNumber).subscribe(() => {
-      this.tabs._tabs.get(this.tabs.selectedIndex!)!.disabled = true;
-      this.tabs._tabs.get(++this.tabs.selectedIndex!)!.disabled = false;
+    this.authService.sendSMS(phoneNumber).subscribe((success: boolean) => {
+      if (success) {
+        this.tabs._tabs.get(this.tabs.selectedIndex!)!.disabled = true;
+        this.tabs._tabs.get(++this.tabs.selectedIndex!)!.disabled = false;
+      }
     });
   }
 

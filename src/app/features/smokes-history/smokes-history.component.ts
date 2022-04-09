@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Order } from '@datorama/akita';
 import { Observable } from 'rxjs';
-import { SmokesQuery, today } from 'src/app/core/smokes/smokes.query';
+import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
-
 
 @Component({
   selector: 'app-smokes-history',
@@ -13,17 +11,18 @@ import { ISmoke } from 'src/app/core/smokes/smokes.store';
   styleUrls: ['./smokes-history.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SmokesHistoryComponent {
-  smokes$: Observable<ISmoke[]> = this.smokes.selectAll({
-    sortBy: 'timestamp',
-    sortByOrder: Order.DESC,
-    filterBy: today,
-  });
+export class SmokesHistoryComponent implements OnInit {
+  dates$!: Observable<{ [date: number]: ISmoke[]}>;
+
   constructor(
     private smokes: SmokesQuery,
     private service: SmokesService,
     private dialog: MatDialog
   ) {}
+
+  ngOnInit(): void {
+	  this.dates$ = this.smokes.selectByDates();
+  }
 
   trackById(index: number, smoke: ISmoke): string {
     return smoke.id;

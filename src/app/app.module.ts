@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +19,7 @@ import { TopBarComponent } from './layout/top-bar/top-bar.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { SmokesHistoryModule } from './features/smokes-history/smokes-history.module';
 import { AuthModule } from './layout/auth/auth.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -34,9 +36,11 @@ import { AuthModule } from './layout/auth/auth.module';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatIconModule,
+    MatSnackBarModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
     SmokesHistoryModule,
     AuthModule,
+    CoreModule,
   ],
   providers: [
     {

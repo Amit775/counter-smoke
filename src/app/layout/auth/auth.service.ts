@@ -1,4 +1,5 @@
 import { Inject, Injectable, Injector } from '@angular/core';
+import { FirebaseError } from 'firebase/app';
 import {
   Auth,
   browserLocalPersistence,
@@ -7,11 +8,13 @@ import {
   signInWithPhoneNumber,
   UserCredential,
 } from 'firebase/auth';
-import { from, map, Observable, switchMap, tap } from 'rxjs';
+import { catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { FIREBASE_AUTH, FIREBASE_VERIFIER } from 'src/app/core/firebase.app';
 import { SmokerService } from 'src/app/core/smoker/smoker.service';
 import { ISmoker } from 'src/app/core/smoker/smoker.store';
+import { ToasterService } from 'src/app/core/toaster.service';
 
+declare var grecaptcha: any;
 @Injectable({
   providedIn: 'root',
 })
@@ -22,7 +25,8 @@ export class AuthService {
   constructor(
     @Inject(FIREBASE_AUTH) private auth: Auth,
     private injector: Injector,
-    private smoker: SmokerService
+    private smoker: SmokerService,
+    private toaster: ToasterService
   ) {}
 
   initVerifier(): void {
@@ -40,8 +44,10 @@ export class AuthService {
               return true;
             })
             .catch((error) => {
-              console.error(error);
-              throw error;
+              return (window as any).verifier
+                .render()
+                .then((id: any) => { console.log('reset', id); grecaptcha.reset(); })
+                .then(() => this.fail(error.message));
             })
         )
       )
@@ -50,13 +56,26 @@ export class AuthService {
 
   verifyCode(code: string): Observable<boolean> {
     return from(this.confirmation!.confirm(code)).pipe(
-      tap((credential: UserCredential) => {
-        const smoker: ISmoker = {
-          id: credential.user.uid,
-        };
-        this.smoker.setSmoker(smoker);
-      }),
-      map(() => true)
+      map((credential: UserCredential) => {
+          const smoker: ISmoker = {
+            id: credential.user.uid,
+          };
+          this.smoker.setSmoker(smoker);
+          return this.pass('code confirmed successfully');
+        }),
+        catchError((error: FirebaseError) => {
+          return of<boolean>(this.fail(error.message));
+        })                   
     );
   }
+
+  pass: (message: string) => true = (message: string) => {
+    this.toaster.success(message);
+    return true;
+  };
+
+  fail: (message: string) => false = (message: string) => {
+    this.toaster.error(message);
+    return false;
+  };
 }

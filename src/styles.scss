@@ -66,8 +66,29 @@ body {
   background: #01657d;
 }
 
+@mixin bg($color) {
+  background-color: $color;
+  text-align: center;
+}
+.success {
+  @include bg(#dcf8c6);
+  color: black;
+}
+
+.error {
+  @include bg(#f44336);
+}
+
+.warn {
+  @include bg(#ff8100);
+}
+
+.info {
+  @include bg(#1976d2);
+}
+
 .bg {
-  background-color: rgb(44 217 225 / 25%);
+  @include bg(rgb(44 217 225 / 25%));
 }
 
 app-top-bar, app-auth {
