@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { Component } from '@angular/core';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
+import { SmokesService } from 'src/app/core/smokes/smokes.service';
 
 @Component({
   selector: 'app-i-smoke',
@@ -17,5 +17,4 @@ export class ISmokeComponent {
   inc(): void {
     this.service.inc();
   }
-
 }

@@ -10,12 +10,14 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { SmokeRecordComponent } from './smoke-record/smoke-record.component';
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { MatExpansionModule } from '@angular/material/expansion';
+import { SortPipe } from "./sort.pipe";
 
 @NgModule({
     declarations: [
         SmokesHistoryComponent, 
         SmokeRecordComponent,
-        DialogComponent
+        DialogComponent,
+		SortPipe
     ],
     imports: [
         CommonModule,

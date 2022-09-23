@@ -12,7 +12,7 @@ import { ISmoke } from 'src/app/core/smokes/smokes.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmokesHistoryComponent implements OnInit {
-  dates$!: Observable<{ [date: number]: ISmoke[]}>;
+  dates$!: Observable<{ date: number; smokes: ISmoke[]}[]>;
 
   constructor(
     private smokes: SmokesQuery,
@@ -26,6 +26,10 @@ export class SmokesHistoryComponent implements OnInit {
 
   trackById(index: number, smoke: ISmoke): string {
     return smoke.id;
+  }
+
+  sortBy(smoke: ISmoke): number {
+	  return smoke.timestamp;
   }
 
   smokeEdited(smoke: ISmoke) {
