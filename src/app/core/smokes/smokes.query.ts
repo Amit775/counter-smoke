@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Order, QueryEntity } from "@datorama/akita";
+import { QueryEntity } from "@datorama/akita";
 import { map, Observable } from "rxjs";
 import { ISmoke, SmokesState, SmokesStore } from "./smokes.store";
 

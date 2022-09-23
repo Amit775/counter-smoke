@@ -5,7 +5,8 @@
     "packageManager": "yarn",
     "schematicCollections": [
       "@datorama/akita"
-    ]
+    ],
+    "analytics": "ace8569b-3073-4015-883c-fab665b5cc48"
   },
   "newProjectRoot": "projects",
   "projects": {
