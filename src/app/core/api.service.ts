@@ -23,22 +23,22 @@ export class ApiService {
   constructor(@Inject(FIREBASE_DB) private db: Database) {}
 
   newSmoke(smokerId: string, smoke: SmokeContent): void {
-    const refs = ref(this.db, `smokes/${smokerId}/`);
+    const refs = ref(this.db, `smokers/${smokerId}/smokes`);
     push(refs, smoke);
   }
 
   updateSmoke(smokerId: string, smokeId: string, smoke: SmokeContent): void {
-    const refs = ref(this.db, `smokes/${smokerId}/${smokeId}/`);
+    const refs = ref(this.db, `smokers/${smokerId}/smokes/${smokeId}/`);
     update(refs, smoke);
   }
 
   removeSmoke(smokerId: string, smokeId: string): void {
-    const refs = ref(this.db, `smokes/${smokerId}/${smokeId}/`);
+    const refs = ref(this.db, `smokers/${smokerId}/smokes/${smokeId}/`);
     set(refs, null);
   }
 
   sync(smokerId: string, listeners: IListeners<ISmoke>): Unsubscribe {
-    const refs = ref(this.db, `smokes/${smokerId}/`);
+    const refs = ref(this.db, `smokers/${smokerId}/smokes`);
 
     const subs = [
       listeners.onAdd
@@ -65,7 +65,7 @@ export class ApiService {
   }
 
   reset(smokerId: string): void {
-    const refs = ref(this.db, `smokes/${smokerId}/`);
+    const refs = ref(this.db, `smokers/${smokerId}/`);
     set(refs, null);
   }
 }
