@@ -1,10 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
@@ -17,27 +12,26 @@ import { SettingsComponent } from './features/settings/settings.component';
 import { SmokesHistoryModule } from './features/smokes-history/smokes-history.module';
 import { AuthModule } from './layout/auth/auth.module';
 import { TopBarComponent } from './layout/top-bar/top-bar.component';
+import { LazyDirective } from './shared/lazy.directive';
+import { MaterialModule } from './shared/material.module';
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		ISmokeComponent,
 		TopBarComponent,
 		SettingsComponent,
+		ISmokeComponent
 	],
 	imports: [
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
-		MatButtonModule,
-		MatProgressSpinnerModule,
-		MatTabsModule,
-		MatIconModule,
-		MatSnackBarModule,
 		environment.production ? [] : AkitaNgDevtools.forRoot(),
 		SmokesHistoryModule,
 		AuthModule,
 		CoreModule,
+		MaterialModule,
+		LazyDirective,
 	],
 	bootstrap: [AppComponent],
 })

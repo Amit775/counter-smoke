@@ -4,7 +4,7 @@
             <mat-icon>add_alarm</mat-icon>
         </ng-template>
         <ng-template matTabContent>
-            <app-i-smoke></app-i-smoke>
+			<ng-template [lazy]="'i-smoke'"></ng-template>
         </ng-template>
     </mat-tab>
     <mat-tab>
