@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TeardownLogic, map } from 'rxjs';
 import { SmokerQuery } from './core/smoker/smoker.query';
 import { SmokerService } from './core/smoker/smoker.service';
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
 	constructor(
 		private service: SmokesService,
 		private smoker: SmokerQuery,
-		private smokerService: SmokerService
+		private smokerService: SmokerService,
+		private router: Router
 	) { }
 
 	homeTabs = [
@@ -43,7 +45,15 @@ export class AppComponent implements OnInit, OnDestroy {
 	]
 
 	signedIn$ = this.smoker.selectIsLoggedIn();
-	tabs$ = this.signedIn$.pipe(map(isLoggedIn => isLoggedIn ? this.homeTabs : this.authTabs));
+	tabs$ = this.signedIn$.pipe(map(isLoggedIn => {
+		if (isLoggedIn) {
+			this.router.navigate(['home']);
+			return this.homeTabs;
+		} else {
+			this.router.navigate(['sign-in']);
+			return this.authTabs;
+		}
+	}));
 	private sub: TeardownLogic[] = [];
 
 	ngOnInit(): void {

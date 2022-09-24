@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Observable, tap } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { SmokerQuery } from "src/app/core/smoker/smoker.query";
 
 @Injectable()
@@ -12,10 +12,12 @@ export class SignInGuard implements CanActivate {
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 		return this.smokerQuery.selectIsLoggedIn().pipe(
-			tap(isLoggedIn => {
+			map(isLoggedIn => {
 				if (isLoggedIn) {
 					this.router.navigate(['home']);
 				}
+
+				return !isLoggedIn;
 			})
 		)
 	}

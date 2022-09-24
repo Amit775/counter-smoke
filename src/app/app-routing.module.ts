@@ -9,7 +9,8 @@ const routes: Routes = [
 	{ path: '**', redirectTo: 'sign-in' }
 ]
 @NgModule({
-	imports: [RouterModule.forRoot(routes, { enableTracing: false })],
-	exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes, { enableTracing: true })],
+	exports: [RouterModule],
+	providers: [SignInGuard, HomeGuard]
 })
 export class AppRoutingModule { }
