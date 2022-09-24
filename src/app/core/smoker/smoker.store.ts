@@ -5,7 +5,6 @@ export interface ISmoker {
     id: string;
 }
 
-
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'smoker' })
 export class SmokerStore extends Store<ISmoker> {

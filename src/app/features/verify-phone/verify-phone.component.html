@@ -1,0 +1,18 @@
+<div class="verify-row">
+	<mat-form-field>
+	  <input
+		matInput
+		placeholder="enter phone number"
+		#phone
+		autocomplete="off"
+		autofocus
+		[pattern]="phonePattern"
+	  />
+	</mat-form-field>
+	<span class="actions">
+	  <button mat-button (click)="sendSMS(phone.value)" id="sign-in-button" [disabled]="!phone.validity">
+		Verify Phone
+	  </button>
+	  <button mat-button (click)="setTestPhone()">TEST</button>
+	</span>
+  </div>

@@ -1,6 +1,11 @@
 <div class="width-determination bg">
-  <div class="container">
-    <app-top-bar *ngIf="signedIn$ | async; else auth"></app-top-bar>
-    <ng-template #auth><app-auth></app-auth></ng-template>
-  </div>
+	<div class="container">
+		<nav mat-tab-nav-bar disablePagination>
+			<a mat-tab-link *ngFor="let tab of tabs$ | async" [routerLink]="tab.route" routerLinkActive #rla="routerLinkActive"
+			[routerLinkActiveOptions]="{ exact: true }" [active]="rla.isActive">
+				<mat-icon>{{tab.icon}}</mat-icon>
+			</a>
+		</nav>
+		<router-outlet></router-outlet>
+	</div>
 </div>

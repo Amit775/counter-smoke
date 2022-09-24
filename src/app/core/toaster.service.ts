@@ -1,8 +1,8 @@
-import { Component, Inject, Injectable, Input } from '@angular/core';
+import { Component, Inject, Injectable } from '@angular/core';
 import {
-  MatSnackBar,
-  MatSnackBarRef,
-  MAT_SNACK_BAR_DATA,
+	MatSnackBar,
+	MatSnackBarRef,
+	MAT_SNACK_BAR_DATA
 } from '@angular/material/snack-bar';
 
 @Injectable({ providedIn: 'root' })

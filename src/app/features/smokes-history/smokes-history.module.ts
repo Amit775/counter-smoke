@@ -11,6 +11,8 @@ import { SmokeRecordComponent } from './smoke-record/smoke-record.component';
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SortPipe } from "./sort.pipe";
+import { RouterModule } from "@angular/router";
+import { MaterialModule } from "src/app/shared/material.module";
 
 @NgModule({
     declarations: [
@@ -21,13 +23,10 @@ import { SortPipe } from "./sort.pipe";
     ],
     imports: [
         CommonModule,
-        MatListModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatExpansionModule,
+		RouterModule.forChild([
+			{ path: '', component: SmokesHistoryComponent }
+		]),
+		MaterialModule,
         NgxMaterialTimepickerModule
     ],
     exports: [
