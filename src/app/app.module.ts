@@ -8,7 +8,6 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { LazyDirective } from './shared/lazy.directive';
 import { MaterialModule } from './shared/material.module';
 
 @NgModule({
@@ -23,7 +22,6 @@ import { MaterialModule } from './shared/material.module';
 		AppRoutingModule,
 		CoreModule,
 		MaterialModule,
-		LazyDirective,
 	],
 	bootstrap: [AppComponent],
 })

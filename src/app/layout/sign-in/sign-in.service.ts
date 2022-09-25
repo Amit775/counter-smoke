@@ -1,4 +1,5 @@
 import { Inject, Injectable, Injector } from '@angular/core';
+import { applyTransaction } from '@datorama/akita';
 import { FirebaseError } from 'firebase/app';
 import {
 	Auth,
@@ -10,8 +11,8 @@ import {
 } from 'firebase/auth';
 import { catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { FIREBASE_AUTH, FIREBASE_VERIFIER } from 'src/app/core/firebase.app';
-import { SmokerService } from 'src/app/core/smoker/smoker.service';
-import { ISmoker } from 'src/app/core/smoker/smoker.store';
+import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { ISmoker } from 'src/app/core/smokes/smokes.store';
 import { ToasterService } from 'src/app/core/toaster.service';
 
 declare var grecaptcha: any;
@@ -24,12 +25,24 @@ export class SignInService {
 	constructor(
 		@Inject(FIREBASE_AUTH) private auth: Auth,
 		private injector: Injector,
-		private smoker: SmokerService,
+		private service: SmokesService,
 		private toaster: ToasterService
 	) { }
 
 	initVerifier(): void {
 		this.verifier = this.injector.get(FIREBASE_VERIFIER);
+	}
+
+	checkAuth(): void {
+		this.auth.onAuthStateChanged((user) => {
+			applyTransaction(() => {
+				if (user != null) {
+					this.service.setSmoker({ id: user.uid });
+				}
+
+				this.service.setIsInitialized();
+			})
+		});
 	}
 
 	sendSMS(phoneNumber: string): Observable<boolean> {
@@ -59,7 +72,8 @@ export class SignInService {
 				const smoker: ISmoker = {
 					id: credential.user.uid,
 				};
-				this.smoker.setSmoker(smoker);
+				this.service.setSmoker(smoker);
+				this.service.setIsInitialized();
 				return this.pass('code confirmed successfully');
 			}),
 			catchError((error: FirebaseError) => {

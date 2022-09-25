@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { QueryEntity } from "@datorama/akita";
 import { map, Observable } from "rxjs";
-import { ISmoke, SmokesState, SmokesStore } from "./smokes.store";
+import { ISmoke, ISmoker, SmokesState, SmokesStore } from "./smokes.store";
 
 export const today = (smoke: ISmoke, index?: number | undefined) => {
 	const smokeDate = new Date(smoke.timestamp).setHours(0, 0, 0, 0);
@@ -13,6 +13,10 @@ export const today = (smoke: ISmoke, index?: number | undefined) => {
 export class SmokesQuery extends QueryEntity<SmokesState> {
 	constructor(protected override store: SmokesStore) { super(store); }
 
+	getSmoker(): ISmoker {
+		return this.getValue().smoker;
+	}
+
 	selectCountToday(): Observable<number> {
 		return this.selectCount(today);
 	}
@@ -21,7 +25,7 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 		return this.getCount(today);
 	}
 
-	selectByDates(): Observable<{ date: number; smokes: ISmoke[]}[]> {
+	selectByDates(): Observable<{ date: number; smokes: ISmoke[] }[]> {
 		return this.selectAll().pipe(map(smokes => {
 			const result: { [date: number]: ISmoke[] } = {};
 			smokes.slice().reverse().forEach(smoke => {
@@ -29,9 +33,9 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 				result[date] = [...result[date] ?? [], smoke]
 			})
 			return Object.keys(result).reduce((arr, date) => {
-				arr.push({ date: +date, smokes: result[+date]})
+				arr.push({ date: +date, smokes: result[+date] })
 				return arr;
-			}, [] as { date: number; smokes: ISmoke[]}[]);
+			}, [] as { date: number; smokes: ISmoke[] }[]);
 		}));
 	}
 }

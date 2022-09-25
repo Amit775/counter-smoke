@@ -1,28 +1,19 @@
 <div class="smoke">
-  <span> {{ smoke.timestamp | date: dateFormat }} </span>
-  <span class="actions">
-    <span>
-      <button mat-icon-button (click)="remove()" color="warn">
-        <mat-icon>remove</mat-icon>
-      </button>
-    </span>
-    <span>
-      <input
-        #time
-        [ngxTimepicker]="timePicker"
-        [max]="(currentTime | date: dateFormat | slice: -5)!"
-        hidden
-        [format]="24"
-      />
-      <ngx-material-timepicker-toggle [for]="timePicker">
-        <mat-icon>edit</mat-icon>
-      </ngx-material-timepicker-toggle>
-      <ngx-material-timepicker
-        #timePicker
-        [defaultTime]="(smoke.timestamp | date: dateFormat | slice: -5)!"
-        (opened)="setCurrentTime()"
-        (timeSet)="timeChange($event)"
-      ></ngx-material-timepicker>
-    </span>
-  </span>
+	<span> {{ smoke.timestamp | date: dateFormat }} </span>
+	<span class="actions">
+		<span>
+			<button mat-icon-button (click)="remove()" color="warn">
+				<mat-icon>remove</mat-icon>
+			</button>
+		</span>
+		<span>
+			<input #time [ngxTimepicker]="timePicker" [max]="(currentTime | date: dateFormat | slice: -5)!" hidden
+				[format]="24" />
+			<ngx-material-timepicker-toggle [for]="timePicker">
+				<mat-icon>edit</mat-icon>
+			</ngx-material-timepicker-toggle>
+			<ngx-material-timepicker #timePicker [defaultTime]="(smoke.timestamp | date: dateFormat | slice: -5)!"
+				(opened)="setCurrentTime()" (timeSet)="timeChange($event)"></ngx-material-timepicker>
+		</span>
+	</span>
 </div>

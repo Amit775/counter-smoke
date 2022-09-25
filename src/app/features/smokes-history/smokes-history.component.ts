@@ -6,48 +6,48 @@ import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
 
 @Component({
-  selector: 'app-smokes-history',
-  templateUrl: './smokes-history.component.html',
-  styleUrls: ['./smokes-history.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'app-smokes-history',
+	templateUrl: './smokes-history.component.html',
+	styleUrls: ['./smokes-history.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmokesHistoryComponent implements OnInit {
-  dates$!: Observable<{ date: number; smokes: ISmoke[]}[]>;
+	dates$!: Observable<{ date: number; smokes: ISmoke[] }[]>;
 
-  constructor(
-    private smokes: SmokesQuery,
-    private service: SmokesService,
-    private dialog: MatDialog
-  ) {}
+	constructor(
+		private smokes: SmokesQuery,
+		private service: SmokesService,
+		private dialog: MatDialog
+	) { }
 
-  ngOnInit(): void {
-	  this.dates$ = this.smokes.selectByDates();
-  }
+	ngOnInit(): void {
+		this.dates$ = this.smokes.selectByDates();
+	}
 
-  trackById(index: number, smoke: ISmoke): string {
-    return smoke.id;
-  }
+	trackById(index: number, smoke: ISmoke): string {
+		return smoke.id;
+	}
 
-  sortBy(smoke: ISmoke): number {
-	  return smoke.timestamp;
-  }
+	sortBy(smoke: ISmoke): number {
+		return smoke.timestamp;
+	}
 
-  smokeEdited(smoke: ISmoke) {
-    this.service.updateSmoke(smoke);
-  }
+	smokeEdited(smoke: ISmoke) {
+		this.service.updateSmoke(smoke);
+	}
 
-  smokeRemoved(smoke: ISmoke) {
-    const ref = this.dialog.open(DialogComponent);
-    ref.afterClosed().subscribe((toBeRemoved) => {
-      if (toBeRemoved) {
-        this.service.removeSmoke(smoke);
-      }
-    });
-  }
+	smokeRemoved(smoke: ISmoke) {
+		const ref = this.dialog.open(DialogComponent);
+		ref.afterClosed().subscribe((toBeRemoved) => {
+			if (toBeRemoved) {
+				this.service.removeSmoke(smoke);
+			}
+		});
+	}
 }
 
 @Component({
-  template: `
+	template: `
     <div class="container">
       <span mat-dialog-title>Are you sure you want to remove that smoke?</span>
       <div mat-dialog-actions>
@@ -57,4 +57,4 @@ export class SmokesHistoryComponent implements OnInit {
     </div>
   `,
 })
-export class DialogComponent {}
+export class DialogComponent { }

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TeardownLogic, map } from 'rxjs';
-import { SmokerQuery } from './core/smoker/smoker.query';
-import { SmokerService } from './core/smoker/smoker.service';
+import { map, TeardownLogic } from 'rxjs';
+import { SmokesQuery } from './core/smokes/smokes.query';
 import { SmokesService } from './core/smokes/smokes.service';
+import { SignInService } from './layout/sign-in/sign-in.service';
 
 @Component({
 	selector: 'app-root',
@@ -13,8 +13,8 @@ import { SmokesService } from './core/smokes/smokes.service';
 export class AppComponent implements OnInit, OnDestroy {
 	constructor(
 		private service: SmokesService,
-		private smoker: SmokerQuery,
-		private smokerService: SmokerService,
+		private query: SmokesQuery,
+		private signInService: SignInService,
 		private router: Router
 	) { }
 
@@ -44,26 +44,41 @@ export class AppComponent implements OnInit, OnDestroy {
 		}
 	]
 
-	signedIn$ = this.smoker.selectIsLoggedIn();
-	tabs$ = this.signedIn$.pipe(map(isLoggedIn => {
-		if (isLoggedIn) {
-			this.router.navigate(['home']);
+	tabs$ = this.query.select().pipe(map(state => {
+		if (!state.isInitialized) {
+			return [];
+		}
+		if (state.smoker?.id) {
 			return this.homeTabs;
 		} else {
-			this.router.navigate(['sign-in']);
 			return this.authTabs;
 		}
 	}));
 	private sub: TeardownLogic[] = [];
 
 	ngOnInit(): void {
-		this.smokerService.checkAuth();
+		this.signInService.checkAuth();
 		this.sub.push(
-			this.smoker.select().subscribe((smoker) => {
+			this.query.select(s => s.isInitialized).subscribe(() => {
 				this._unsubscribe();
-				this.service.syncData();
+				const appState = this.query.getValue();
+				if (!appState.isInitialized) {
+					return this.ensureRoute('loading');
+				}
+				if (appState?.smoker?.id) {
+					this.service.syncData();
+					return this.ensureRoute('home');
+				} else {
+					return this.ensureRoute('sign-in');
+				}
 			})
 		);
+	}
+
+	private ensureRoute(route: string): void {
+		if (!this.router.url.startsWith(`/${route}`)) {
+			this.router.navigate([route]);
+		}
 	}
 
 	ngOnDestroy(): void {

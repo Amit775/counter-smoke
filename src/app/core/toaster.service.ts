@@ -7,40 +7,40 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class ToasterService {
-  constructor(private snackbar: MatSnackBar) {}
+	constructor(private snackbar: MatSnackBar) { }
 
-  ref: MatSnackBarRef<ToasterComponent> | undefined = undefined;
+	ref: MatSnackBarRef<ToasterComponent> | undefined = undefined;
 
-  public success(message: string, undo?: () => void): void {
-    this.open(message, 'success', undo);
-  }
+	public success(message: string, undo?: () => void): void {
+		this.open(message, 'success', undo);
+	}
 
-  public error(message: string): void {
-    this.open(message, 'error');
-  }
+	public error(message: string): void {
+		this.open(message, 'error');
+	}
 
-  public warn(message: string): void {
-    this.open(message, 'warn');
-  }
+	public warn(message: string): void {
+		this.open(message, 'warn');
+	}
 
-  public info(message: string): void {
-    this.open(message, 'info');
-  }
+	public info(message: string): void {
+		this.open(message, 'info');
+	}
 
-  private open(message: string, panelClass: string, undo?: () => void): void {
-    const actions = [
-      { icon: 'undo', act: undo ?? (() => console.log('undo')) },
-      { icon: 'close', act: () => this.ref?.dismiss() },
-    ];
-    this.ref = this.snackbar.openFromComponent(ToasterComponent, {
-      panelClass,
-      data: { message, actions },
-    });
-  }
+	private open(message: string, panelClass: string, undo?: () => void): void {
+		const actions = [
+			{ icon: 'undo', act: undo ?? (() => console.log('undo')) },
+			{ icon: 'close', act: () => this.ref?.dismiss() },
+		];
+		this.ref = this.snackbar.openFromComponent(ToasterComponent, {
+			panelClass,
+			data: { message, actions },
+		});
+	}
 }
 
 @Component({
-  template: `
+	template: `
     <div class="container">
       <span class="message"> {{ data.message }} </span>
       <span class="actions">
@@ -56,11 +56,11 @@ export class ToasterService {
   `,
 })
 export class ToasterComponent {
-  constructor(
-    @Inject(MAT_SNACK_BAR_DATA)
-    public data: {
-      message: string;
-      actions: { act: () => void; icon: string }[];
-    }
-  ) {}
+	constructor(
+		@Inject(MAT_SNACK_BAR_DATA)
+		public data: {
+			message: string;
+			actions: { act: () => void; icon: string }[];
+		}
+	) { }
 }

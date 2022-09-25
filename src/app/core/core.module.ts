@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../shared/material.module';
 import { ToasterComponent } from './toaster.service';
 
 @NgModule({
-  declarations: [ToasterComponent],
-  imports: [CommonModule, MatIconModule, MatButtonModule],
-  exports: [ToasterComponent],
+	declarations: [ToasterComponent],
+	imports: [CommonModule, MaterialModule],
+	exports: [ToasterComponent],
 })
-export class CoreModule {}
+export class CoreModule { }
