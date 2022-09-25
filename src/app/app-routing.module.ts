@@ -30,7 +30,15 @@ class RoutineGuard implements CanActivate {
 @Component({
 	standalone: true,
 	imports: [CommonModule, MaterialModule],
-	template: '<mat-spinner></mat-spinner>',
+	template: '<div class="wrapper"><mat-spinner></mat-spinner></div>',
+	styles: [`
+		.wrapper {     
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center; } 
+		:host { height: 100%; }
+	`]
 })
 class LoadingComponent { }
 
