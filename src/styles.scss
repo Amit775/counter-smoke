@@ -19,15 +19,11 @@ $counter-smoke-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$counter-smoke-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $counter-smoke-primary,
-      accent: $counter-smoke-accent,
-      warn: $counter-smoke-warn,
-    ),
-  )
-);
+$counter-smoke-theme: mat.define-light-theme((color: (primary: $counter-smoke-primary,
+				accent: $counter-smoke-accent,
+				warn: $counter-smoke-warn,
+			),
+		));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -38,77 +34,73 @@ $counter-smoke-theme: mat.define-light-theme(
 
 html,
 body {
-  height: 100%;
+	height: 100%;
 }
+
 body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 8px;
+	width: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 4px #01657d;
+	box-shadow: inset 0 0 4px #01657d;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #01657d;
-  border-radius: 4px;
+	background: #01657d;
+	border-radius: 4px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #01657d;
+	background: #01657d;
 }
 
 @mixin bg($color) {
-  background-color: $color;
-  text-align: center;
+	background-color: $color;
+	text-align: center;
 }
+
 .success {
-  @include bg(#dcf8c6);
-  color: black;
+	@include bg(#dcf8c6);
+	color: black;
 }
 
 .error {
-  @include bg(#f44336);
+	@include bg(#f44336);
 }
 
 .warn {
-  @include bg(#ff8100);
+	@include bg(#ff8100);
 }
 
 .info {
-  @include bg(#1976d2);
+	@include bg(#1976d2);
 }
 
 .bg {
-  @include bg(rgb(44 217 225 / 25%));
+	@include bg(rgb(44 217 225 / 25%));
 }
 
-app-top-bar, app-auth {
-  height: 100%;
+app-top-bar,
+app-auth {
+	height: 100%;
 }
 
-.mat-tab-group {
-  height: 100%;
+.mat-tab-link {
+	background-color: #01657d;
+	opacity: 0.7;
+	color: whitesmoke;
+	min-width: 100px;
+}
 
-  .mat-tab-header {
-    background-color: #01657d;
-    opacity: 0.7;
-
-    .mat-tab-label {
-      color: whitesmoke;
-      min-width: 100px;
-    }
-  }
-
-  .mat-tab-body-wrapper {
-    height: 100%;
-  }
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+	background-color: whitesmoke;
 }
