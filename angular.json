@@ -39,7 +39,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+			  "node_modules/flatpickr/dist/themes/material_blue.css"
             ],
             "scripts": []
           },

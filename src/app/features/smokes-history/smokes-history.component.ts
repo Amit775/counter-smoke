@@ -1,9 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
+
+import { default as flatpickr } from 'flatpickr';
+import { Instance } from 'flatpickr/dist/types/instance';
+import { CountAtDayPlugin } from './count-at-day-plugin';
 
 @Component({
 	selector: 'app-smokes-history',
@@ -11,8 +15,11 @@ import { ISmoke } from 'src/app/core/smokes/smokes.store';
 	styleUrls: ['./smokes-history.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SmokesHistoryComponent implements OnInit {
+export class SmokesHistoryComponent implements OnInit, AfterViewInit {
 	dates$!: Observable<{ date: number; smokes: ISmoke[] }[]>;
+
+	@ViewChild('container') private container!: ElementRef;
+	instance!: Instance;
 
 	constructor(
 		private smokes: SmokesQuery,
@@ -22,6 +29,13 @@ export class SmokesHistoryComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.dates$ = this.smokes.selectByDates();
+	}
+
+	ngAfterViewInit(): void {
+		this.instance = flatpickr(this.container.nativeElement, {
+			inline: true,
+			plugins: [CountAtDayPlugin({ [new Date().setHours(0, 0, 0, 0)]: 6 })]
+		});
 	}
 
 	trackById(index: number, smoke: ISmoke): string {

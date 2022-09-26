@@ -104,3 +104,29 @@ app-auth {
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
 	background-color: whitesmoke;
 }
+
+.day-count-wrapper {
+	position: relative;
+	overflow: visible;
+	.day-count {
+		position: absolute;
+		text-align: center;
+		display: inline-block;
+		border-radius: 50%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		pointer-events: none;
+		font-size: 12px;
+		width: 16px;
+		height: 16px;
+		line-height: 16px;
+		top: -10px;
+		left: -29px;
+		color: whitesmoke;
+		background-color: #01657d;
+		&.correct-single-dates {
+			left: -25px;
+		}
+	}
+}
