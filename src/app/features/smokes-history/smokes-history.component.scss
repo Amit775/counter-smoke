@@ -1,5 +1,24 @@
+$dayWidth: 56px;
+$width: $dayWidth * 7; 
 ::ng-deep .flatpickr-calendar.inline {
 	margin: auto;
+	width: $width;
+
+	.dayContainer {
+		width: $width;
+		min-width: $width;
+		max-width: $width;
+	}
+
+	.flatpickr-days {
+		width: $width;
+	}
+
+	.flatpickr-day {
+		max-width: $dayWidth;
+		height: $dayWidth;
+		line-height: $dayWidth;
+	}
 }
 
 
