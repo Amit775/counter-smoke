@@ -38,4 +38,12 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 			}, [] as { date: number; smokes: ISmoke[] }[]);
 		}));
 	}
+
+	getCountByDates(): Record<number, number> {
+		return this.getAll().reduce((result: Record<number, number>, smoke: ISmoke) => {
+			const date = new Date(smoke.timestamp).setHours(0, 0, 0, 0);
+			result[date] = (result[date] ?? 0) + 1;
+			return result;
+		}, {})
+	}
 }
