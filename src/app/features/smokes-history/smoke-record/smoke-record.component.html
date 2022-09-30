@@ -1,8 +1,5 @@
 <div class="smoke">
 	<span> #{{index < 10 ? '0' + index : index }}: {{ smoke.timestamp | date: time }} </span>
-	<span>
-		<input type="time">
-	</span>
 			<span class="actions" *ngIf="selected">
 				<button mat-icon-button (click)="openClock()">
 					<mat-icon>access_time</mat-icon>

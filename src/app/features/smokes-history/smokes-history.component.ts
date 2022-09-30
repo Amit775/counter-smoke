@@ -39,7 +39,7 @@ export class SmokesHistoryComponent implements AfterViewInit {
 			],
 			onChange: [
 				(a, b, c, d) => {
-					this.panel.openPanel(a[0], this.container, () => this.instance.clear());
+					this.panel.openPanel(a[0], this.container, () => this.instance.clear(true, false));
 				}
 			]
 		});
