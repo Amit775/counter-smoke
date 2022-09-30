@@ -1,14 +1,12 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { take, tap } from 'rxjs';
-import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
-import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { EntityAction, EntityActions } from '@datorama/akita';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { default as flatpickr } from 'flatpickr';
 import { DayElement, Instance } from 'flatpickr/dist/types/instance';
 import { Hook } from 'flatpickr/dist/types/options';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { tap } from 'rxjs';
+import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
+import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { PanelService } from './panel.service';
 
 @UntilDestroy()
@@ -26,8 +24,6 @@ export class SmokesHistoryComponent implements AfterViewInit {
 
 	constructor(
 		private smokes: SmokesQuery,
-		private service: SmokesService,
-		private dialog: MatDialog,
 		private panel: PanelService
 	) { }
 
@@ -50,7 +46,7 @@ export class SmokesHistoryComponent implements AfterViewInit {
 		(window as any).fp = this.instance;
 		this.smokes.selectEntityAction([EntityActions.Add, EntityActions.Remove]).pipe(
 			tap((action: EntityAction<string>) => {
-				const changedDates = action.ids.map(id => new Date(this.smokes.getEntity(id)!.timestamp).setHours(0, 0, 0, 0));
+				const changedDates = action.type === EntityActions.Add ? action.ids.map(id => new Date(this.smokes.getEntity(id)!.timestamp).setHours(0, 0, 0, 0)) : this.instance.selectedDates;
 				changedDates.forEach(date => this.addCountBadge(this.getDayElement(new Date(date))))
 			}),
 			untilDestroyed(this)
@@ -92,30 +88,4 @@ export class SmokesHistoryComponent implements AfterViewInit {
 	getCountAtDay(day: Date): number {
 		return this.smokes.getCount((smoke: ISmoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf())
 	}
-
-	smokeEdited(smoke: ISmoke): void {
-		this.service.updateSmoke(smoke);
-	}
-
-	smokeRemoved(smoke: ISmoke): void {
-		const ref = this.dialog.open(DialogComponent);
-		ref.afterClosed().subscribe((toBeRemoved) => {
-			if (toBeRemoved) {
-				this.service.removeSmoke(smoke);
-			}
-		});
-	}
 }
-
-@Component({
-	template: `
-    <div class="container">
-      <span mat-dialog-title>Are you sure you want to remove that smoke?</span>
-      <div mat-dialog-actions>
-        <button mat-button [mat-dialog-close]="false">No</button>
-        <button mat-button [mat-dialog-close]="true" color="warn">Yes</button>
-      </div>
-    </div>
-  `,
-})
-export class DialogComponent { }
