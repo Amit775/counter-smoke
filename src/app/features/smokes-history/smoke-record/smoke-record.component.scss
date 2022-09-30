@@ -1,11 +1,21 @@
+:host {
+	width: 100%;
+}
+
 .smoke {
-  height: 40px;
-  line-height: 40px;
-  padding: 6px;
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .actions {
-  display: flex;
+	display: flex;
+}
+
+::ng-deep .actions {
+	.mat-icon-button {
+		width: 24px;
+		height: 24px;
+		line-height: 24px;
+	}
 }

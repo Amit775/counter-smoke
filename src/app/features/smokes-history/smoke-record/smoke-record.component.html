@@ -1,11 +1,9 @@
 <div class="smoke">
 	<span> {{ smoke.timestamp | date: dateFormat }} </span>
 	<span class="actions">
-		<span>
-			<button mat-icon-button (click)="remove()" color="warn">
-				<mat-icon>remove</mat-icon>
-			</button>
-		</span>
+		<button mat-icon-button (click)="remove()" color="warn">
+			<mat-icon>remove</mat-icon>
+		</button>
 		<!-- <span>
 			<input #time [ngxTimepicker]="timePicker" [max]="(currentTime | date: dateFormat | slice: -5)!" hidden
 				[format]="24" />

@@ -1,11 +1,10 @@
 <div class="container">
 	<div class="header">
-
+		{{ date | date : "dd/MM" }}
 	</div>
-	<div class="content">
-		<app-smoke-record *ngFor="let smoke of smokes$ | async" [smoke]="smoke"></app-smoke-record>
-	</div>
-	<div class="actions">
-
-	</div>
+	<mat-selection-list class="content" [multiple]="false">
+		<mat-list-option *ngFor="let smoke of smokes$ | async">
+			<app-smoke-record [smoke]="smoke"></app-smoke-record>
+		</mat-list-option>
+	</mat-selection-list>
 </div>

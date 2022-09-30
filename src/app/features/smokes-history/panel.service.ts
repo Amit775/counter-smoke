@@ -40,8 +40,7 @@ export class PanelService {
 				originY: "center",
 				overlayX: "center",
 				overlayY: "center",
-				offsetY: 70,
-				offsetX: 3
+				offsetY: 73,
 			}])
 		}
 	}
