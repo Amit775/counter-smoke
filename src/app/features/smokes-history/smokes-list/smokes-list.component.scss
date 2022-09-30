@@ -2,6 +2,7 @@
 	width: 320px;
 	height: 320px;
 	background-color: #01657d;
+	color: whitesmoke;
 	border-radius: 20px;
 	padding: 16px;
 	display: flex;
@@ -22,16 +23,21 @@
 
 ::ng-deep .container {
 
-	.mat-list-base .mat-list-item,
-	.mat-list-base .mat-list-option {
-		height: 32px;
-	}
+	.mat-list-base {
+		.mat-list-item,
+		.mat-list-option,
+		.mat-list-item.mat-list-option {
+			height: 32px;
 
-	.mat-list-base .mat-list-item .mat-list-item-content-reverse,
-	.mat-list-base .mat-list-option .mat-list-item-content-reverse,
-	.mat-list-base .mat-list-item .mat-list-item-content,
-	.mat-list-base .mat-list-option .mat-list-item-content,
-	.mat-list-base .mat-list-option.mat-list-option .mat-list-item-content-reverse .mat-list-text {
-		padding: 0;
+			.mat-list-item-content,
+			.mat-list-item-content-reverse {
+				padding: 0;
+				padding-right: 8px;
+
+				.mat-list-text {
+					padding: 0;
+				}
+			}
+		}
 	}
 }
