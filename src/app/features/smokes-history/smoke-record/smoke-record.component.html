@@ -6,7 +6,7 @@
 				<mat-icon>remove</mat-icon>
 			</button>
 		</span>
-		<span>
+		<!-- <span>
 			<input #time [ngxTimepicker]="timePicker" [max]="(currentTime | date: dateFormat | slice: -5)!" hidden
 				[format]="24" />
 			<ngx-material-timepicker-toggle [for]="timePicker">
@@ -14,6 +14,6 @@
 			</ngx-material-timepicker-toggle>
 			<ngx-material-timepicker #timePicker [defaultTime]="(smoke.timestamp | date: dateFormat | slice: -5)!"
 				(opened)="setCurrentTime()" (timeSet)="timeChange($event)"></ngx-material-timepicker>
-		</span>
+		</span> -->
 	</span>
 </div>

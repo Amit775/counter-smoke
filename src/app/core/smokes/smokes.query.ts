@@ -21,6 +21,10 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 		return this.selectCount(today);
 	}
 
+	selectSmokesAtDate(date: Date): Observable<ISmoke[]> {
+		return this.selectAll({ filterBy: (smoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === date.valueOf() });
+	}
+
 	getCountToday(): number {
 		return this.getCount(today);
 	}

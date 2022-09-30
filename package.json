@@ -24,6 +24,7 @@
     "@datorama/akita": "7.0.1",
     "@datorama/akita-ng-entity-service": "^7.0.0",
     "@datorama/akita-ng-router-store": "^7.0.0",
+    "@ngneat/until-destroy": "^9.2.2",
     "firebase": "^9.6.0",
     "flatpickr": "^4.6.13",
     "ngx-material-timepicker": "^5.5.3",

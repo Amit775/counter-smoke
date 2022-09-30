@@ -1,30 +1,25 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
-
+import { EntityAction, EntityActions } from '@datorama/akita';
 import { default as flatpickr } from 'flatpickr';
 import { DayElement, Instance } from 'flatpickr/dist/types/instance';
-import { EntityAction, EntityActions } from '@datorama/akita';
 import { Hook } from 'flatpickr/dist/types/options';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { PanelService } from './panel.service';
 
-type Indexable<T> = {
-	[index: number]: T;
-	length: number;
-}
-
+@UntilDestroy()
 @Component({
 	selector: 'app-smokes-history',
 	templateUrl: './smokes-history.component.html',
 	styleUrls: ['./smokes-history.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SmokesHistoryComponent implements OnInit, AfterViewInit {
-	dates$!: Observable<{ date: number; smokes: ISmoke[] }[]>;
-
-	@ViewChild('container') private container!: ElementRef;
+export class SmokesHistoryComponent implements AfterViewInit {
+	@ViewChild('container', { read: ElementRef }) private container!: ElementRef;
 	instance!: Instance;
 
 	daysIndex: Record<number, number> = {}
@@ -32,12 +27,9 @@ export class SmokesHistoryComponent implements OnInit, AfterViewInit {
 	constructor(
 		private smokes: SmokesQuery,
 		private service: SmokesService,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private panel: PanelService
 	) { }
-
-	ngOnInit(): void {
-		this.dates$ = this.smokes.selectByDates();
-	}
 
 	ngAfterViewInit(): void {
 		this.instance = flatpickr(this.container.nativeElement, {
@@ -48,6 +40,12 @@ export class SmokesHistoryComponent implements OnInit, AfterViewInit {
 			],
 			onMonthChange: [
 				this.indexByDateHook()
+			],
+			onChange: [
+				(a, b, c, d) => {
+					this.panel.openPanel(a[0], this.container);
+					console.log('change', a, b, c, d);
+				}
 			]
 		});
 		(window as any).fp = this.instance;
@@ -55,14 +53,14 @@ export class SmokesHistoryComponent implements OnInit, AfterViewInit {
 			tap((action: EntityAction<string>) => {
 				const changedDates = action.ids.map(id => new Date(this.smokes.getEntity(id)!.timestamp).setHours(0, 0, 0, 0));
 				changedDates.forEach(date => this.addCountBadge(this.getDayElement(new Date(date))))
-			})
-		).subscribe()
+			}),
+			untilDestroyed(this)
+		).subscribe();
 	}
 
 	getDayElement(date: Date): DayElement | null {
 		const nodes = this.instance.days.childNodes;
 		const index = this.daysIndex[date.valueOf()];
-		// const index = this.binarySearch(nodes, date, 0, nodes.length, (node) => (node as DayElement).dateObj, (date) => date.valueOf());
 
 		if (index < 0) return null
 		return nodes[index] as DayElement;
@@ -74,27 +72,13 @@ export class SmokesHistoryComponent implements OnInit, AfterViewInit {
 		};
 	}
 
-	indexByDate(arr: Indexable<ChildNode>): Record<number, number> {
+	indexByDate(arr: ArrayLike<ChildNode>): Record<number, number> {
 		const result: Record<number, number> = {};
 		for (let index = 0; index < arr.length; index++) {
 			result[(arr[index] as DayElement).dateObj.valueOf()] = index;
 		}
 
 		return result;
-	}
-
-	binarySearch<T, V>(arr: Indexable<T>, x: V, low: number, high: number, map: (item: T) => V, mapCompare: (value: V) => number): number {
-		if (low > high) return -1
-
-		const mid = Math.floor((low + high) / 2);
-		const mappedValue = mapCompare(x);
-		const mappedComperer = mapCompare(map(arr[mid]));
-
-		if (mappedValue > mappedComperer) return this.binarySearch(arr, x, mid + 1, high, map, mapCompare);
-
-		if (mappedValue < mappedComperer) return this.binarySearch(arr, x, low, mid - 1, map, mapCompare);
-
-		return mid;
 	}
 
 	addCountBadge(dayElement: DayElement | null): void {

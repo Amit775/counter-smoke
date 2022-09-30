@@ -2,7 +2,7 @@ $dayWidth: 56px;
 $width: $dayWidth * 7;
 
 ::ng-deep .flatpickr-calendar.inline {
-
+	font-size: 20px;
 	.flatpickr-current-month .flatpickr-monthDropdown-months,
 	.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month,
 	.flatpickr-months .flatpickr-month,
