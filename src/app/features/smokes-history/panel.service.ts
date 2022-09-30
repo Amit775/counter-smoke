@@ -14,18 +14,19 @@ export class PanelService {
 
 	private overlayRef: OverlayRef | undefined;
 
-	openPanel(date: Date, container: ElementRef): OverlayRef {
+	openPanel(date: Date, container: ElementRef, onClose: () => void): OverlayRef {
 		this.closeOverlay();
 		this.overlayRef = this.overlay.create(this.getOverlayConfig(container));
 		const injector = this.createPanelInjector(date);
 		const portal = new ComponentPortal(SmokesListComponent, null, injector);
 		this.overlayRef.attach(portal);
 
-		this.overlayRef.backdropClick().subscribe(_ => this.closeOverlay());
+		this.overlayRef.backdropClick().subscribe(_ => this.closeOverlay(onClose));
 		return this.overlayRef;
 	}
 
-	closeOverlay(): void {
+	closeOverlay(onClose?: () => void): void {
+		onClose && onClose();
 		this.overlayRef?.detach();
 		this.overlayRef?.dispose();
 		this.overlayRef = undefined;

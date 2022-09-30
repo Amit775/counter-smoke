@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
@@ -43,8 +43,7 @@ export class SmokesHistoryComponent implements AfterViewInit {
 			],
 			onChange: [
 				(a, b, c, d) => {
-					this.panel.openPanel(a[0], this.container);
-					console.log('change', a, b, c, d);
+					this.panel.openPanel(a[0], this.container, () => this.instance.clear());
 				}
 			]
 		});
