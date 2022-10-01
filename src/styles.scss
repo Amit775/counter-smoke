@@ -35,6 +35,7 @@ $counter-smoke-theme: mat.define-light-theme((color: (primary: $counter-smoke-pr
 html,
 body {
 	height: 100%;
+	user-select: none;
 }
 
 body {
