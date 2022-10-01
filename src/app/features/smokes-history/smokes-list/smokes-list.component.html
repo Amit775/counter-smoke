@@ -2,7 +2,7 @@
 	<div class="header"> {{ date | date : "dd/MM" }} </div>
 	<mat-selection-list class="content" [multiple]="false">
 		<mat-list-option *ngFor="let smoke of smokes$ | async; let index=index" #option>
-			<app-smoke-record [smoke]="smoke" [index]="index + 1" [selected]="option.selected" (removed)="smokeRemoved(smoke)"></app-smoke-record>
+			<app-smoke-record [smoke]="smoke" [index]="index + 1" [selected]="option.selected" (removed)="smokeRemoved($event)" (edited)="smokeEdited($event)"></app-smoke-record>
 		</mat-list-option>
 	</mat-selection-list>
 </div>

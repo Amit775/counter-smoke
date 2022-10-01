@@ -1,11 +1,14 @@
 <div class="smoke">
-	<span> #{{index < 10 ? '0' + index : index }}: {{ smoke.timestamp | date: time }} </span>
-			<span class="actions" *ngIf="selected">
-				<button mat-icon-button (click)="openClock()">
-					<mat-icon>access_time</mat-icon>
-				</button>
-				<button mat-icon-button (click)="remove()" color="warn">
-					<mat-icon>remove_circle_outline</mat-icon>
-				</button>
-			</span>
+	<span class="index"> #{{ 10 > index ? '0' + index : index }}: </span>
+	<span *ngIf="!isEditMode"> {{ smoke.timestamp | date: time }} </span>
+	<span> <input *ngIf="isEditMode" (blur)="blurr(timePicker)" type="time" #timePicker [value]="smoke.timestamp | date: time"> </span>
+	<span class="spacer"></span>
+	<span class="actions" *ngIf="selected">
+		<button mat-icon-button (click)="openClock()">
+			<mat-icon>access_time</mat-icon>
+		</button>
+		<button mat-icon-button (click)="remove()" color="warn">
+			<mat-icon>remove_circle_outline</mat-icon>
+		</button>
+	</span>
 </div>
