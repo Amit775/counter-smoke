@@ -81,8 +81,7 @@ export class SmokesHistoryComponent implements AfterViewInit {
 
 		const count = this.getCountAtDay(dayElement.dateObj) ?? 0;
 		const date = dayElement.dateObj.getDate();
-		const classes = `day-count${date < 10 ? ' correct-single-dates' : ''}`;
-		dayElement.innerHTML = `${date}<span class="day-count-wrapper"><span class="${classes}">${count}</span></span>`;
+		dayElement.innerHTML = `${date}<span class="day-count">${count}</span>`;
 	}
 
 	getCountAtDay(day: Date): number {
