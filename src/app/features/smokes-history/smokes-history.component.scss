@@ -33,7 +33,7 @@ $width: $dayWidth * 7;
 	.flatpickr-day {
 		max-width: $dayWidth;
 		height: $dayWidth;
-		line-height: $dayWidth;
+		line-height: $dayWidth - 12px;
 	}
 }
 
