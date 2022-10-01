@@ -40,6 +40,10 @@ export class SmokeRecordComponent {
 		this.isEditMode = false;
 	}
 
+	cancelEdit(): void {
+		this.isEditMode = false;
+	}
+
 	edit(smoke: ISmoke): void {
 		this.edited.emit(smoke);
 	}
