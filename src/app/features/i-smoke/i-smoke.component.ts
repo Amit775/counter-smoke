@@ -9,10 +9,10 @@ import { SmokesService } from 'src/app/core/smokes/smokes.service';
 })
 export class ISmokeComponent {
 
-	constructor(private smokes: SmokesQuery, private service: SmokesService) { }
+	constructor(private query: SmokesQuery, private service: SmokesService) { }
 
-	todayCount$ = this.smokes.selectCountToday();
-	loading$ = this.smokes.selectLoading();
+	todayCount$ = this.query.selectCountToday();
+	loading$ = this.query.selectLoading();
 
 	inc(): void {
 		this.service.inc();

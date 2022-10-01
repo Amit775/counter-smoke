@@ -4,13 +4,7 @@ import { ApiService } from '../api.service';
 import { SmokesQuery } from './smokes.query';
 import { ISmoke, ISmoker, SmokeContent, SmokesStore } from './smokes.store';
 
-export function DToList(smokes: { [id: string]: SmokeContent }): ISmoke[] {
-	return Object.entries(smokes).map(
-		([id, smoke]) => ({ id, ...smoke } as ISmoke)
-	);
-}
-
-export function withoutId<S, T extends S & { id: any }>(obj: T): S {
+function withoutId<S, T extends S & { id: any }>(obj: T): S {
 	delete obj.id;
 	return obj;
 }
@@ -24,21 +18,21 @@ export class SmokesService {
 	) { }
 
 	inc(): void {
-		const smoker = this.query.getSmoker();
+		const smokerId = this.query.getSmokerId();
 		const smoke: SmokeContent = { timestamp: Date.now() };
 		this.store.setLoading(true);
-		this.api.newSmoke(smoker.id, smoke);
+		this.api.newSmoke(smokerId, smoke);
 	}
 
 	reset(): void {
-		const smoker = this.query.getSmoker();
-		this.api.reset(smoker.id);
+		const smokerId = this.query.getSmokerId();
+		this.api.reset(smokerId);
 	}
 
 	syncData(): TeardownLogic {
-		const smoker = this.query.getSmoker();
+		const smokerId = this.query.getSmokerId();
 		this.store.setLoading(true);
-		return this.api.sync(smoker.id, {
+		return this.api.sync(smokerId, {
 			getAll: (smokes) => {
 				this.store.set(smokes);
 				this.store.setLoading(false);
@@ -59,15 +53,15 @@ export class SmokesService {
 	}
 
 	updateSmoke(smoke: ISmoke): void {
-		const smoker = this.query.getSmoker();
+		const smokerId = this.query.getSmokerId();
 		this.store.setLoading(true);
-		this.api.updateSmoke(smoker.id, smoke.id, withoutId(smoke));
+		this.api.updateSmoke(smokerId, smoke.id, withoutId(smoke));
 	}
 
 	removeSmoke(smoke: ISmoke): void {
-		const smoker = this.query.getSmoker();
+		const smokerId = this.query.getSmokerId();
 		this.store.setLoading(true);
-		this.api.removeSmoke(smoker.id, smoke.id);
+		this.api.removeSmoke(smokerId, smoke.id);
 	}
 
 	setIsInitialized(): void {

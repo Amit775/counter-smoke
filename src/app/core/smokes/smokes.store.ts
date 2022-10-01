@@ -4,12 +4,11 @@ import { EntityState, EntityStore, StoreConfig } from "@datorama/akita";
 export type ISmoker = {
 	id: string;
 }
-export type Smokes = {
-	[id: string]: SmokeContent
-}
+
 export type SmokeContent = {
 	timestamp: number;
 }
+
 export type ISmoke = {
 	id: string;
 } & SmokeContent;

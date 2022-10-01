@@ -13,8 +13,8 @@ export const today = (smoke: ISmoke, index?: number | undefined) => {
 export class SmokesQuery extends QueryEntity<SmokesState> {
 	constructor(protected override store: SmokesStore) { super(store); }
 
-	getSmoker(): ISmoker {
-		return this.getValue().smoker;
+	getSmokerId(): string {
+		return this.getValue().smoker.id;
 	}
 
 	selectCountToday(): Observable<number> {
@@ -23,31 +23,5 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 
 	selectSmokesAtDate(date: Date): Observable<ISmoke[]> {
 		return this.selectAll({ filterBy: (smoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === date.valueOf(), sortBy: 'timestamp' });
-	}
-
-	getCountToday(): number {
-		return this.getCount(today);
-	}
-
-	selectByDates(): Observable<{ date: number; smokes: ISmoke[] }[]> {
-		return this.selectAll().pipe(map(smokes => {
-			const result: { [date: number]: ISmoke[] } = {};
-			smokes.slice().reverse().forEach(smoke => {
-				const date = new Date(smoke.timestamp).setHours(0, 0, 0, 0);
-				result[date] = [...result[date] ?? [], smoke]
-			})
-			return Object.keys(result).reduce((arr, date) => {
-				arr.push({ date: +date, smokes: result[+date] })
-				return arr;
-			}, [] as { date: number; smokes: ISmoke[] }[]);
-		}));
-	}
-
-	getCountByDates(): Record<number, number> {
-		return this.getAll().reduce((result: Record<number, number>, smoke: ISmoke) => {
-			const date = new Date(smoke.timestamp).setHours(0, 0, 0, 0);
-			result[date] = (result[date] ?? 0) + 1;
-			return result;
-		}, {})
 	}
 }

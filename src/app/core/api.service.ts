@@ -8,10 +8,15 @@ import {
 	update
 } from 'firebase/database';
 import { FIREBASE_DB } from './firebase.app';
-import { DToList } from './smokes/smokes.service';
 import { ISmoke, SmokeContent } from './smokes/smokes.store';
 
-export interface IListeners<T> {
+function DToList(smokes: { [id: string]: SmokeContent }): ISmoke[] {
+	return Object.entries(smokes).map(
+		([id, smoke]) => ({ id, ...smoke } as ISmoke)
+	);
+}
+
+interface IListeners<T> {
 	onAdd?: (item: T) => void;
 	onUpdate?: (item: T) => void;
 	onRemove?: (item: T) => void;

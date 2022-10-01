@@ -7,8 +7,7 @@ import { Database, getDatabase } from 'firebase/database';
 const firebaseConfig: FirebaseOptions = {
 	apiKey: 'AIzaSyD8WAPsGw6MdjVSpTEspfNPrkBfw2ZgyfE',
 	authDomain: 'counter-smoke.firebaseapp.com',
-	databaseURL:
-		'https://counter-smoke-default-rtdb.europe-west1.firebasedatabase.app',
+	databaseURL: 'https://counter-smoke-default-rtdb.europe-west1.firebasedatabase.app',
 	projectId: 'counter-smoke',
 	storageBucket: 'counter-smoke.appspot.com',
 	messagingSenderId: '668112789347',
@@ -18,7 +17,7 @@ const firebaseConfig: FirebaseOptions = {
 
 export const FIREBASE_APP = new InjectionToken<FirebaseApp>('firebase app', {
 	providedIn: 'root',
-	factory: () => initializeApp(firebaseConfig),
+	factory: () => initializeApp(firebaseConfig)
 });
 
 export const FIREBASE_DB = new InjectionToken<Database>('firebase database', {
@@ -26,7 +25,7 @@ export const FIREBASE_DB = new InjectionToken<Database>('firebase database', {
 	factory: () => {
 		const app = inject(FIREBASE_APP);
 		return getDatabase(app);
-	},
+	}
 });
 
 export const FIREBASE_AUTH = new InjectionToken<Auth>('firebase auth', {
@@ -34,7 +33,7 @@ export const FIREBASE_AUTH = new InjectionToken<Auth>('firebase auth', {
 	factory: () => {
 		const app = inject(FIREBASE_APP);
 		return getAuth(app);
-	},
+	}
 });
 
 export const FIREBASE_VERIFIER = new InjectionToken<RecaptchaVerifier | undefined>('firebase verifier', {
@@ -54,5 +53,5 @@ export const FIREBASE_VERIFIER = new InjectionToken<RecaptchaVerifier | undefine
 		}
 
 		return undefined;
-	},
+	}
 });

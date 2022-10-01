@@ -23,7 +23,7 @@ export class SmokesHistoryComponent implements AfterViewInit {
 	daysIndex: Record<number, number> = {}
 
 	constructor(
-		private smokes: SmokesQuery,
+		private query: SmokesQuery,
 		private panel: PanelService
 	) { }
 
@@ -44,9 +44,9 @@ export class SmokesHistoryComponent implements AfterViewInit {
 			]
 		});
 		(window as any).fp = this.instance;
-		this.smokes.selectEntityAction([EntityActions.Add, EntityActions.Remove]).pipe(
+		this.query.selectEntityAction([EntityActions.Add, EntityActions.Remove]).pipe(
 			tap((action: EntityAction<string>) => {
-				const changedDates = action.type === EntityActions.Add ? action.ids.map(id => new Date(this.smokes.getEntity(id)!.timestamp).setHours(0, 0, 0, 0)) : this.instance.selectedDates;
+				const changedDates = action.type === EntityActions.Add ? action.ids.map(id => new Date(this.query.getEntity(id)!.timestamp).setHours(0, 0, 0, 0)) : this.instance.selectedDates;
 				changedDates.forEach(date => this.addCountBadge(this.getDayElement(new Date(date))))
 			}),
 			untilDestroyed(this)
@@ -85,6 +85,6 @@ export class SmokesHistoryComponent implements AfterViewInit {
 	}
 
 	getCountAtDay(day: Date): number {
-		return this.smokes.getCount((smoke: ISmoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf())
+		return this.query.getCount((smoke: ISmoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf())
 	}
 }
