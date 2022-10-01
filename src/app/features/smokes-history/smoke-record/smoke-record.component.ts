@@ -34,15 +34,10 @@ export class SmokeRecordComponent {
 		this.isEditMode = true;
 	}
 
-	blurr(timePicker: HTMLInputElement): void {
-		console.log(timePicker, timePicker.valueAsDate, timePicker.value);
+	changeTime(timePicker: HTMLInputElement): void {
 		const [hours, minutes] = timePicker.value.split(':');
 		this.edit({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) })
 		this.isEditMode = false;
-	}
-
-	dateChanged(value: string): void {
-		console.log('change', value);
 	}
 
 	edit(smoke: ISmoke): void {
