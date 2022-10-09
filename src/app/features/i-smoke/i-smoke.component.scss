@@ -31,8 +31,16 @@
 	.counter {
 		margin-top: 16px;
 		line-height: 40px;
-		color: red;
-		font-size: 40px;
-		font-weight: bolder;
+		display: flex;
+		flex-direction: column;
+		.count {
+			color: red;
+			font-size: 40px;
+			font-weight: bolder;
+		}
+		.last {
+			font-size: 20px;
+			white-space: nowrap;
+		}
 	}
 }
