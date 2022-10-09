@@ -4,7 +4,7 @@
 			I Smoke
 		</button>
 	</div>
-	<div class="counter">
+	<div class="counter-container">
 		<div class="counter" *ngIf="(loading$ | async) === false; else loader">
 			<span class="count">{{ todayCount$ | async }}</span>
 			<span class="last">Last Cigarete: {{ lastCigarete$ | async | date : "HH:mm" | ago }} </span>

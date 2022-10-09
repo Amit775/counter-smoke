@@ -15,8 +15,8 @@
 		opacity: 0.5;
 		height: 160px;
 		width: 160px;
-
 		border-radius: 50%;
+
 		.smoke-button {
 			height: inherit;
 			width: inherit;
@@ -28,19 +28,24 @@
 		}
 	}
 
-	.counter {
+	.counter-container {
 		margin-top: 16px;
-		line-height: 40px;
-		display: flex;
-		flex-direction: column;
-		.count {
-			color: red;
-			font-size: 40px;
-			font-weight: bolder;
-		}
-		.last {
-			font-size: 20px;
-			white-space: nowrap;
+
+		.counter {
+			line-height: 40px;
+			display: flex;
+			flex-direction: column;
+
+			.count {
+				color: red;
+				font-size: 40px;
+				font-weight: bolder;
+			}
+
+			.last {
+				font-size: 20px;
+				white-space: nowrap;
+			}
 		}
 	}
 }
