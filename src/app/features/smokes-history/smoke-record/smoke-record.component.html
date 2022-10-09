@@ -1,9 +1,17 @@
 <div class="smoke">
 	<span class="index"> #{{ 10 > index ? '0' + index : index }}: </span>
-	<span *ngIf="!isEditMode"> {{ smoke.timestamp | date: time }} </span>
-	<span> <input *ngIf="isEditMode" (blur)="changeTime(timePicker)" (keydown.enter)="changeTime(timePicker)" (keydown.escape)="cancelEdit()" type="time" #timePicker [value]="smoke.timestamp | date: time"> </span>
-	<span class="spacer"></span>
+	<span *ngIf="!isEditMode.time"> {{ smoke.timestamp | date: time }} </span>
+	<span> <input *ngIf="isEditMode.time" (blur)="changeTime(timePicker)" (keydown.enter)="changeTime(timePicker)"
+			(keydown.escape)="cancelEdit()" type="time" #timePicker [value]="smoke.timestamp | date: time"> </span>
+	<span class="spacer" [matTooltip]="smoke.labels | join">
+		<span *ngIf="!isEditMode.labels"> {{ smoke.labels | join }} </span>
+		<app-smoke-label *ngIf="isEditMode.labels" [labels]="smoke.labels" (added)="addLabel($event)"
+			(removed)="removeLabel($event)"></app-smoke-label>
+	</span>
 	<span class="actions" *ngIf="selected">
+		<button mat-icon-button #origin (click)="openLabel(origin)">
+			<mat-icon fontSet="material-icons-outlined">playlist_add_circle</mat-icon>
+		</button>
 		<button mat-icon-button (click)="openClock()">
 			<mat-icon>access_time</mat-icon>
 		</button>

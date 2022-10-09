@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { SmokeLabelService } from '../smoke-label/smoke-label.service';
 
 @Component({
 	selector: 'app-smoke-record',
@@ -15,7 +17,8 @@ export class SmokeRecordComponent {
 	private _selected!: boolean;
 	@Input() set selected(value: boolean) {
 		if (!value) {
-			this.isEditMode = false;
+			this.isEditMode.time = false;
+			this.isEditMode.labels = false;
 		}
 
 		this._selected = value
@@ -27,22 +30,53 @@ export class SmokeRecordComponent {
 	@Output() edited = new EventEmitter<ISmoke>();
 	@Output() removed = new EventEmitter<ISmoke>();
 
+	constructor(
+		private labelService: SmokeLabelService
+	) { }
+
 	readonly time: string = "HH:mm";
 
-	isEditMode: boolean = false;
+	isEditMode: { time: boolean, labels: boolean } = {
+		time: false,
+		labels: false
+	};
 
 	openClock(): void {
-		this.isEditMode = true;
+		this.isEditMode.time = !this.isEditMode.time;
+	}
+
+	openLabel(origin: MatButton): void {
+		this.isEditMode.labels = !this.isEditMode.labels;
+		this.labelService.openLabel(this.smoke, origin._elementRef.nativeElement);
+	}
+
+	addLabel(label: string): void {
+		console.log('add', label);
+		this.edit({
+			...this.smoke,
+			labels: {
+				...this.smoke.labels,
+				[label]: true
+			}
+		})
+	}
+
+	removeLabel(label: string): void {
+		const { [label]: remove, ...others } = this.smoke.labels;
+		this.edit({
+			...this.smoke,
+			labels: others
+		})
 	}
 
 	changeTime(timePicker: HTMLInputElement): void {
 		const [hours, minutes] = timePicker.value.split(':');
 		this.edit({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) })
-		this.isEditMode = false;
+		this.isEditMode.time = false;
 	}
 
 	cancelEdit(): void {
-		this.isEditMode = false;
+		this.isEditMode.time = false;
 	}
 
 	edit(smoke: ISmoke): void {

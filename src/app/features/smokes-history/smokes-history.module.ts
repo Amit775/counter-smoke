@@ -7,6 +7,9 @@ import { DialogComponent } from "./remove-dialog.component";
 import { SmokeRecordComponent } from './smoke-record/smoke-record.component';
 import { SmokesHistoryComponent } from "./smokes-history.component";
 import { SmokesListComponent } from './smokes-list/smokes-list.component';
+import { SmokeLabelComponent } from './smoke-label/smoke-label.component';
+import { ReactiveFormsModule } from "@angular/forms";
+import { JoinPipe } from "./smoke-label/join.pipe";
 
 @NgModule({
 	declarations: [
@@ -14,9 +17,12 @@ import { SmokesListComponent } from './smokes-list/smokes-list.component';
 		SmokeRecordComponent,
 		DialogComponent,
 		SmokesListComponent,
+		SmokeLabelComponent,
+		JoinPipe
 	],
 	imports: [
 		CommonModule,
+		ReactiveFormsModule,
 		RouterModule.forChild([
 			{ path: '', component: SmokesHistoryComponent }
 		]),

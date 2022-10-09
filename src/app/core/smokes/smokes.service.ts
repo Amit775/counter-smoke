@@ -19,7 +19,7 @@ export class SmokesService {
 
 	inc(): void {
 		const smokerId = this.query.getSmokerId();
-		const smoke: SmokeContent = { timestamp: Date.now() };
+		const smoke: SmokeContent = { timestamp: Date.now(), labels: { label: true } };
 		this.store.setLoading(true);
 		this.api.newSmoke(smokerId, smoke);
 	}

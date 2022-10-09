@@ -7,6 +7,7 @@ export type ISmoker = {
 
 export type SmokeContent = {
 	timestamp: number;
+	labels: Record<string, true>;
 }
 
 export type ISmoke = {

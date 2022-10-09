@@ -9,6 +9,9 @@ import { MatListModule } from "@angular/material/list";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
 	exports: [
@@ -22,6 +25,9 @@ import { MatTabsModule } from "@angular/material/tabs";
 		MatListModule,
 		MatDialogModule,
 		MatExpansionModule,
+		MatChipsModule,
+		MatAutocompleteModule,
+		MatTooltipModule,
 	]
 })
 export class MaterialModule { }
