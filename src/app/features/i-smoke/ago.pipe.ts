@@ -13,6 +13,7 @@ export class AgoPipe implements PipeTransform {
 		const currentTime = new Date();
 		const smokeTime = new Date(value);
 		const diffTime = currentTime.valueOf() - smokeTime.valueOf();
+
 		if (diffTime > dayInMs) return 'more than a day ago';
 
 		const diffInMinutes = Math.floor(diffTime / minuteInMs);
