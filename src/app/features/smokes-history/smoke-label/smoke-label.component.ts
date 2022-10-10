@@ -1,8 +1,8 @@
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
 import { map, startWith, Observable } from 'rxjs';
 
 @Component({
@@ -10,7 +10,7 @@ import { map, startWith, Observable } from 'rxjs';
 	templateUrl: './smoke-label.component.html',
 	styleUrls: ['./smoke-label.component.scss']
 })
-export class SmokeLabelComponent implements OnInit {
+export class SmokeLabelComponent implements OnInit, AfterViewInit {
 
 	readonly seperatorKeyCodes = [ENTER, COMMA];
 	@Input() labels!: Record<string, true>;
@@ -18,6 +18,8 @@ export class SmokeLabelComponent implements OnInit {
 
 	@Output() added = new EventEmitter<string>();
 	@Output() removed = new EventEmitter<string>();
+
+	@ViewChild('chipList', { read: MatChipList }) private input!: MatChipList;
 
 	filteredOptions$!: Observable<string[]>;
 
@@ -32,13 +34,15 @@ export class SmokeLabelComponent implements OnInit {
 		);
 	}
 
+	ngAfterViewInit(): void {
+		setTimeout(() => this.input._focusInput());
+	}
+
 	remove(label: string): void {
-		console.log(label);
 		this.removed.emit(label);
 	}
 
 	add(event: MatChipInputEvent): void {
-		console.log(event);
 		event.chipInput.clear()
 		this.added.emit(event.value);
 	}

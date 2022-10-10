@@ -47,11 +47,9 @@ export class SmokeRecordComponent {
 
 	openLabel(origin: MatButton): void {
 		this.isEditMode.labels = !this.isEditMode.labels;
-		this.labelService.openLabel(this.smoke, origin._elementRef.nativeElement);
 	}
 
 	addLabel(label: string): void {
-		console.log('add', label);
 		this.edit({
 			...this.smoke,
 			labels: {

@@ -3,4 +3,29 @@
 	.mat-form-field {
 		width: 150px;
 	}
+
+	::ng-deep {
+		.mat-chip-list-wrapper {
+			flex-wrap: nowrap;
+			overflow-y: auto;
+			white-space: nowrap;
+
+			input.mat-chip-input { 
+				width: 70px;
+				flex: 1 0 70px;
+			}
+
+			.mat-chip {
+				flex: 0 0 auto;
+			}
+		}
+
+		.mat-standard-chip {
+			min-height: 18px;
+
+			&.mat-chip-with-trailing-icon {
+				padding: 4px;
+			}
+		}
+	}
 }

@@ -7,7 +7,7 @@
 					<mat-icon>cancel</mat-icon>
 				</button>
 			</mat-chip>
-			<input #labelInput [formControl]="labelCTRL" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+			<input #labelInput class="label-input" [formControl]="labelCTRL" [matAutocomplete]="auto" [matChipInputFor]="chipList"
 				[matChipInputSeparatorKeyCodes]="seperatorKeyCodes" (matChipInputTokenEnd)="add($event) " />
 		</mat-chip-list>
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
