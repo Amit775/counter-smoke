@@ -7,7 +7,7 @@
 	<div class="counter-container">
 		<div class="counter" *ngIf="(loading$ | async) === false; else loader">
 			<span class="count">{{ todayCount$ | async }}</span>
-			<span class="last">Last Cigarete: {{ lastCigarete$ | async | date : "HH:mm" | ago }} </span>
+			<span class="last">Last Cigarete: {{ lastCigarete$ | async | ago }} </span>
 		</div>
 		<ng-template #loader>
 			<mat-spinner color="warn" diameter="40"></mat-spinner>

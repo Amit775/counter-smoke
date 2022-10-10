@@ -1,16 +1,19 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
+const dayInMs = 1000 * 60 * 60 * 24;
 @Pipe({ name: 'ago', standalone: true })
 export class AgoPipe implements PipeTransform {
-	transform(value: string | undefined | null): string {
+	transform(value: number | undefined | null): string {
 		if (!value) return '';
-		if (/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(value) === false) return '';
 
 		const currentTime = new Date();
-		const [hours, minutes] = value.split(':').map(Number);
+		const smokeTime = new Date(value);
+		if (currentTime.valueOf() - smokeTime.valueOf() > dayInMs) return 'more then a day ago';
+
 		const [cHours, cMinutes] = [currentTime.getHours(), currentTime.getMinutes()];
-		let diffHours = cHours - hours;
-		let diffMins = cMinutes - minutes;
+		const [sHours, sMinutes] = [smokeTime.getHours(), smokeTime.getMinutes()];
+		let diffHours = cHours - sHours;
+		let diffMins = cMinutes - sMinutes;
 		if (diffMins < 0) {
 			diffHours -= 1;
 			diffMins += 60
