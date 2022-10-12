@@ -19,6 +19,7 @@ export class SmokesService {
 
 	inc(): void {
 		const smokerId = this.query.getSmokerId();
+		
 		const smoke: SmokeContent = { timestamp: Date.now(), labels: { label: true } };
 		this.store.setLoading(true);
 		this.api.newSmoke(smokerId, smoke);
@@ -32,7 +33,7 @@ export class SmokesService {
 	syncData(): TeardownLogic {
 		const smokerId = this.query.getSmokerId();
 		this.store.setLoading(true);
-		return this.api.sync(smokerId, {
+		return this.api.syncSmokes(smokerId, {
 			getAll: (smokes) => {
 				this.store.set(smokes);
 				this.store.setLoading(false);
@@ -46,7 +47,7 @@ export class SmokesService {
 				this.store.setLoading(false);
 			},
 			onUpdate: (smoke) => {
-				this.store.update(smoke.id, smoke);
+				this.store.replace(smoke.id, smoke);
 				this.store.setLoading(false);
 			},
 		});

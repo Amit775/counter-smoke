@@ -1,6 +1,7 @@
 <div class="container">
 	<div class="button-wrapper">
-		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async">
+		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async"
+			(contextmenu)="openLabelPanel($event)">
 			I Smoke
 		</button>
 	</div>

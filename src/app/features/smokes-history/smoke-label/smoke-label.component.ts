@@ -30,7 +30,7 @@ export class SmokeLabelComponent implements OnInit, AfterViewInit {
 	ngOnInit(): void {
 		this.filteredOptions$ = this.labelCTRL.valueChanges.pipe(
 			startWith(null),
-			map((query: string | null) => query ? this._filter(query) : [])
+			map((query: string | null) => this._filter(query ?? ''))
 		);
 	}
 
@@ -48,11 +48,11 @@ export class SmokeLabelComponent implements OnInit, AfterViewInit {
 	}
 
 	selected(event: MatAutocompleteSelectedEvent): void {
-		console.log('selected', event);
+		this.added.emit(event.option.value);
 	}
 
 	private _filter(query: string): string[] {
-		return ([] as string[]).filter((item => item.includes(query)));
+		return (['bublil', 'king'] as string[]).filter((item => item.includes(query)));
 	}
 
 }

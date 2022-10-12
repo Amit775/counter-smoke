@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
-import { SmokeLabelService } from '../smoke-label/smoke-label.service';
+import { SmokeLabelService } from '../smoke-label-panel/smoke-label.service';
 
 @Component({
 	selector: 'app-smoke-record',

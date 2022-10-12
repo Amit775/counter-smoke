@@ -7,7 +7,7 @@ export type ISmoker = {
 
 export type SmokeContent = {
 	timestamp: number;
-	labels: Record<string, true>;
+	labels: Record<string, string>;
 }
 
 export type ISmoke = {
@@ -16,7 +16,8 @@ export type ISmoke = {
 
 export interface SmokesState extends EntityState<ISmoke, string> {
 	isInitialized: boolean;
-	smoker: ISmoker
+	smoker: ISmoker,
+	labels: Record<string, string>;
 };
 
 @Injectable({ providedIn: 'root' })

@@ -3,7 +3,7 @@
 	<span *ngIf="!isEditMode.time"> {{ smoke.timestamp | date: time }} </span>
 	<span> <input *ngIf="isEditMode.time" (blur)="changeTime(timePicker)" (keydown.enter)="changeTime(timePicker)"
 			(keydown.escape)="cancelEdit()" type="time" #timePicker [value]="smoke.timestamp | date: time"> </span>
-	<span class="spacer" [matTooltip]="smoke.labels | join">
+	<span class="labels" [matTooltip]="smoke.labels | join">
 		<span *ngIf="!isEditMode.labels"> {{ smoke.labels | join }} </span>
 		<app-smoke-label *ngIf="isEditMode.labels" [labels]="smoke.labels" (added)="addLabel($event)"
 			(removed)="removeLabel($event)"></app-smoke-label>
