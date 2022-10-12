@@ -7,12 +7,8 @@ const dayInMs = hourInMs * 24;
 
 @Pipe({ name: 'ago', standalone: true })
 export class AgoPipe implements PipeTransform {
-	transform(value: number | undefined | null): string {
-		if (!value) return '';
-
-		const currentTime = new Date();
-		const smokeTime = new Date(value);
-		const diffTime = currentTime.valueOf() - smokeTime.valueOf();
+	transform(diffTime: number | undefined | null): string {
+		if (!diffTime) return '';
 
 		if (diffTime > dayInMs) return 'more than a day ago';
 
@@ -30,7 +26,5 @@ export class AgoPipe implements PipeTransform {
 		const and = diffHours > 0 && diffMins > 0 ? ' and ' : '';
 
 		return `${hoursAgo}${and}${minutsAgo} ago`;
-
-
 	}
 }
