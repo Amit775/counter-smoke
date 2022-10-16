@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { EntityState, EntityStore, StoreConfig } from "@datorama/akita";
+import { WithId } from "src/app/utils/with-id.type";
 
 export type ISmoker = {
 	id: string;
@@ -7,17 +8,15 @@ export type ISmoker = {
 
 export type SmokeContent = {
 	timestamp: number;
-	labels: Record<string, string>;
+	labels: Record<string, true>;
 }
 
-export type ISmoke = {
-	id: string;
-} & SmokeContent;
+export type ISmoke = WithId<SmokeContent>;
 
 export interface SmokesState extends EntityState<ISmoke, string> {
 	isInitialized: boolean;
 	smoker: ISmoker,
-	labels: Record<string, string>;
+	labels: Record<string, true>;
 };
 
 @Injectable({ providedIn: 'root' })
