@@ -3,7 +3,9 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
-import { map, startWith, Observable } from 'rxjs';
+import { map, merge, mergeWith, Observable, startWith } from 'rxjs';
+import { SmokesQuery } from "src/app/core/smokes/smokes.query";
+import { SmokesService } from "src/app/core/smokes/smokes.service";
 
 @Component({
 	selector: 'app-smoke-label',
@@ -13,8 +15,7 @@ import { map, startWith, Observable } from 'rxjs';
 export class SmokeLabelComponent implements OnInit, AfterViewInit {
 
 	readonly seperatorKeyCodes = [ENTER, COMMA];
-	@Input() labels!: Record<string, true>;
-	@Input() isEditMode!: boolean;
+	@Input() labels: Record<string, true> = {};
 
 	@Output() added = new EventEmitter<string>();
 	@Output() removed = new EventEmitter<string>();
@@ -25,10 +26,14 @@ export class SmokeLabelComponent implements OnInit, AfterViewInit {
 
 	labelCTRL = new FormControl('');
 
-	constructor() { }
+	constructor(
+		private query: SmokesQuery,
+		private service: SmokesService,
+	) { }
 
 	ngOnInit(): void {
-		this.filteredOptions$ = this.labelCTRL.valueChanges.pipe(
+		this.filteredOptions$ = merge(this.labelCTRL.valueChanges, this.query.select(s => s.labels)).pipe(
+			map(() => this.labelCTRL.value),
 			startWith(null),
 			map((query: string | null) => this._filter(query ?? ''))
 		);
@@ -51,8 +56,14 @@ export class SmokeLabelComponent implements OnInit, AfterViewInit {
 		this.added.emit(event.option.value);
 	}
 
+	removeLabelOption(event: MouseEvent, option: string): void {
+		event.preventDefault();
+		event.stopPropagation();
+		this.service.removeLabelOptions([option]);
+	}
+
 	private _filter(query: string): string[] {
-		return (['bublil', 'king'] as string[]).filter((item => item.includes(query)));
+		return Object.keys(this.query.getValue().labels ?? {}).filter((item => item.includes(query)));
 	}
 
 }

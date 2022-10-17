@@ -45,7 +45,7 @@ export class ApiService {
 		return this.listenToRefChanges(refs, listeners);
 	}
 
-	syncLabels(smokerId: string, listeners: IListeners<string>): Unsubscribe {
+	syncLabels(smokerId: string, listeners: IListeners<{ id: string }>): Unsubscribe {
 		const refs = ref(this.db, `smokers/${smokerId}/labels`);
 		return this.listenToRefChanges(refs, listeners);
 	}
@@ -55,12 +55,14 @@ export class ApiService {
 		set(refs, null);
 	}
 
-	addLabels(smokerId: string, labels: Record<string, true>): void {
-		return this.updateLabels(smokerId, labels);
+	addLabels(smokerId: string, labels: string[]): void {
+		const labelsToAdd = labels.reduce((result, label) => {result[label] = true; return result}, {} as Record<string, true>);
+		return this.updateLabels(smokerId, labelsToAdd);
 	}
 
-	removeLabels(smokerId: string, labels: Record<string, null>): void {
-		return this.updateLabels(smokerId, labels);
+	removeLabels(smokerId: string, labels: string[]): void {
+		const labelsToRemove = labels.reduce((result, label) => {result[label] = null; return result}, {} as Record<string, null>);
+		return this.updateLabels(smokerId, labelsToRemove);
 	}
 
 	private updateLabels(smokerId: string, labels: Record<string, true | null>): void {

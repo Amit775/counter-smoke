@@ -29,3 +29,16 @@
 		}
 	}
 }
+
+.option {
+	display: flex;
+	flex-direction: row;
+	
+	.label {
+		flex-grow: 1;
+	}
+
+	.remove {
+		margin-right: -18px;
+	}
+}

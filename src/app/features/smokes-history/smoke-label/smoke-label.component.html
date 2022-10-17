@@ -11,7 +11,14 @@
 				[matChipInputSeparatorKeyCodes]="seperatorKeyCodes" (matChipInputTokenEnd)="add($event) " />
 		</mat-chip-list>
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-			<mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">{{option}}</mat-option>
+			<mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
+				<div class="option">
+					<span class="label">{{option}}</span>
+					<span class="remove">
+						<button mat-icon-button (click)="removeLabelOption($event, option)"><mat-icon>cancel</mat-icon></button>
+					</span>
+				</div>
+			</mat-option>
 		</mat-autocomplete>
 	</mat-form-field>
 </div>
