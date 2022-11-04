@@ -78,10 +78,23 @@ export class SmokesHistoryComponent implements AfterViewInit {
 
 	addCountBadge(dayElement: DayElement | null): void {
 		if (!dayElement) return;
+		const today = new Date(new Date().setHours(0, 0, 0, 0));
+		if (dayElement.dateObj > today) return;
 
 		const count = this.getCountAtDay(dayElement.dateObj) ?? 0;
 		const date = dayElement.dateObj.getDate();
 		dayElement.innerHTML = `${date}<span class="day-count">${count}</span>`;
+	}
+
+	getBadgeClass(count: number): string {
+		switch (true) {
+			case count <= 9:
+				return 'success';
+			case count <= 11:
+				return 'regular';
+			default:
+				return 'warn';
+		}
 	}
 
 	getCountAtDay(day: Date): number {
