@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { filterNilValue } from '@datorama/akita';
 import { map, switchMapTo, timer } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { SmokeLabelService } from '../smokes-history/smoke-label-panel/smoke-label.service';
+import { SmokeLabelService } from '../smokes-history/smoke-label/smoke-label.service';
 
 @Component({
 	selector: 'app-i-smoke',
@@ -30,8 +31,9 @@ export class ISmokeComponent {
 		this.service.inc();
 	}
 
-	openLabelPanel(event: MouseEvent): void {
+	openLabelPanel(event: MouseEvent, button: MatButton): void {
 		event.preventDefault();
-		this.labelPanel.openLabel([])
+		const result = this.labelPanel.openLabel([], button._elementRef.nativeElement);
+		// result.subscribe(({ action, value }) => )
 	}
 }

@@ -1,21 +1,25 @@
 <div class="container">
 	<mat-form-field>
-		<mat-chip-list #chipList>
-			<mat-chip *ngFor="let label of labels | keyvalue" (removed)="remove(label.key)">
+		<mat-chip-list #chipList multiple="true">
+			<mat-chip *ngFor="let label of labels | keyvalue" (removed)="remove(label.key)" selected="true"
+				[value]="label.key">
 				{{ label.key }}
 				<button matChipRemove>
 					<mat-icon>cancel</mat-icon>
 				</button>
 			</mat-chip>
-			<input #labelInput class="label-input" [formControl]="labelCTRL" [matAutocomplete]="auto" [matChipInputFor]="chipList"
-				[matChipInputSeparatorKeyCodes]="seperatorKeyCodes" (matChipInputTokenEnd)="add($event) " />
+			<input #labelInput class="label-input" [formControl]="labelCTRL" [matAutocomplete]="auto"
+				[matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="seperatorKeyCodes"
+				(matChipInputTokenEnd)="add($event) " />
 		</mat-chip-list>
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
 			<mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
 				<div class="option">
 					<span class="label">{{option}}</span>
 					<span class="remove">
-						<button mat-icon-button (click)="removeLabelOption($event, option)"><mat-icon>cancel</mat-icon></button>
+						<button mat-icon-button (click)="removeLabelOption($event, option)">
+							<mat-icon>cancel</mat-icon>
+						</button>
 					</span>
 				</div>
 			</mat-option>

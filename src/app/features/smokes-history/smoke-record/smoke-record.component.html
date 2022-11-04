@@ -5,8 +5,7 @@
 			(keydown.escape)="cancelEdit()" type="time" #timePicker [value]="smoke.timestamp | date: time"> </span>
 	<span class="labels" [matTooltip]="smoke.labels | join">
 		<span *ngIf="!isEditMode.labels"> {{ smoke.labels | join }} </span>
-		<app-smoke-label *ngIf="isEditMode.labels" [labels]="smoke.labels" (added)="addLabel($event)"
-			(removed)="removeLabel($event)"></app-smoke-label>
+		<app-smoke-label *ngIf="isEditMode.labels" [labels]="smoke.labels" (added)="addLabel($event)" (removed)="removeLabel($event)"></app-smoke-label>
 	</span>
 	<span class="actions" *ngIf="selected">
 		<button mat-icon-button #origin (click)="openLabel(origin)">
