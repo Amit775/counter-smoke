@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { QueryEntity } from "@datorama/akita";
+import { Order, QueryEntity } from "@datorama/akita";
 import { map, Observable } from "rxjs";
-import { ISmoke, ISmoker, SmokesState, SmokesStore } from "./smokes.store";
+import { ISmoke, SmokesState, SmokesStore } from "./smokes.store";
 
 export const today = (smoke: ISmoke, index?: number | undefined) => {
 	const smokeDate = new Date(smoke.timestamp).setHours(0, 0, 0, 0);
@@ -23,5 +23,11 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 
 	selectSmokesAtDate(date: Date): Observable<ISmoke[]> {
 		return this.selectAll({ filterBy: (smoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === date.valueOf(), sortBy: 'timestamp' });
+	}
+
+	selectLastCigarete(): Observable<number> {
+		return this.selectAll({ sortBy: 'timestamp', sortByOrder: Order.DESC, limitTo: 1 }).pipe(
+			map((lastCigarete: ISmoke[]) => lastCigarete[0].timestamp)
+		)
 	}
 }

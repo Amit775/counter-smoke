@@ -15,7 +15,7 @@ export class ISmokeComponent {
 
 	todayCount$ = this.query.selectCountToday();
 	lastCigareteDiff$ = timer(0, 1000 * 60).pipe(
-		switchMapTo(this.query.selectLast(smoke => smoke?.timestamp)),
+		switchMapTo(this.query.selectLastCigarete()),
 		filterNilValue(),
 		map(smokeTime => Date.now() - smokeTime)
 	);
