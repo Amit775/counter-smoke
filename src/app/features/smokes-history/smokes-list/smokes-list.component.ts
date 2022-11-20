@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { SmokeFormPanelService } from '../../smoke-form/smoke-form-panel.service';
 import { DATE_PANEL_TOEKN } from '../panel.service';
 import { DialogComponent as RemoveDialogComponent } from '../remove-dialog.component';
 
@@ -20,13 +21,15 @@ export class SmokesListComponent implements OnInit {
 		private dialog: MatDialog,
 		private service: SmokesService,
 		private query: SmokesQuery,
+		private formPanel: SmokeFormPanelService,
 	) { }
 
 	ngOnInit(): void {
 		this.smokes$ = this.query.selectSmokesAtDate(this.date);
 	}
 
-	smokeEdited(smoke: ISmoke): void {
+	editSmoke(smoke: ISmoke): void {
+		this.formPanel.openPanel(smoke, null, () => console.log('close'));
 		this.service.updateSmoke(smoke);
 	}
 

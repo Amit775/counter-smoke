@@ -1,0 +1,7 @@
+<div class="container">
+	<input type="time" #timePicker [value]="smoke.timestamp | date: 'HH:mm'">
+	<app-smoke-label [labels]="smoke.labels" (added)="addLabel($event)" (removed)="removeLabel($event)"></app-smoke-label>
+	<div class="actions">
+		<button (click)="overlayRef.close()">Ok</button>
+	</div>
+</div>

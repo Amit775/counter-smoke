@@ -1,17 +1,20 @@
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { CommonModule } from "@angular/common";
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
-import { MatFormField } from "@angular/material/form-field";
 import { map, merge, Observable, startWith } from 'rxjs';
 import { SmokesQuery } from "src/app/core/smokes/smokes.query";
 import { SmokesService } from "src/app/core/smokes/smokes.service";
+import { MaterialModule } from "src/app/shared/material.module";
 
 @Component({
+	standalone: true,
 	selector: 'app-smoke-label',
 	templateUrl: './smoke-label.component.html',
-	styleUrls: ['./smoke-label.component.scss']
+	styleUrls: ['./smoke-label.component.scss'],
+	imports: [CommonModule, ReactiveFormsModule, MaterialModule]
 })
 export class SmokeLabelComponent implements OnInit, AfterViewInit {
 

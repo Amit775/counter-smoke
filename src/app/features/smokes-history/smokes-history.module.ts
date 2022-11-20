@@ -3,9 +3,9 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { MaterialModule } from "src/app/shared/material.module";
+import { SmokeLabelComponent } from "../smoke-form/smoke-label/smoke-label.component";
 import { PanelService } from "./panel.service";
 import { DialogComponent } from "./remove-dialog.component";
-import { SmokeLabelComponent } from './smoke-label/smoke-label.component';
 import { JoinPipe } from "./smoke-record/join.pipe";
 import { SmokeRecordComponent } from './smoke-record/smoke-record.component';
 import { SmokesHistoryComponent } from "./smokes-history.component";
@@ -17,7 +17,6 @@ import { SmokesListComponent } from './smokes-list/smokes-list.component';
 		SmokeRecordComponent,
 		DialogComponent,
 		SmokesListComponent,
-		SmokeLabelComponent,
 		JoinPipe,
 	],
 	imports: [
@@ -27,6 +26,7 @@ import { SmokesListComponent } from './smokes-list/smokes-list.component';
 			{ path: '', component: SmokesHistoryComponent }
 		]),
 		MaterialModule,
+		SmokeLabelComponent
 	],
 	exports: [
 		SmokesHistoryComponent

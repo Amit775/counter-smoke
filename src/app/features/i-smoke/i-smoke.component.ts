@@ -4,7 +4,7 @@ import { filterNilValue } from '@datorama/akita';
 import { map, switchMapTo, timer } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { SmokeLabelService } from '../smokes-history/smoke-label/smoke-label.service';
+import { SmokeLabelService } from '../smoke-form/smoke-label/smoke-label.service';
 
 @Component({
 	selector: 'app-i-smoke',
