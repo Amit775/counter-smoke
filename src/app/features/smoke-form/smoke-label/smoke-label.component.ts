@@ -45,7 +45,6 @@ export class SmokeLabelComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		setTimeout(() => this.input._focusInput());
 	}
 
 	remove(label: string): void {

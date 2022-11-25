@@ -1,7 +1,25 @@
 .container {
-	height: 300px;
-	width: 300px;
+	width: 200px;
+	height: 200px;
+	padding: 16px;
+	border-radius: 16px;
 	background-color: #01657d;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	
+	.header {
+		margin: 0 auto;
+	}
+
+	.fields {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.actions {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
 }

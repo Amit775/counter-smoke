@@ -29,8 +29,7 @@ export class SmokesListComponent implements OnInit {
 	}
 
 	editSmoke(smoke: ISmoke): void {
-		this.formPanel.openPanel(smoke, null, () => console.log('close'));
-		this.service.updateSmoke(smoke);
+		this.formPanel.openPanel(smoke);
 	}
 
 	smokeRemoved(smoke: ISmoke): void {

@@ -1,7 +1,12 @@
 <div class="container">
-	<input type="time" #timePicker [value]="smoke.timestamp | date: 'HH:mm'">
-	<app-smoke-label [labels]="smoke.labels" (added)="addLabel($event)" (removed)="removeLabel($event)"></app-smoke-label>
+	<div class="header">Edit Smoke</div>
+	<div class="fields">
+		<input type="time" #timePicker [value]="smoke.timestamp | date: 'HH:mm'">
+		<app-smoke-label [labels]="smoke.labels" (added)="addLabel($event)" (removed)="removeLabel($event)"></app-smoke-label>
+	</div>
 	<div class="actions">
-		<button (click)="overlayRef.close()">Ok</button>
+		<button (click)="edit(smoke)">Edit</button>
+		<button (click)="cancel()">Cancel</button>
+		<button (click)="delete()">Delete</button>
 	</div>
 </div>
