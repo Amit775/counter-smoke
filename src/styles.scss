@@ -6,6 +6,14 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
 @include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
@@ -28,7 +36,7 @@ $counter-smoke-theme: mat.define-light-theme((color: (primary: $counter-smoke-pr
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($counter-smoke-theme);
+@include mat.all-legacy-component-themes($counter-smoke-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -99,14 +107,14 @@ app-auth {
 	height: 100%;
 }
 
-.mat-tab-link {
+.mat-mdc-tab-link {
 	background-color: #01657d;
 	opacity: 0.7;
 	color: whitesmoke;
 	min-width: 100px;
 }
 
-.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+.mat-mdc-tab-nav-bar.mat-primary .mat-ink-bar {
 	background-color: whitesmoke;
 }
 

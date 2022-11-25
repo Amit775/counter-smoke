@@ -3,6 +3,7 @@
 }
 
 .smoke {
+	height: 32px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -22,14 +23,10 @@
 
 	.actions {
 		display: flex;
-	}
-}
-
-
-::ng-deep .actions {
-	.mat-icon-button {
-		width: 24px;
-		height: 24px;
-		line-height: 24px;
+		.mdc-icon-button {
+			height: 24px;
+			width: 24px;
+			line-height: 24px;;
+		}
 	}
 }

@@ -30,6 +30,7 @@ export class SmokesHistoryComponent implements AfterViewInit {
 	ngAfterViewInit(): void {
 		this.instance = flatpickr(this.container.nativeElement, {
 			inline: true,
+			maxDate: new Date(),
 			onDayCreate: (a, b, c, dayElement) => this.addCountBadge(dayElement),
 			onReady: [
 				this.indexByDateHook()
@@ -38,8 +39,8 @@ export class SmokesHistoryComponent implements AfterViewInit {
 				this.indexByDateHook()
 			],
 			onChange: [
-				(a, b, c, d) => {
-					this.panel.openPanel(a[0], this.container, () => this.instance.clear(true, false));
+				(dates, b, c, d) => {
+					this.panel.openPanel(dates[0], this.container, () => this.instance.clear(true, false));
 				}
 			]
 		});
@@ -78,13 +79,30 @@ export class SmokesHistoryComponent implements AfterViewInit {
 
 	addCountBadge(dayElement: DayElement | null): void {
 		if (!dayElement) return;
+		if (this.isDateInFuture(dayElement.dateObj)) return;
 
 		const count = this.getCountAtDay(dayElement.dateObj) ?? 0;
 		const date = dayElement.dateObj.getDate();
 		dayElement.innerHTML = `${date}<span class="day-count">${count}</span>`;
 	}
 
+	getBadgeClass(count: number): string {
+		switch (true) {
+			case count <= 9:
+				return 'success';
+			case count <= 11:
+				return 'regular';
+			default:
+				return 'warn';
+		}
+	}
+
 	getCountAtDay(day: Date): number {
 		return this.query.getCount((smoke: ISmoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf())
+	}
+
+	isDateInFuture(date: Date): boolean {
+		const today = new Date(new Date().setHours(0, 0, 0, 0));
+		return date > today;
 	}
 }

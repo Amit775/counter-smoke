@@ -22,28 +22,11 @@
 }
 
 ::ng-deep .container {
-
-	.mat-list-base {
-		.mat-list-item,
-		.mat-list-option,
-		.mat-list-item.mat-list-option {
+	.mdc-list {
+		.mdc-list-item {
 			height: 32px;
 			border-radius: 16px;
-
-			.mat-list-item-content,
-			.mat-list-item-content-reverse {
-				padding: 0;
-				padding-right: 8px;
-
-				.mat-list-item-ripple {
-					border-radius: 16px;
-				}
-
-				.mat-list-text {
-					padding: 0;
-					padding-left: 4px;
-				}
-			}
+			padding: 0;
 		}
 	}
 }
