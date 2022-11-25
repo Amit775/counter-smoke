@@ -40,7 +40,7 @@
             ],
             "styles": [
               "src/styles.scss",
-			  "node_modules/flatpickr/dist/themes/material_blue.css"
+              "node_modules/flatpickr/dist/themes/material_blue.css"
             ],
             "scripts": []
           },
@@ -123,6 +123,14 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
     }
   }
 }

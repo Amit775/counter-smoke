@@ -1,9 +1,5 @@
 import { Component, Inject, Injectable } from '@angular/core';
-import {
-	MatSnackBar,
-	MatSnackBarRef,
-	MAT_SNACK_BAR_DATA
-} from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 @Injectable({ providedIn: 'root' })
 export class ToasterService {

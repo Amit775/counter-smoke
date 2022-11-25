@@ -18,13 +18,8 @@
 		border-left: 3px solid #01657d;
 		box-sizing: border-box;
 
-		router-outlet {
-			max-height: 0;
+		mat-tab-nav-panel {
+			height: 100%;
 		}
 	}
-}
-
-[mat-tab-link] {
-	min-width: unset;
-	flex: 1;
 }
