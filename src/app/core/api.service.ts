@@ -23,7 +23,7 @@ interface IListeners<T> {
 export class ApiService {
 	constructor(@Inject(FIREBASE_DB) private db: Database) { }
 
-	newSmoke(smokerId: string, smoke: SmokeContent): void {
+	createSmoke(smokerId: string, smoke: SmokeContent): void {
 		const refs = ref(this.db, `smokers/${smokerId}/smokes`);
 		push(refs, smoke);
 		this.updateLabels(smokerId, smoke.labels);

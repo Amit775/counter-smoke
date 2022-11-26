@@ -4,12 +4,4 @@
 	<span class="labels" [matTooltip]="smoke.labels | join">
 		<span> {{ smoke.labels | join }} </span>
 	</span>
-	<span class="actions" *ngIf="selected">
-		<button mat-icon-button #origin (click)="openEdit(origin)">
-			<mat-icon fontSet="material-icons-outlined">playlist_add_circle</mat-icon>
-		</button>
-		<button mat-icon-button (click)="remove()" color="warn">
-			<mat-icon>remove_circle_outline</mat-icon>
-		</button>
-	</span>
 </div>

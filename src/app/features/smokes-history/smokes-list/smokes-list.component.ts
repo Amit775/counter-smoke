@@ -5,6 +5,7 @@ import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { SmokeFormPanelService } from '../../smoke-form/smoke-form-panel.service';
+import { Action } from '../../smoke-form/smoke-form.component';
 import { DATE_PANEL_TOEKN } from '../panel.service';
 import { DialogComponent as RemoveDialogComponent } from '../remove-dialog.component';
 
@@ -29,7 +30,9 @@ export class SmokesListComponent implements OnInit {
 	}
 
 	editSmoke(smoke: ISmoke): void {
-		this.formPanel.openPanel(smoke);
+		this.formPanel.openPanel(smoke).subscribe({
+			next: (action: Action) => this.executeAction(action)
+		});
 	}
 
 	smokeRemoved(smoke: ISmoke): void {
@@ -39,5 +42,17 @@ export class SmokesListComponent implements OnInit {
 				this.service.removeSmoke(smoke);
 			}
 		});
+	}
+
+	private executeAction(action: Action): void {
+		switch (action.type) {
+			case 'delete':
+				return this.smokeRemoved(action.smoke)
+			case 'edit':
+				return this.service.updateSmoke(action.smoke)
+			case 'cancel':
+				default:
+				return;
+		}
 	}
 }

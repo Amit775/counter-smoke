@@ -1,17 +1,17 @@
 <div class="container">
 	<mat-form-field>
-		<mat-chip-list #chipList multiple="true">
-			<mat-chip *ngFor="let label of labels | keyvalue" (removed)="remove(label.key)" selected="true"
+		<mat-chip-grid #chipGrid multiple="true">
+			<mat-chip-row *ngFor="let label of labels | keyvalue" (removed)="remove(label.key)" selected="true"
 				[value]="label.key">
 				{{ label.key }}
 				<button matChipRemove>
 					<mat-icon>cancel</mat-icon>
 				</button>
-			</mat-chip>
+			</mat-chip-row>
 			<input #labelInput class="label-input" [formControl]="labelCTRL" [matAutocomplete]="auto"
-				[matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="seperatorKeyCodes"
+				[matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="seperatorKeyCodes"
 				(matChipInputTokenEnd)="add($event) " />
-		</mat-chip-list>
+		</mat-chip-grid>
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
 			<mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
 				<div class="option">

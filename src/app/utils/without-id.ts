@@ -1,4 +1,8 @@
-export function withoutId<S, T extends S & { id: any }>(obj: T): S {
-	delete obj.id;
-	return obj;
+import { ISmoke, SmokeContent } from "../core/smokes/smokes.store";
+
+export function withoutId(smoke: ISmoke): SmokeContent {
+	return {
+		labels: smoke.labels,
+		timestamp: smoke.timestamp
+	}
 }

@@ -18,7 +18,7 @@ export class SmokesService {
 
 		const smoke: SmokeContent = { timestamp: Date.now(), labels: labels };
 		this.store.setLoading(true);
-		this.api.newSmoke(smokerId, smoke);
+		this.api.createSmoke(smokerId, smoke);
 	}
 
 	reset(): void {

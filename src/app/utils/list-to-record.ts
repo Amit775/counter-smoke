@@ -1,11 +1,11 @@
-import { WithId } from "./with-id.type";
+import { ISmoke, SmokeContent } from "../core/smokes/smokes.store";
 import { withoutId } from "./without-id";
 
-export function listToRecord<T, V = unknown>(items: WithId<T>[], value?: V): Record<string, T | V> {
+export function listToRecord(items: ISmoke[]): Record<string, SmokeContent> {
 	return items.reduce((result, item) => {
-		result[item.id] = value ?? withoutId(item);
+		result[item.id] = withoutId(item);
 		return result;
-	}, {} as Record<string, T | V>);
+	}, {} as Record<string, SmokeContent>);
 }
 
 export function listToRecordAsKeys<T>(items: string[], value: T): Record<string, T> {

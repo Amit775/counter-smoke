@@ -27,7 +27,7 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 
 	selectLastCigarete(): Observable<number> {
 		return this.selectAll({ sortBy: 'timestamp', sortByOrder: Order.DESC, limitTo: 1 }).pipe(
-			map((lastCigarete: ISmoke[]) => lastCigarete[0].timestamp)
+			map((lastCigarete: ISmoke[]) => lastCigarete?.[0]?.timestamp)
 		)
 	}
 }

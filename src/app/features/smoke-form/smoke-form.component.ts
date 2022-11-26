@@ -1,24 +1,42 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { SMOKE_PANEL_TOKEN } from './smoke-form-panel.service';
+
+export type EditAction = {
+	type: 'edit',
+	smoke: ISmoke
+}
+
+export type CancelAction = {
+	type: 'cancel'
+}
+
+export type DeleteAction = {
+	type: 'delete',
+	smoke: ISmoke
+}
+
+export type Action = EditAction | CancelAction | DeleteAction;
 
 @Component({
 	selector: 'app-smoke-form',
 	templateUrl: './smoke-form.component.html',
 	styleUrls: ['./smoke-form.component.scss']
 })
-export class SmokeFormComponent<R>  {
-	smoke: ISmoke = {
-		id: '',
-		labels: {},
-		timestamp: Date.now()
-	}
+export class SmokeFormComponent implements OnInit {
+	private edittedSmoke!: ISmoke;
 	constructor(
-		public dialogRef: DialogRef<R>
+		public dialogRef: DialogRef<Action>,
+		@Inject(SMOKE_PANEL_TOKEN) public smoke: ISmoke
 	) { }
 
+	ngOnInit(): void {
+		this.edittedSmoke = { ...this.smoke };
+	}
+
 	addLabel(label: string): void {
-		this.edit({
+		this.setEdittedSmoke({
 			...this.smoke,
 			labels: {
 				...this.smoke.labels,
@@ -29,7 +47,7 @@ export class SmokeFormComponent<R>  {
 
 	removeLabel(label: string): void {
 		const { [label]: remove, ...others } = this.smoke.labels;
-		this.edit({
+		this.setEdittedSmoke({
 			...this.smoke,
 			labels: others
 		})
@@ -37,18 +55,24 @@ export class SmokeFormComponent<R>  {
 
 	changeTime(timePicker: HTMLInputElement): void {
 		const [hours, minutes] = timePicker.value.split(':');
-		this.edit({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) })
+		this.setEdittedSmoke({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) })
 	}
 
 	cancel(): void {
-		console.log('cancel', this.smoke);
+		this.dialogRef.close({ type: 'cancel' });
 	}
 
-	delete(): void {
-		console.log('delete', this.smoke);
+	delete(smoke: ISmoke): void {
+		console.log('delete', smoke);
+		this.dialogRef.close({ type: 'delete', smoke: smoke });
 	}
 
 	edit(smoke: ISmoke) {
 		console.log('edit', this.smoke);
+		this.dialogRef.close({ type: 'edit', smoke: this.edittedSmoke });
+	}
+
+	private setEdittedSmoke(smoke: ISmoke): void {
+		this.edittedSmoke = smoke;
 	}
 }
