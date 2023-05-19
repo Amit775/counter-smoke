@@ -1,129 +1,1 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$counter-smoke-primary: mat.define-palette(mat.$indigo-palette);
-$counter-smoke-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$counter-smoke-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$counter-smoke-theme: mat.define-light-theme((color: (primary: $counter-smoke-primary,
-				accent: $counter-smoke-accent,
-				warn: $counter-smoke-warn,
-			)));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($counter-smoke-theme);
-
-/* You can add global styles to this file, and also import other style files */
-
-html,
-body {
-	height: 100%;
-	user-select: none;
-}
-
-body {
-	margin: 0;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-/* width */
-::-webkit-scrollbar {
-	width: 8px;
-	background-color: #01657d;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-	background-color: whitesmoke;
-	border-radius: 4px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-	background: #01657d;
-	border-radius: 4px;
-	border: 1px solid whitesmoke
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-	background: darken($color: #01657d, $amount: 20%);
-}
-
-@mixin bg($color) {
-	background-color: $color;
-	text-align: center;
-}
-
-.success {
-	@include bg(#dcf8c6);
-	color: black;
-}
-
-.error {
-	@include bg(#f44336);
-}
-
-.warn {
-	@include bg(#ff8100);
-}
-
-.info {
-	@include bg(#1976d2);
-}
-
-.bg {
-	@include bg(rgb(44 217 225 / 25%));
-}
-
-app-top-bar,
-app-auth {
-	height: 100%;
-}
-
-.mat-tab-link {
-	background-color: #01657d;
-	opacity: 0.7;
-	color: whitesmoke;
-	min-width: 100px;
-}
-
-.mat-tab-nav-bar.mat-primary .mat-ink-bar {
-	background-color: whitesmoke;
-}
-
-
-.day-count {
-	position: absolute;
-	text-align: center;
-	display: inline-block;
-	border-radius: 50%;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	pointer-events: none;
-	font-size: 12px;
-	width: 16px;
-	height: 16px;
-	line-height: 16px;
-	top: 34px;
-	left: 19px;
-	color: whitesmoke;
-	background-color: #01657d;
-}
+// Custom Theming for Angular Material// For more information: https://material.angular.io/guide/theming@use '@angular/material' as mat;// Plus imports for other components in your app.// Include the common styles for Angular Material. We include this here so that you only// have to load a single css file for Angular Material in your app.// Be sure that you only ever include this mixin once!@include mat.core();// Define the palettes for your theme using the Material Design palettes available in palette.scss// (imported above). For each palette, you can optionally specify a default, lighter, and darker// hue. Available color palettes: https://material.io/design/color/$counter-smoke-primary: mat.define-palette(mat.$indigo-palette);$counter-smoke-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);// The warn palette is optional (defaults to red).$counter-smoke-warn: mat.define-palette(mat.$red-palette);// Create the theme object. A theme consists of configurations for individual// theming systems such as "color" or "typography".$counter-smoke-theme: mat.define-light-theme(	(		color: (			primary: $counter-smoke-primary,			accent: $counter-smoke-accent,			warn: $counter-smoke-warn,		),	));// Include theme styles for core and each component used in your app.// Alternatively, you can import and @include the theme mixins for each component// that you are using.@include mat.all-component-themes($counter-smoke-theme);/* You can add global styles to this file, and also import other style files */html,body {	height: 100%;	user-select: none;}body {	margin: 0;	font-family: Roboto, 'Helvetica Neue', sans-serif;}/* width */::-webkit-scrollbar {	width: 8px;	background-color: #01657d;}/* Track */::-webkit-scrollbar-track {	background-color: whitesmoke;	border-radius: 4px;}/* Handle */::-webkit-scrollbar-thumb {	background: #01657d;	border-radius: 4px;	border: 1px solid whitesmoke;}/* Handle on hover */::-webkit-scrollbar-thumb:hover {	background: darken($color: #01657d, $amount: 20%);}@mixin bg($color) {	background-color: $color;	text-align: center;}.success {	@include bg(#dcf8c6);	color: black;}.error {	@include bg(#f44336);}.warn {	@include bg(#ff8100);}.info {	@include bg(#1976d2);}.bg {	@include bg(rgb(44 217 225 / 25%));}app-top-bar,app-auth {	height: 100%;}.mat-tab-link {	background-color: #01657d;	opacity: 0.7;	color: whitesmoke;	min-width: 100px;}.mat-tab-nav-bar.mat-primary .mat-ink-bar {	background-color: whitesmoke;}.day-count {	position: absolute;	text-align: center;	display: inline-block;	border-radius: 50%;	overflow: hidden;	white-space: nowrap;	text-overflow: ellipsis;	pointer-events: none;	font-size: 12px;	width: 16px;	height: 16px;	line-height: 16px;	top: 34px;	left: 19px;	color: whitesmoke;	background-color: #01657d;}
