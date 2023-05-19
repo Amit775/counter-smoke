@@ -1,11 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, Injectable, NgModule } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, RouterModule, RouterStateSnapshot, Routes } from "@angular/router";
+import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from "@angular/router";
 import { SmokesQuery } from "./core/smokes/smokes.query";
 import { MaterialModule } from "./shared/material.module";
 
 @Injectable({ providedIn: 'root' })
-class RoutineGuard implements CanActivate {
+class RoutineGuard  {
 	constructor(
 		private query: SmokesQuery
 	) { }
