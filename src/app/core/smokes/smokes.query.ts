@@ -11,7 +11,7 @@ export const today = (smoke: ISmoke, index?: number | undefined) => {
 
 @Injectable({ providedIn: 'root' })
 export class SmokesQuery extends QueryEntity<SmokesState> {
-	constructor(protected override store: SmokesStore) { super(store); }
+	constructor(store: SmokesStore) { super(store); }
 
 	getSmokerId(): string {
 		return this.getValue().smoker.id;

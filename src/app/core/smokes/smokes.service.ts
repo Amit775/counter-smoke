@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TeardownLogic } from 'rxjs';
 import { ApiService } from '../api.service';
 import { SmokesQuery } from './smokes.query';
@@ -11,11 +11,9 @@ function withoutId<S, T extends S & { id: any }>(obj: T): S {
 
 @Injectable({ providedIn: 'root' })
 export class SmokesService {
-	constructor(
-		private api: ApiService,
-		private store: SmokesStore,
-		private query: SmokesQuery
-	) { }
+	private api: ApiService = inject(ApiService);
+	private store: SmokesStore = inject(SmokesStore);
+	private query: SmokesQuery = inject(SmokesQuery);
 
 	inc(): void {
 		const smokerId = this.query.getSmokerId();

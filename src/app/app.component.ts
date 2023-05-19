@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, TeardownLogic } from 'rxjs';
 import { SmokesQuery } from './core/smokes/smokes.query';
@@ -11,12 +11,11 @@ import { SignInService } from './layout/sign-in/sign-in.service';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-	constructor(
-		private service: SmokesService,
-		private query: SmokesQuery,
-		private signInService: SignInService,
-		private router: Router
-	) { }
+
+	private service: SmokesService = inject(SmokesService);
+	private query: SmokesQuery = inject(SmokesQuery);
+	private signInService: SignInService = inject(SignInService);
+	private router: Router = inject(Router);
 
 	homeTabs = [
 		{

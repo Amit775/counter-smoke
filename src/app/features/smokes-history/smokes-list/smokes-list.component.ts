@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { Component, Inject, OnInit, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
@@ -13,14 +13,12 @@ import { DialogComponent as RemoveDialogComponent } from '../remove-dialog.compo
 	styleUrls: ['./smokes-list.component.scss']
 })
 export class SmokesListComponent implements OnInit {
+	public date: Date = inject(DATE_PANEL_TOEKN);
+	private dialog: MatDialog = inject(MatDialog);
+	private service: SmokesService = inject(SmokesService);
+	private query: SmokesQuery = inject(SmokesQuery);
 
 	smokes$!: Observable<ISmoke[]>
-	constructor(
-		@Inject(DATE_PANEL_TOEKN) public date: Date,
-		private dialog: MatDialog,
-		private service: SmokesService,
-		private query: SmokesQuery,
-	) { }
 
 	ngOnInit(): void {
 		this.smokes$ = this.query.selectSmokesAtDate(this.date);

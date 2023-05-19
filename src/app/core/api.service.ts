@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, inject } from '@angular/core';
 import { Database, onValue, ref, set, Unsubscribe } from '@firebase/database';
 import {
 	onChildAdded,
@@ -25,7 +25,7 @@ interface IListeners<T> {
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-	constructor(@Inject(FIREBASE_DB) private db: Database) { }
+	private db: Database = inject(FIREBASE_DB);
 
 	newSmoke(smokerId: string, smoke: SmokeContent): void {
 		const refs = ref(this.db, `smokers/${smokerId}/smokes`);

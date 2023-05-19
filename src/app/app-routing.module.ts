@@ -1,14 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, Injectable, NgModule } from "@angular/core";
+import { Component, Injectable, NgModule, inject } from "@angular/core";
 import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from "@angular/router";
 import { SmokesQuery } from "./core/smokes/smokes.query";
 import { MaterialModule } from "./shared/material.module";
 
 @Injectable({ providedIn: 'root' })
 class RoutineGuard  {
-	constructor(
-		private query: SmokesQuery
-	) { }
+	private query: SmokesQuery = inject(SmokesQuery);
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 		const appState = this.query.getValue();

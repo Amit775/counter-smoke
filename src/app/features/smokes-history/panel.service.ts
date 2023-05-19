@@ -1,16 +1,14 @@
 import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { ElementRef, Injectable, InjectionToken, Injector } from "@angular/core";
+import { ElementRef, Injectable, InjectionToken, Injector, inject } from "@angular/core";
 import { SmokesListComponent } from "./smokes-list/smokes-list.component";
 
 export const DATE_PANEL_TOEKN = new InjectionToken<Date>('date for panel');
 
 @Injectable()
 export class PanelService {
-	constructor(
-		private overlay: Overlay,
-		private injector: Injector
-	) { }
+	private overlay: Overlay = inject(Overlay);
+	private injector: Injector = inject(Injector);
 
 	private overlayRef: OverlayRef | undefined;
 

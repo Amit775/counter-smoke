@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { SmokesService } from 'src/app/core/smokes/smokes.service';
 	styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-	constructor(private service: SmokesService) { }
+	private service: SmokesService = inject(SmokesService);
 
 	reset(): void {
 		this.service.reset();

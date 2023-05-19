@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { EntityAction, EntityActions } from '@datorama/akita';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { default as flatpickr } from 'flatpickr';
@@ -17,15 +17,13 @@ import { PanelService } from './panel.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmokesHistoryComponent implements AfterViewInit {
+	private query: SmokesQuery = inject(SmokesQuery);
+	private panel: PanelService = inject(PanelService);
+
 	@ViewChild('container', { read: ElementRef }) private container!: ElementRef;
 	instance!: Instance;
 
 	daysIndex: Record<number, number> = {}
-
-	constructor(
-		private query: SmokesQuery,
-		private panel: PanelService
-	) { }
 
 	ngAfterViewInit(): void {
 		this.instance = flatpickr(this.container.nativeElement, {

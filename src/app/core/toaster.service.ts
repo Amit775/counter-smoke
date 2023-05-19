@@ -1,13 +1,14 @@
-import { Component, Inject, Injectable } from '@angular/core';
-import {
-	MatLegacySnackBar as MatSnackBar,
-	MatLegacySnackBarRef as MatSnackBarRef,
-	MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA
-} from '@angular/material/legacy-snack-bar';
+import { Component, Injectable, inject } from '@angular/core';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+
+type SnackBarContent = {
+	message: string;
+	actions: { act: () => void; icon: string }[];
+};
 
 @Injectable({ providedIn: 'root' })
 export class ToasterService {
-	constructor(private snackbar: MatSnackBar) { }
+	private snackbar: MatSnackBar = inject(MatSnackBar);
 
 	ref: MatSnackBarRef<ToasterComponent> | undefined = undefined;
 
@@ -56,11 +57,5 @@ export class ToasterService {
   `,
 })
 export class ToasterComponent {
-	constructor(
-		@Inject(MAT_SNACK_BAR_DATA)
-		public data: {
-			message: string;
-			actions: { act: () => void; icon: string }[];
-		}
-	) { }
+	public data: SnackBarContent = inject(MAT_SNACK_BAR_DATA);
 }

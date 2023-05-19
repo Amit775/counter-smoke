@@ -1,15 +1,15 @@
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { applyTransaction } from '@datorama/akita';
 import { FirebaseError } from 'firebase/app';
 import {
 	Auth,
-	browserLocalPersistence,
 	ConfirmationResult,
 	RecaptchaVerifier,
-	signInWithPhoneNumber,
 	UserCredential,
+	browserLocalPersistence,
+	signInWithPhoneNumber,
 } from 'firebase/auth';
-import { catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, from, map, of, switchMap } from 'rxjs';
 import { FIREBASE_AUTH, FIREBASE_VERIFIER } from 'src/app/core/firebase.app';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoker } from 'src/app/core/smokes/smokes.store';
@@ -19,15 +19,13 @@ declare var grecaptcha: any;
 
 @Injectable({ providedIn: 'root', })
 export class SignInService {
+	private auth: Auth = inject(FIREBASE_AUTH);
+	private injector: Injector = inject(Injector);
+	private service: SmokesService = inject(SmokesService);
+	private toaster: ToasterService = inject(ToasterService);
+
 	verifier!: RecaptchaVerifier | undefined;
 	confirmation: ConfirmationResult | undefined;
-
-	constructor(
-		@Inject(FIREBASE_AUTH) private auth: Auth,
-		private injector: Injector,
-		private service: SmokesService,
-		private toaster: ToasterService
-	) { }
 
 	initVerifier(): void {
 		this.verifier = this.injector.get(FIREBASE_VERIFIER);

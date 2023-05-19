@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignInService } from 'src/app/layout/sign-in/sign-in.service';
 
@@ -9,11 +9,9 @@ import { SignInService } from 'src/app/layout/sign-in/sign-in.service';
 })
 export class VerifyPhoneComponent implements AfterViewInit {
 	readonly phonePattern = '^05[0234789][0-9]{7}&';
-
-	constructor(
-		private signInService: SignInService,
-		private router: Router
-	) { }
+	
+	private signInService: SignInService = inject(SignInService);
+	private router: Router = inject(Router);
 
 	ngAfterViewInit(): void {
 		this.signInService.initVerifier();

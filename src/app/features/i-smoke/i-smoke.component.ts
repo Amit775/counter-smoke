@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { filterNilValue } from '@datorama/akita';
 import { map, switchMapTo, timer } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
@@ -10,8 +10,8 @@ import { SmokesService } from 'src/app/core/smokes/smokes.service';
 	styleUrls: ['./i-smoke.component.scss'],
 })
 export class ISmokeComponent {
-
-	constructor(private query: SmokesQuery, private service: SmokesService) { }
+	private query: SmokesQuery = inject(SmokesQuery);
+	private service: SmokesService = inject(SmokesService);
 
 	todayCount$ = this.query.selectCountToday();
 	lastCigareteDiff$ = timer(0, 1000 * 60).pipe(
