@@ -1,6 +1,5 @@
 {
 	"root": true,
-	"ignorePatterns": ["projects/**/*"],
 	"overrides": [
 		{
 			"files": ["*.ts"],
@@ -51,18 +50,8 @@
 			}
 		},
 		{
-			"files": ["**/index.html"],
-			"rules": {
-				"prettier/prettier": [
-					"error",
-					{
-						"parser": "html"
-					}
-				]
-			}
-		},
-		{
 			"files": ["*"],
+			"excludedFiles": ["*index.html"],
 			"rules": {
 				"prettier/prettier": [
 					"error",
