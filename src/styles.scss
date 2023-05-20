@@ -6,8 +6,10 @@
 @use './app/app-theme' as app;
 @use './app/features/smokes-history/smokes-list/smokes-list-theme' as smokes-list;
 @use './app/features/i-smoke/i-smoke-theme' as i-smoke;
-@use './app/features/smokes-history/flatpickr-theme' as flatpickr;
 @use './app/features/smokes-history/smoke-record/smoke-record-theme' as smoke-record;
+
+@use './flatpickr-theme' as flatpickr;
+@use './flatpickr.scss' as flat;
 
 // Plus imports for other components in your app.
 
@@ -16,18 +18,50 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
+$palette: (
+    50 : #e1edef,
+    100 : #b3d1d8,
+    200 : #80b2be,
+    300 : #4d93a4,
+    400 : #277c91,
+    500 : #01657d,
+    600 : #015d75,
+    700 : #01536a,
+    800 : #014960,
+    900 : #00374d,
+    A100 : #80d3ff,
+    A200 : #4dc2ff,
+    A400 : #1ab0ff,
+    A700 : #01a7ff,
+    contrast: (
+        50 : #0f0f0f,
+        100 : #0f0f0f,
+        200 : #0f0f0f,
+        300 : #0f0f0f,
+        400 : #fafafa,
+        500 : #fafafa,
+        600 : #fafafa,
+        700 : #fafafa,
+        800 : #fafafa,
+        900 : #fafafa,
+        A100 : #0f0f0f,
+        A200 : #0f0f0f,
+        A400 : #0f0f0f,
+        A700 : #fafafa,
+    )
+);
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$counter-smoke-primary: mat.define-palette(mat.$indigo-palette);
-$counter-smoke-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$counter-smoke-primary: mat.define-palette($palette);
+$counter-smoke-accent: mat.define-palette(mat.$indigo-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $counter-smoke-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$counter-smoke-theme: mat.define-light-theme(
+$counter-smoke-theme: mat.define-dark-theme(
 	(
 		color: (
 			primary: $counter-smoke-primary,

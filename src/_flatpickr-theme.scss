@@ -1,0 +1,71 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+	$color-config: mat.get-color-config($theme);
+	$primary-palette: map.get($color-config, 'primary');
+	$accent-palette: map.get($color-config, 'accent');
+	$warn-palette: map.get($color-config, 'warn');
+
+
+	.flatpickr-months {
+		.flatpickr-month {
+			background: mat.get-color-from-palette($primary-palette, 500);
+			color: mat.get-color-from-palette($primary-palette, '500-contrast');
+			fill: mat.get-color-from-palette($primary-palette, '500-contrast');
+		}
+
+		.flatpickr-prev-month,
+		.flatpickr-next-month {
+			color: mat.get-color-from-palette($primary-palette, '500-contrast');
+			fill: mat.get-color-from-palette($primary-palette, '500-contrast');
+
+			&:hover {
+				color: mat.get-color-from-palette($primary-palette, '500-contrast');
+				;
+
+				svg {
+					fill: mat.get-color-from-palette($accent-palette, 500);
+				}
+			}
+		}
+	}
+
+	.flatpickr-current-month .numInputWrapper {
+		span.arrowUp:after {
+			border-bottom-color: mat.get-color-from-palette($accent-palette, 500);
+		}
+
+		span.arrowDown:after {
+			border-top-color: mat.get-color-from-palette($accent-palette, 500);
+		}
+	}
+
+	.flatpickr-calendar.inline {
+
+		.flatpickr-current-month .flatpickr-monthDropdown-months,
+		.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month,
+		.flatpickr-months .flatpickr-month,
+		.flatpickr-weekdays,
+		span.flatpickr-weekday {
+			background-color: mat.get-color-from-palette($primary-palette, 400);
+		}
+
+		.flatpickr-day.selected,
+		.flatpickr-day.selected:hover {
+			background-color: mat.get-color-from-palette($primary-palette, 200);
+		}
+
+		.flatpickr-innerContainer {
+			background: mat.get-color-from-palette($primary-palette, 100);
+		}
+	}
+}
+
+@mixin theme($theme) {
+	$color-config: mat.get-color-config($theme);
+
+	@if $color-config !=null {
+		@include color($theme);
+	}
+}
