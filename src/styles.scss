@@ -27,11 +27,15 @@ $counter-smoke-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$counter-smoke-theme: mat.define-light-theme((color: (primary: $counter-smoke-primary,
-				accent: $counter-smoke-accent,
-				warn: $counter-smoke-warn,
-			),
-		));
+$counter-smoke-theme: mat.define-light-theme(
+	(
+		color: (
+			primary: $counter-smoke-primary,
+			accent: $counter-smoke-accent,
+			warn: $counter-smoke-warn,
+		),
+	)
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -92,7 +96,6 @@ body {
 	::-webkit-scrollbar {
 		background-color: mat.get-color-from-palette($primary-palette, 500);
 	}
-
 
 	/* Handle on hover */
 	::-webkit-scrollbar-thumb:hover {

@@ -51,6 +51,17 @@
 			}
 		},
 		{
+			"files": ["**/index.html"],
+			"rules": {
+				"prettier/prettier": [
+					"error",
+					{
+						"parser": "html"
+					}
+				]
+			}
+		},
+		{
 			"files": ["*"],
 			"rules": {
 				"prettier/prettier": [

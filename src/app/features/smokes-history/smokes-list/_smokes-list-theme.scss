@@ -21,6 +21,6 @@
 @mixin theme($theme) {
 	$color-config: mat.get-color-config($theme);
 	@if $color-config != null {
-	  @include color($theme);
+		@include color($theme);
 	}
 }

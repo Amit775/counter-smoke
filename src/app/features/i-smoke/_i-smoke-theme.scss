@@ -9,9 +9,9 @@
 	.container {
 		.button-wrapper {
 			background-color: mat.get-color-from-palette($primary-palette, 500);
-			
+
 			.smoke-button {
-				border-color:  mat.get-color-from-palette($primary-palette, 500);
+				border-color: mat.get-color-from-palette($primary-palette, 500);
 			}
 		}
 

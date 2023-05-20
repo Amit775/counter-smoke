@@ -13,7 +13,7 @@
 		span.flatpickr-weekday {
 			background-color: mat.get-color-from-palette($primary-palette, 400);
 		}
-	
+
 		.flatpickr-day.selected,
 		.flatpickr-day.selected:hover {
 			background-color: mat.get-color-from-palette($primary-palette, 200);
