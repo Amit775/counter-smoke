@@ -1,1 +1,24 @@
-$dayWidth: 56px;$width: $dayWidth * 7;::ng-deep .flatpickr-calendar.inline {	font-size: 20px;	.flatpickr-current-month .flatpickr-monthDropdown-months,	.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month,	.flatpickr-months .flatpickr-month,	.flatpickr-weekdays,	span.flatpickr-weekday {		background-color: #01657d;	}	.flatpickr-day.selected,	.flatpickr-day.selected:hover {		background-color: #01647dce;	}	margin: auto;	width: $width;	.dayContainer {		width: $width;		min-width: $width;		max-width: $width;	}	.flatpickr-days {		width: $width;	}	.flatpickr-day {		max-width: $dayWidth;		height: $dayWidth;		line-height: $dayWidth - 12px;	}}
+$dayWidth: 56px;
+$width: $dayWidth * 7;
+
+::ng-deep .flatpickr-calendar.inline {
+	font-size: 20px;
+	margin: auto;
+	width: $width;
+
+	.dayContainer {
+		width: $width;
+		min-width: $width;
+		max-width: $width;
+	}
+
+	.flatpickr-days {
+		width: $width;
+	}
+
+	.flatpickr-day {
+		max-width: $dayWidth;
+		height: $dayWidth;
+		line-height: $dayWidth - 12px;
+	}
+}

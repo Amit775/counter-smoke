@@ -1,1 +1,21 @@
-:host {	width: 100%;}.smoke {	display: flex;	justify-content: space-between;	align-items: center;	color: whitesmoke;	.index {		padding-right: 6px;	}	.spacer {		flex-grow: 1;	}	.actions {		display: flex;	}}::ng-deep .actions {	.mat-icon-button {		width: 24px;		height: 24px;		line-height: 24px;	}}
+:host {
+	width: 100%;
+}
+
+.smoke {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.index {
+		padding-right: 6px;
+	}
+
+	.spacer {
+		flex-grow: 1;
+	}
+
+	.actions {
+		display: flex;
+	}
+}

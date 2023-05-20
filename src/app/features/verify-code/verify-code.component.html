@@ -1,1 +1,9 @@
-<div class="verify-row">	<mat-form-field>		<input matInput placeholder="enter code" #code autocomplete="off" autofocus [pattern]="codePattern" />	</mat-form-field>	<span class="actions">		<button mat-button (click)="verifyCode(code.value)">Verify Code</button>		<button mat-button (click)="setTestCode()">TEST</button>	</span></div>
+<div class="verify-row">
+	<mat-form-field>
+		<input matInput placeholder="enter code" #code autocomplete="off" autofocus [pattern]="codePattern" />
+	</mat-form-field>
+	<span class="actions">
+		<button mat-stroked-button (click)="verifyCode(code.value)">Verify Code</button>
+		<button mat-stroked-button (click)="setTestCode()">TEST</button>
+	</span>
+</div>

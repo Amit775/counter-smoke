@@ -3,17 +3,6 @@
 	"ignorePatterns": ["projects/**/*"],
 	"overrides": [
 		{
-			"files": ["*"],
-			"rules": {
-				"prettier/prettier": [
-					"error",
-					{
-						"endOfLine": "auto"
-					}
-				]
-			}
-		},
-		{
 			"files": ["*.ts"],
 			"parserOptions": {
 				"project": ["tsconfig.json"],
@@ -57,6 +46,17 @@
 					"error",
 					{
 						"parser": "angular"
+					}
+				]
+			}
+		},
+		{
+			"files": ["*"],
+			"rules": {
+				"prettier/prettier": [
+					"error",
+					{
+						"endOfLine": "auto"
 					}
 				]
 			}
