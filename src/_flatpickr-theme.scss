@@ -7,7 +7,6 @@
 	$accent-palette: map.get($color-config, 'accent');
 	$warn-palette: map.get($color-config, 'warn');
 
-
 	.flatpickr-months {
 		.flatpickr-month {
 			background: mat.get-color-from-palette($primary-palette, 500);
@@ -22,8 +21,6 @@
 
 			&:hover {
 				color: mat.get-color-from-palette($primary-palette, '500-contrast');
-				;
-
 				svg {
 					fill: mat.get-color-from-palette($accent-palette, 500);
 				}
@@ -42,7 +39,6 @@
 	}
 
 	.flatpickr-calendar.inline {
-
 		.flatpickr-current-month .flatpickr-monthDropdown-months,
 		.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month,
 		.flatpickr-months .flatpickr-month,

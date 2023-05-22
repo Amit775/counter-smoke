@@ -130,7 +130,6 @@
 	input,
 	span {
 		display: inline-block;
-
 	}
 
 	input {
@@ -170,7 +169,7 @@
 
 		&:after {
 			display: block;
-			content: "";
+			content: '';
 			position: absolute;
 		}
 
@@ -268,7 +267,8 @@
 		appearance: textfield;
 		outline: none;
 
-		:focus, :focus-visible {
+		:focus,
+		:focus-visible {
 			outline: 0;
 		}
 
@@ -320,37 +320,6 @@
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .flatpickr-weekdays {
 	background: #42a5f5;
@@ -445,7 +414,7 @@ span.flatpickr-weekday {
 	opacity: 1;
 }
 
-.dayContainer+.dayContainer {
+.dayContainer + .dayContainer {
 	-webkit-box-shadow: -1px 0 0 rgba(72, 72, 72, 0.2);
 	box-shadow: -1px 0 0 rgba(72, 72, 72, 0.2);
 }
@@ -542,9 +511,9 @@ span.flatpickr-weekday {
 	border-radius: 0 50px 50px 0;
 }
 
-.flatpickr-day.selected.startRange+.endRange:not(:nth-child(7n+1)),
-.flatpickr-day.startRange.startRange+.endRange:not(:nth-child(7n+1)),
-.flatpickr-day.endRange.startRange+.endRange:not(:nth-child(7n+1)) {
+.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
+.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
 	-webkit-box-shadow: -10px 0 0 #42a5f5;
 	box-shadow: -10px 0 0 #42a5f5;
 }
@@ -659,7 +628,7 @@ span.flatpickr-weekday {
 }
 
 .flatpickr-time:after {
-	content: "";
+	content: '';
 	display: table;
 	clear: both;
 }
