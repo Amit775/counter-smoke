@@ -1,11 +1,19 @@
 <div class="width-determination bg">
 	<div class="container">
-		<nav mat-tab-nav-bar disablePagination>
-			<a mat-tab-link *ngFor="let tab of tabs$ | async" [routerLink]="tab.route" routerLinkActive
-				#rla="routerLinkActive" [routerLinkActiveOptions]="{ exact: true }" [active]="rla.isActive">
-				<mat-icon>{{tab.icon}}</mat-icon>
+		<nav mat-tab-nav-bar disablePagination [tabPanel]="panel">
+			<a
+				mat-tab-link
+				*ngFor="let tab of tabs$ | async"
+				[routerLink]="tab.route"
+				routerLinkActive
+				#rla="routerLinkActive"
+				[routerLinkActiveOptions]="{ exact: true }"
+				[active]="rla.isActive">
+				<mat-icon>{{ tab.icon }}</mat-icon>
 			</a>
 		</nav>
-		<router-outlet></router-outlet>
+		<mat-tab-nav-panel #panel class="content">
+			<router-outlet></router-outlet>
+		</mat-tab-nav-panel>
 	</div>
 </div>

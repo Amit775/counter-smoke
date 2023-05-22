@@ -1,0 +1,12 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@use './flatpickr' as flatpickr;
+
+@mixin theme($theme) {
+	$color-config: mat.get-color-config($theme);
+
+	@if $color-config != null {
+		@include flatpickr.color($theme);
+	}
+}
