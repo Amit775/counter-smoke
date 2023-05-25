@@ -1,6 +1,15 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use "@angular/material" as mat;
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@use './app/app-theme' as app;
+@use './app/features/smokes-history/smokes-list/smokes-list-theme' as smokes-list;
+@use './app/features/i-smoke/i-smoke-theme' as i-smoke;
+@use './app/features/smokes-history/smoke-record/smoke-record-theme' as smoke-record;
+
+@use './flatpickr-theme' as flatpickr;
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -16,27 +25,69 @@
 //    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
 @include mat.core();
 
+$palette: (
+	50: #e1edef,
+	100: #b3d1d8,
+	200: #80b2be,
+	300: #4d93a4,
+	400: #277c91,
+	500: #01657d,
+	600: #015d75,
+	700: #01536a,
+	800: #014960,
+	900: #00374d,
+	A100: #80d3ff,
+	A200: #4dc2ff,
+	A400: #1ab0ff,
+	A700: #01a7ff,
+	contrast: (
+		50: #0f0f0f,
+		100: #0f0f0f,
+		200: #0f0f0f,
+		300: #0f0f0f,
+		400: #fafafa,
+		500: #fafafa,
+		600: #fafafa,
+		700: #fafafa,
+		800: #fafafa,
+		900: #fafafa,
+		A100: #0f0f0f,
+		A200: #0f0f0f,
+		A400: #0f0f0f,
+		A700: #fafafa,
+	),
+);
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$counter-smoke-primary: mat.define-palette(mat.$indigo-palette);
-$counter-smoke-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$counter-smoke-primary: mat.define-palette($palette);
+$counter-smoke-accent: mat.define-palette(mat.$indigo-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $counter-smoke-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$counter-smoke-theme: mat.define-light-theme((color: (primary: $counter-smoke-primary,
-				accent: $counter-smoke-accent,
-				warn: $counter-smoke-warn,
-			),
-		));
+$counter-smoke-theme: mat.define-dark-theme(
+	(
+		color: (
+			primary: $counter-smoke-primary,
+			accent: $counter-smoke-accent,
+			warn: $counter-smoke-warn,
+		),
+	)
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-legacy-component-themes($counter-smoke-theme);
+
+@include smokes-list.theme($counter-smoke-theme);
+@include i-smoke.theme($counter-smoke-theme);
+@include app.theme($counter-smoke-theme);
+@include flatpickr.theme($counter-smoke-theme);
+@include smoke-record.theme($counter-smoke-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -48,33 +99,52 @@ body {
 
 body {
 	margin: 0;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
+	font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 /* width */
 ::-webkit-scrollbar {
 	width: 8px;
-	height: 3px;
-	background-color: #01657d;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background-color: whitesmoke;
 	border-radius: 4px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #01657d;
 	border-radius: 4px;
-	border: 1px solid whitesmoke
+	border: 1px solid;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-	background: darken($color: #01657d, $amount: 20%);
+@mixin scroller($theme) {
+	// Get the color config from the theme.
+	$color-config: mat.get-color-config($theme);
+
+	// Get the primary color palette from the color-config.
+	$primary-palette: map.get($color-config, 'primary');
+
+	::-webkit-scrollbar-thumb {
+		background: mat.get-color-from-palette($primary-palette, 500);
+		border-color: mat.get-color-from-palette($primary-palette, '500-contrast');
+	}
+
+	::-webkit-scrollbar-track {
+		border-color: mat.get-color-from-palette($primary-palette, '500-contrast');
+	}
+
+	::-webkit-scrollbar {
+		background-color: mat.get-color-from-palette($primary-palette, 500);
+	}
+
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+		background: mat.get-color-from-palette($primary-palette, 900);
+	}
 }
+
+@include scroller($counter-smoke-theme);
 
 @mixin bg($color) {
 	background-color: $color;
@@ -107,18 +177,6 @@ app-auth {
 	height: 100%;
 }
 
-.mat-mdc-tab-link {
-	background-color: #01657d;
-	opacity: 0.7;
-	color: whitesmoke;
-	min-width: 100px;
-}
-
-.mat-mdc-tab-nav-bar.mat-primary .mat-ink-bar {
-	background-color: whitesmoke;
-}
-
-
 .day-count {
 	position: absolute;
 	text-align: center;
@@ -134,6 +192,19 @@ app-auth {
 	line-height: 16px;
 	top: 34px;
 	left: 19px;
-	color: whitesmoke;
-	background-color: #01657d;
 }
+
+@mixin day-count($theme) {
+	// Get the color config from the theme.
+	$color-config: mat.get-color-config($theme);
+
+	// Get the primary color palette from the color-config.
+	$primary-palette: map.get($color-config, 'primary');
+
+	.day-count {
+		color: mat.get-color-from-palette($primary-palette, '500-contrast');
+		background-color: mat.get-color-from-palette($primary-palette, 500);
+	}
+}
+
+@include day-count($counter-smoke-theme);

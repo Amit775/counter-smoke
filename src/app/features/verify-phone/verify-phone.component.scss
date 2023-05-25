@@ -1,9 +1,23 @@
 .verify-row {
 	display: flex;
+	flex-direction: column;
 	padding: 10px;
 	justify-content: space-between;
+	align-items: baseline;
+
+	mat-form-field {
+		width: 100%;
+	}
 
 	.actions {
+		width: 100%;
 		display: flex;
+		justify-content: space-around;
+	}
+}
+
+::ng-deep .verify-row {
+	.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+		background-color: unset;
 	}
 }

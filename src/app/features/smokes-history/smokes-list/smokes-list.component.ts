@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
@@ -12,18 +12,16 @@ import { DialogComponent as RemoveDialogComponent } from '../remove-dialog.compo
 @Component({
 	selector: 'app-smokes-list',
 	templateUrl: './smokes-list.component.html',
-	styleUrls: ['./smokes-list.component.scss']
+	styleUrls: ['./smokes-list.component.scss'],
 })
 export class SmokesListComponent implements OnInit {
+	public date: Date = inject(DATE_PANEL_TOEKN);
+	private dialog: MatDialog = inject(MatDialog);
+	private service: SmokesService = inject(SmokesService);
+	private query: SmokesQuery = inject(SmokesQuery);
+	private formPanel: SmokeFormPanelService = inject(SmokeFormPanelService);
 
-	smokes$!: Observable<ISmoke[]>
-	constructor(
-		@Inject(DATE_PANEL_TOEKN) public date: Date,
-		private dialog: MatDialog,
-		private service: SmokesService,
-		private query: SmokesQuery,
-		private formPanel: SmokeFormPanelService,
-	) { }
+	smokes$!: Observable<ISmoke[]>;
 
 	ngOnInit(): void {
 		this.smokes$ = this.query.selectSmokesAtDate(this.date);
@@ -31,13 +29,13 @@ export class SmokesListComponent implements OnInit {
 
 	editSmoke(smoke: ISmoke): void {
 		this.formPanel.openPanel(smoke).subscribe({
-			next: (action: Action) => this.executeAction(action)
+			next: (action: Action) => this.executeAction(action),
 		});
 	}
 
 	smokeRemoved(smoke: ISmoke): void {
 		const ref = this.dialog.open(RemoveDialogComponent);
-		ref.afterClosed().subscribe((toBeRemoved) => {
+		ref.afterClosed().subscribe(toBeRemoved => {
 			if (toBeRemoved) {
 				this.service.removeSmoke(smoke);
 			}
@@ -47,11 +45,11 @@ export class SmokesListComponent implements OnInit {
 	private executeAction(action: Action): void {
 		switch (action.type) {
 			case 'delete':
-				return this.smokeRemoved(action.smoke)
+				return this.smokeRemoved(action.smoke);
 			case 'edit':
-				return this.service.updateSmoke(action.smoke)
+				return this.service.updateSmoke(action.smoke);
 			case 'cancel':
-				default:
+			default:
 				return;
 		}
 	}

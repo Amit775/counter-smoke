@@ -3,20 +3,6 @@ $width: $dayWidth * 7;
 
 ::ng-deep .flatpickr-calendar.inline {
 	font-size: 20px;
-	.flatpickr-current-month .flatpickr-monthDropdown-months,
-	.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month,
-	.flatpickr-months .flatpickr-month,
-	.flatpickr-weekdays,
-	span.flatpickr-weekday {
-		background-color: #01657d;
-	}
-
-	
-	.flatpickr-day.selected,
-	.flatpickr-day.selected:hover {
-		background-color: #01647dce;
-	}
-
 	margin: auto;
 	width: $width;
 

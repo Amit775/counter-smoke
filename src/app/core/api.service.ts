@@ -1,13 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
-import { Database, onValue, ref, set, Unsubscribe } from '@firebase/database';
-import {
-	DatabaseReference,
-	DataSnapshot,
-	onChildAdded,
-	onChildChanged,
-	onChildRemoved,
-	push, update
-} from 'firebase/database';
+import { Injectable, inject } from '@angular/core';
+import { Database, Unsubscribe, onValue, ref, set } from '@firebase/database';
+import { DataSnapshot, DatabaseReference, onChildAdded, onChildChanged, onChildRemoved, push, update } from 'firebase/database';
 import { recordToList } from '../utils/record-to-list';
 import { FIREBASE_DB } from './firebase.app';
 import { ISmoke, SmokeContent } from './smokes/smokes.store';
@@ -21,7 +14,7 @@ interface IListeners<T> {
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-	constructor(@Inject(FIREBASE_DB) private db: Database) { }
+	private db: Database = inject(FIREBASE_DB);
 
 	createSmoke(smokerId: string, smoke: SmokeContent): void {
 		const refs = ref(this.db, `smokers/${smokerId}/smokes`);
@@ -56,12 +49,18 @@ export class ApiService {
 	}
 
 	addLabels(smokerId: string, labels: string[]): void {
-		const labelsToAdd = labels.reduce((result, label) => {result[label] = true; return result}, {} as Record<string, true>);
+		const labelsToAdd = labels.reduce((result, label) => {
+			result[label] = true;
+			return result;
+		}, {} as Record<string, true>);
 		return this.updateLabels(smokerId, labelsToAdd);
 	}
 
 	removeLabels(smokerId: string, labels: string[]): void {
-		const labelsToRemove = labels.reduce((result, label) => {result[label] = null; return result}, {} as Record<string, null>);
+		const labelsToRemove = labels.reduce((result, label) => {
+			result[label] = null;
+			return result;
+		}, {} as Record<string, null>);
 		return this.updateLabels(smokerId, labelsToRemove);
 	}
 
@@ -72,20 +71,12 @@ export class ApiService {
 
 	private listenToRefChanges<T>(ref: DatabaseReference, listeners: IListeners<T>): Unsubscribe {
 		const subs = [
-			listeners.onAdd
-				? onChildAdded(ref, (s: DataSnapshot) => listeners.onAdd!({ id: s.key, ...s.val() }))
-				: () => { },
-			listeners.onUpdate
-				? onChildChanged(ref, (s) => listeners.onUpdate!({ id: s.key, ...s.val() }))
-				: () => { },
-			listeners.onRemove
-				? onChildRemoved(ref, (s) => listeners.onRemove!({ id: s.key, ...s.val() }))
-				: () => { },
-			listeners.getAll
-				? onValue(ref, (s) => listeners.getAll!(recordToList(s.val() ?? {})), { onlyOnce: true })
-				: () => { },
+			listeners.onAdd ? onChildAdded(ref, (s: DataSnapshot) => listeners.onAdd!({ id: s.key, ...s.val() })) : () => {},
+			listeners.onUpdate ? onChildChanged(ref, s => listeners.onUpdate!({ id: s.key, ...s.val() })) : () => {},
+			listeners.onRemove ? onChildRemoved(ref, s => listeners.onRemove!({ id: s.key, ...s.val() })) : () => {},
+			listeners.getAll ? onValue(ref, s => listeners.getAll!(recordToList(s.val() ?? {})), { onlyOnce: true }) : () => {},
 		];
 
-		return () => subs.forEach((sub) => sub());
+		return () => subs.forEach(sub => sub());
 	}
 }

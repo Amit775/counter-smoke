@@ -1,6 +1,6 @@
 <div class="smoke">
 	<span class="index"> #{{ 10 > index ? '0' + index : index }}: </span>
-	<span> {{ smoke.timestamp | date: 'HH:mm' }} </span>
+	<span> {{ smoke.timestamp | date : 'HH:mm' }} </span>
 	<span class="labels" [matTooltip]="smoke.labels | join">
 		<span> {{ smoke.labels | join }} </span>
 	</span>

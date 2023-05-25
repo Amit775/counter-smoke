@@ -3,23 +3,27 @@
 
 name: Deploy to Firebase Hosting on merge
 'on':
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 16.13
-      - run: yarn
-      - run: yarn add @angular/cli
-      - run: yarn build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_COUNTER_SMOKE }}'
-          channelId: live
-          projectId: counter-smoke
+    build_and_deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - uses: nrwl/nx-set-shas@v3
+            - run: yarn install --frozen-lockfile
+
+            - run: npx nx format:check
+            - run: npx nx affected -t lint --parallel=3
+            - run: npx nx affected -t test --parallel=3 --configuration=ci
+            - run: npx nx affected -t build --parallel=3
+
+            - uses: FirebaseExtended/action-hosting-deploy@v0
+              with:
+                  repoToken: '${{ secrets.GITHUB_TOKEN }}'
+                  firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_COUNTER_SMOKE }}'
+                  channelId: live
+                  projectId: counter-smoke

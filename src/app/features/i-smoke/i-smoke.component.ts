@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { filterNilValue } from '@datorama/akita';
 import { map, switchMapTo, timer } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { debug } from 'src/app/shared/debug.operator';
 import { SmokeLabelService } from '../smoke-form/smoke-label/smoke-label.service';
 
 @Component({
@@ -12,12 +13,9 @@ import { SmokeLabelService } from '../smoke-form/smoke-label/smoke-label.service
 	styleUrls: ['./i-smoke.component.scss'],
 })
 export class ISmokeComponent {
-
-	constructor(
-		private query: SmokesQuery,
-		private service: SmokesService,
-		private labelPanel: SmokeLabelService
-	) { }
+	private query: SmokesQuery = inject(SmokesQuery);
+	private service: SmokesService = inject(SmokesService);
+	private labelPanel: SmokeLabelService = inject(SmokeLabelService);
 
 	todayCount$ = this.query.selectCountToday();
 	lastCigareteDiff$ = timer(0, 1000 * 60).pipe(
@@ -25,7 +23,7 @@ export class ISmokeComponent {
 		filterNilValue(),
 		map(smokeTime => Date.now() - smokeTime)
 	);
-	loading$ = this.query.selectLoading();
+	loading$ = this.query.selectLoading().pipe(debug('loading'));
 
 	inc(): void {
 		this.service.inc();

@@ -1,9 +1,14 @@
-import { Component, Inject, Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { Component, Injectable, inject } from '@angular/core';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+
+type SnackBarContent = {
+	message: string;
+	actions: { act: () => void; icon: string }[];
+};
 
 @Injectable({ providedIn: 'root' })
 export class ToasterService {
-	constructor(private snackbar: MatSnackBar) { }
+	private snackbar: MatSnackBar = inject(MatSnackBar);
 
 	ref: MatSnackBarRef<ToasterComponent> | undefined = undefined;
 
@@ -37,26 +42,16 @@ export class ToasterService {
 
 @Component({
 	template: `
-    <div class="container">
-      <span class="message"> {{ data.message }} </span>
-      <span class="actions">
-        <button
-          mat-icon-button
-          *ngFor="let action of data.actions"
-          (click)="action.act()"
-        >
-          <mat-icon>{{ action.icon }}</mat-icon>
-        </button>
-      </span>
-    </div>
-  `,
+		<div class="container">
+			<span class="message"> {{ data.message }} </span>
+			<span class="actions">
+				<button mat-icon-button *ngFor="let action of data.actions" (click)="action.act()">
+					<mat-icon>{{ action.icon }}</mat-icon>
+				</button>
+			</span>
+		</div>
+	`,
 })
 export class ToasterComponent {
-	constructor(
-		@Inject(MAT_SNACK_BAR_DATA)
-		public data: {
-			message: string;
-			actions: { act: () => void; icon: string }[];
-		}
-	) { }
+	public data: SnackBarContent = inject(MAT_SNACK_BAR_DATA);
 }

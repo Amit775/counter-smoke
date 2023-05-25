@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { listToRecordAsKeys } from 'src/app/utils/list-to-record';
 import { withoutId } from 'src/app/utils/without-id';
 import { ApiService } from '../api.service';
@@ -7,11 +7,9 @@ import { ISmoke, ISmoker, SmokeContent, SmokesStore } from './smokes.store';
 
 @Injectable({ providedIn: 'root' })
 export class SmokesService {
-	constructor(
-		private api: ApiService,
-		private store: SmokesStore,
-		private query: SmokesQuery
-	) { }
+	private api: ApiService = inject(ApiService);
+	private store: SmokesStore = inject(SmokesStore);
+	private query: SmokesQuery = inject(SmokesQuery);
 
 	inc(labels: Record<string, true> = {}): void {
 		const smokerId = this.query.getSmokerId();
@@ -64,19 +62,19 @@ export class SmokesService {
 
 	private syncSmokes(smokerId: string): () => void {
 		return this.api.syncSmokes(smokerId, {
-			getAll: (smokes) => {
+			getAll: smokes => {
 				this.store.set(smokes);
 				this.store.setLoading(false);
 			},
-			onAdd: (smoke) => {
+			onAdd: smoke => {
 				this.store.add(smoke);
 				this.store.setLoading(false);
 			},
-			onRemove: (smoke) => {
+			onRemove: smoke => {
 				this.store.remove(smoke.id);
 				this.store.setLoading(false);
 			},
-			onUpdate: (smoke) => {
+			onUpdate: smoke => {
 				this.store.replace(smoke.id, smoke);
 				this.store.setLoading(false);
 			},
@@ -85,30 +83,36 @@ export class SmokesService {
 
 	private syncLabels(smokerId: string): () => void {
 		return this.api.syncLabels(smokerId, {
-			getAll: (labels) => {
-				this.store.update(state => state.labels = listToRecordAsKeys(labels.map(l => l.id), true))
+			getAll: labels => {
+				this.store.update(
+					state =>
+						(state.labels = listToRecordAsKeys(
+							labels.map(l => l.id),
+							true
+						))
+				);
 				this.store.setLoading(false);
 			},
-			onAdd: (label) => {
+			onAdd: label => {
 				this.store.update(state => ({
 					...state,
-					labels: this.toggleLabel(state.labels, label.id, true)
+					labels: this.toggleLabel(state.labels, label.id, true),
 				}));
 				this.store.setLoading(false);
 			},
-			onRemove: (label) => {
+			onRemove: label => {
 				this.store.update(state => ({
 					...state,
-					labels: this.toggleLabel(state.labels, label.id, false)
+					labels: this.toggleLabel(state.labels, label.id, false),
 				}));
 				this.store.setLoading(false);
-			}
+			},
 		});
 	}
 
 	private toggleLabel(labels: Record<string, true>, label: string, value: boolean): Record<string, true> {
 		const { [label]: updated, ...others } = labels ?? {};
-		const result =  value ? { ...labels, [label]: true } as Record<string, true> : others;
+		const result = value ? ({ ...labels, [label]: true } as Record<string, true>) : others;
 		return result;
 	}
 }

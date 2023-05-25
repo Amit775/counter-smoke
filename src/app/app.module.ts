@@ -13,10 +13,7 @@ import { SmokeLabelComponent } from './features/smoke-form/smoke-label/smoke-lab
 import { MaterialModule } from './shared/material.module';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		SmokeFormComponent,
-	],
+	declarations: [AppComponent, SmokeFormComponent],
 	imports: [
 		BrowserModule,
 		BrowserAnimationsModule,
@@ -25,8 +22,8 @@ import { MaterialModule } from './shared/material.module';
 		AppRoutingModule,
 		CoreModule,
 		MaterialModule,
-		SmokeLabelComponent
+		SmokeLabelComponent,
 	],
 	bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

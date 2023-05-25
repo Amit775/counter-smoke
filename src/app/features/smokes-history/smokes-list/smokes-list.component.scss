@@ -1,8 +1,6 @@
 .container {
 	width: 320px;
 	height: 320px;
-	background-color: #01657d;
-	color: whitesmoke;
 	border-radius: 20px;
 	padding: 16px;
 	display: flex;
@@ -11,7 +9,7 @@
 	.header {
 		font-size: 20px;
 		padding-bottom: 16px;
-		border-bottom: 1px solid whitesmoke;
+		border-bottom: 1px solid;
 		text-align: center;
 	}
 
@@ -22,11 +20,27 @@
 }
 
 ::ng-deep .container {
-	.mdc-list {
-		.mdc-list-item {
+	.mat-mdc-list-base {
+		.mat-mdc-list-item,
+		.mat-mdc-list-option,
+		.mat-mdc-list-item.mat-mdc-list-option {
 			height: 32px;
 			border-radius: 16px;
-			padding: 0;
+
+			.mat-mdc-list-item-content,
+			.mat-mdc-list-item-content-reverse {
+				padding: 0;
+				padding-right: 8px;
+
+				.mat-mdc-list-item-ripple {
+					border-radius: 16px;
+				}
+
+				.mat-mdc-list-text {
+					padding: 0;
+					padding-left: 4px;
+				}
+			}
 		}
 	}
 }
