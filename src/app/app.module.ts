@@ -8,12 +8,10 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { SmokeFormComponent } from './features/smoke-form/smoke-form.component';
-import { SmokeLabelComponent } from './features/smoke-form/smoke-label/smoke-label.component';
 import { MaterialModule } from './shared/material.module';
 
 @NgModule({
-	declarations: [AppComponent, SmokeFormComponent],
+	declarations: [AppComponent],
 	imports: [
 		BrowserModule,
 		BrowserAnimationsModule,
@@ -22,7 +20,6 @@ import { MaterialModule } from './shared/material.module';
 		AppRoutingModule,
 		CoreModule,
 		MaterialModule,
-		SmokeLabelComponent,
 	],
 	bootstrap: [AppComponent],
 })

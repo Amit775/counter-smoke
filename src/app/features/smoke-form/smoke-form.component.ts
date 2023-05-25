@@ -1,7 +1,5 @@
-import { DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
-import { SMOKE_PANEL_TOKEN } from './smoke-form-panel.service';
 
 export type EditAction = {
 	type: 'edit';
@@ -23,12 +21,17 @@ export type Action = EditAction | CancelAction | DeleteAction;
 	selector: 'app-smoke-form',
 	templateUrl: './smoke-form.component.html',
 	styleUrls: ['./smoke-form.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmokeFormComponent implements OnInit {
 	private edittedSmoke!: ISmoke;
-	constructor(public dialogRef: DialogRef<Action>, @Inject(SMOKE_PANEL_TOKEN) public smoke: ISmoke) {}
+
+	@Output() public action = new EventEmitter<Action>();
+
+	@Input() public smoke!: ISmoke;
 
 	ngOnInit(): void {
+		console.log('smoke', this.smoke);
 		this.edittedSmoke = { ...this.smoke };
 	}
 
@@ -56,17 +59,17 @@ export class SmokeFormComponent implements OnInit {
 	}
 
 	cancel(): void {
-		this.dialogRef.close({ type: 'cancel' });
+		this.action.emit({ type: 'cancel' });
 	}
 
 	delete(smoke: ISmoke): void {
 		console.log('delete', smoke);
-		this.dialogRef.close({ type: 'delete', smoke: smoke });
+		this.action.emit({ type: 'delete', smoke: smoke });
 	}
 
 	edit(smoke: ISmoke) {
 		console.log('edit', this.smoke);
-		this.dialogRef.close({ type: 'edit', smoke: this.edittedSmoke });
+		this.action.emit({ type: 'edit', smoke: this.edittedSmoke });
 	}
 
 	private setEdittedSmoke(smoke: ISmoke): void {

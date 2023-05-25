@@ -208,3 +208,22 @@ app-auth {
 }
 
 @include day-count($counter-smoke-theme);
+
+a {
+	color: inherit;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: none;
+	}
+
+	&:active {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	&:visited {
+		text-decoration: none;
+		color: inherit;
+	}
+}

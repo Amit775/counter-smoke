@@ -1,14 +1,6 @@
 <div class="container">
 	<div class="button-wrapper">
-		<button
-			mat-button
-			class="smoke-button"
-			(click)="inc()"
-			[disabled]="loading$ | async"
-			(contextmenu)="openLabelPanel($event, button)"
-			#button>
-			I Smoke
-		</button>
+		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async" #button>I Smoke</button>
 	</div>
 	<div class="counter-container">
 		<div class="counter" *ngIf="(loading$ | async) === false; else loader">
@@ -16,7 +8,8 @@
 			<span class="last">Last Cigarete: {{ lastCigareteDiff$ | async | ago }} </span>
 		</div>
 		<ng-template #loader>
-			<mat-spinner color="warn" diameter="40"></mat-spinner>
+			<mat-spinner color="warn" diameter="40" />
 		</ng-template>
 	</div>
+	<app-smoke-form [smoke]="emptySmoke" />
 </div>

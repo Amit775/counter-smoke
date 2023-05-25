@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { filterNilValue } from '@datorama/akita';
 import { map, switchMapTo, timer } from 'rxjs';
@@ -6,16 +6,19 @@ import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { debug } from 'src/app/shared/debug.operator';
 import { SmokeLabelService } from '../smoke-form/smoke-label/smoke-label.service';
+import { ISmoke } from 'src/app/core/smokes/smokes.store';
 
 @Component({
 	selector: 'app-i-smoke',
 	templateUrl: './i-smoke.component.html',
 	styleUrls: ['./i-smoke.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ISmokeComponent {
 	private query: SmokesQuery = inject(SmokesQuery);
 	private service: SmokesService = inject(SmokesService);
-	private labelPanel: SmokeLabelService = inject(SmokeLabelService);
+
+	public emptySmoke: ISmoke = { id: '', timestamp: Date.now(), labels: {} };
 
 	todayCount$ = this.query.selectCountToday();
 	lastCigareteDiff$ = timer(0, 1000 * 60).pipe(
@@ -27,11 +30,5 @@ export class ISmokeComponent {
 
 	inc(): void {
 		this.service.inc();
-	}
-
-	openLabelPanel(event: MouseEvent, button: MatButton): void {
-		event.preventDefault();
-		const result = this.labelPanel.openLabel([], button._elementRef.nativeElement);
-		// result.subscribe(({ action, value }) => )
 	}
 }

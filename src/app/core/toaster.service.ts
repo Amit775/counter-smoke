@@ -1,4 +1,4 @@
-import { Component, Injectable, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injectable, inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 type SnackBarContent = {
@@ -51,6 +51,7 @@ export class ToasterService {
 			</span>
 		</div>
 	`,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToasterComponent {
 	public data: SnackBarContent = inject(MAT_SNACK_BAR_DATA);

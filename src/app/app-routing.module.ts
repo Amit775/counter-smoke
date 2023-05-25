@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterModule, Routes } from '@angular/router';
 import { SmokesQuery } from './core/smokes/smokes.query';
 import { MaterialModule } from './shared/material.module';
@@ -25,6 +25,7 @@ const isAllowedRoute = (route: ActivatedRouteSnapshot): boolean => {
 
 @Component({
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [CommonModule, MaterialModule],
 	template: '<div class="wrapper"><mat-spinner></mat-spinner></div>',
 	styles: [

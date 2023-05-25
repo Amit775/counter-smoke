@@ -1,9 +1,9 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable, map, merge, startWith } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
@@ -14,6 +14,7 @@ import { MaterialModule } from 'src/app/shared/material.module';
 	selector: 'app-smoke-label',
 	templateUrl: './smoke-label.component.html',
 	styleUrls: ['./smoke-label.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [CommonModule, ReactiveFormsModule, MaterialModule],
 })
 export class SmokeLabelComponent implements OnInit {
@@ -23,11 +24,12 @@ export class SmokeLabelComponent implements OnInit {
 	@Output() added = new EventEmitter<string>();
 	@Output() removed = new EventEmitter<string>();
 
+	private service: SmokesService = inject(SmokesService);
+	private query: SmokesQuery = inject(SmokesQuery);
+
 	filteredOptions$!: Observable<string[]>;
 
 	labelCTRL = new FormControl('');
-
-	constructor(private query: SmokesQuery, private service: SmokesService) {}
 
 	ngOnInit(): void {
 		this.filteredOptions$ = merge(
