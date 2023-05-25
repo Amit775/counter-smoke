@@ -4,32 +4,29 @@ import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { SMOKE_PANEL_TOKEN } from './smoke-form-panel.service';
 
 export type EditAction = {
-	type: 'edit',
-	smoke: ISmoke
-}
+	type: 'edit';
+	smoke: ISmoke;
+};
 
 export type CancelAction = {
-	type: 'cancel'
-}
+	type: 'cancel';
+};
 
 export type DeleteAction = {
-	type: 'delete',
-	smoke: ISmoke
-}
+	type: 'delete';
+	smoke: ISmoke;
+};
 
 export type Action = EditAction | CancelAction | DeleteAction;
 
 @Component({
 	selector: 'app-smoke-form',
 	templateUrl: './smoke-form.component.html',
-	styleUrls: ['./smoke-form.component.scss']
+	styleUrls: ['./smoke-form.component.scss'],
 })
 export class SmokeFormComponent implements OnInit {
 	private edittedSmoke!: ISmoke;
-	constructor(
-		public dialogRef: DialogRef<Action>,
-		@Inject(SMOKE_PANEL_TOKEN) public smoke: ISmoke
-	) { }
+	constructor(public dialogRef: DialogRef<Action>, @Inject(SMOKE_PANEL_TOKEN) public smoke: ISmoke) {}
 
 	ngOnInit(): void {
 		this.edittedSmoke = { ...this.smoke };
@@ -40,22 +37,22 @@ export class SmokeFormComponent implements OnInit {
 			...this.smoke,
 			labels: {
 				...this.smoke.labels,
-				[label]: true
-			}
-		})
+				[label]: true,
+			},
+		});
 	}
 
 	removeLabel(label: string): void {
 		const { [label]: remove, ...others } = this.smoke.labels;
 		this.setEdittedSmoke({
 			...this.smoke,
-			labels: others
-		})
+			labels: others,
+		});
 	}
 
 	changeTime(timePicker: HTMLInputElement): void {
 		const [hours, minutes] = timePicker.value.split(':');
-		this.setEdittedSmoke({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) })
+		this.setEdittedSmoke({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) });
 	}
 
 	cancel(): void {

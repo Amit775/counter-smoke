@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="header">Edit Smoke</div>
 	<div class="fields">
-		<input type="time" #timePicker [value]="smoke.timestamp | date: 'HH:mm'" (keyup)="changeTime(timePicker)">
+		<input type="time" #timePicker [value]="smoke.timestamp | date : 'HH:mm'" (keyup)="changeTime(timePicker)" />
 		<app-smoke-label [labels]="smoke.labels" (added)="addLabel($event)" (removed)="removeLabel($event)"></app-smoke-label>
 	</div>
 	<div class="actions">

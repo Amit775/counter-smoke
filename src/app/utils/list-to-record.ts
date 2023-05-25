@@ -1,5 +1,5 @@
-import { ISmoke, SmokeContent } from "../core/smokes/smokes.store";
-import { withoutId } from "./without-id";
+import { ISmoke, SmokeContent } from '../core/smokes/smokes.store';
+import { withoutId } from './without-id';
 
 export function listToRecord(items: ISmoke[]): Record<string, SmokeContent> {
 	return items.reduce((result, item) => {
@@ -12,5 +12,5 @@ export function listToRecordAsKeys<T>(items: string[], value: T): Record<string,
 	return items.reduce((result, item) => {
 		result[item] = value;
 		return result;
-	}, {} as Record<string, T>)
+	}, {} as Record<string, T>);
 }

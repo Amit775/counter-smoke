@@ -1,4 +1,4 @@
-.container { 
+.container {
 	.mat-form-field {
 		width: 100%;
 	}
@@ -9,7 +9,7 @@
 			overflow-y: auto;
 			white-space: nowrap;
 
-			input.mat-chip-input { 
+			input.mat-chip-input {
 				width: 70px;
 				flex: 1 0 70px;
 			}
@@ -32,7 +32,7 @@
 .option {
 	display: flex;
 	flex-direction: row;
-	
+
 	.label {
 		flex-grow: 1;
 	}
