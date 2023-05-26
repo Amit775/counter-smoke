@@ -35,24 +35,6 @@ export class SmokeFormComponent implements OnInit {
 		this.edittedSmoke = { ...this.smoke };
 	}
 
-	addLabel(label: string): void {
-		this.setEdittedSmoke({
-			...this.smoke,
-			labels: {
-				...this.smoke.labels,
-				[label]: true,
-			},
-		});
-	}
-
-	removeLabel(label: string): void {
-		const { [label]: remove, ...others } = this.smoke.labels;
-		this.setEdittedSmoke({
-			...this.smoke,
-			labels: others,
-		});
-	}
-
 	changeTime(timePicker: HTMLInputElement): void {
 		const [hours, minutes] = timePicker.value.split(':');
 		this.setEdittedSmoke({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) });

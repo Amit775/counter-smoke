@@ -1,13 +1,21 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+	MAT_AUTOCOMPLETE_DEFAULT_OPTIONS,
+	MatAutocompleteDefaultOptions,
+	MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable, map, merge, startWith } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { MaterialModule } from 'src/app/shared/material.module';
+
+const autocompleteOptions: MatAutocompleteDefaultOptions = {
+	overlayPanelClass: 'autocomplete-panel',
+};
 
 @Component({
 	standalone: true,
@@ -16,13 +24,15 @@ import { MaterialModule } from 'src/app/shared/material.module';
 	styleUrls: ['./smoke-label.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [CommonModule, ReactiveFormsModule, MaterialModule],
+	providers: [{ provide: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS, useValue: autocompleteOptions }],
 })
 export class SmokeLabelComponent implements OnInit {
-	readonly seperatorKeyCodes = [ENTER, COMMA];
+	readonly seperatorKeysCodes = [ENTER, COMMA];
 	@Input() labels: Record<string, true> = {};
 
-	@Output() added = new EventEmitter<string>();
-	@Output() removed = new EventEmitter<string>();
+	@Output() labelsChange = new EventEmitter<Record<string, true>>();
+
+	@ViewChild('labelInput', { static: true, read: ElementRef }) private labelInput!: ElementRef;
 
 	private service: SmokesService = inject(SmokesService);
 	private query: SmokesQuery = inject(SmokesQuery);
@@ -32,6 +42,9 @@ export class SmokeLabelComponent implements OnInit {
 	labelCTRL = new FormControl('');
 
 	ngOnInit(): void {
+		this.labelCTRL.valueChanges.subscribe(value => console.log('ctrl', value));
+		console.log('input', this.labels);
+		this.labelsChange.subscribe(value => console.log('output', value));
 		this.filteredOptions$ = merge(
 			this.labelCTRL.valueChanges,
 			this.query.select(s => s.labels)
@@ -42,17 +55,28 @@ export class SmokeLabelComponent implements OnInit {
 		);
 	}
 
-	remove(label: string): void {
-		this.removed.emit(label);
+	add(event: MatChipInputEvent): void {
+		this.addLabel(event.value);
+		this.labelCTRL.setValue('');
+		event.chipInput.clear();
 	}
 
-	add(event: MatChipInputEvent): void {
-		event.chipInput.clear();
-		this.added.emit(event.value);
+	addLabel(label: string): void {
+		this.labelsChange.emit({
+			...this.labels,
+			[label]: true,
+		});
+	}
+
+	removeLabel(label: string): void {
+		const { [label]: remove, ...others } = this.labels;
+		this.labelsChange.emit(others);
 	}
 
 	selected(event: MatAutocompleteSelectedEvent): void {
-		this.added.emit(event.option.value);
+		this.addLabel(event.option.value);
+		this.labelCTRL.setValue('');
+		this.labelInput.nativeElement.value = '';
 	}
 
 	removeLabelOption(event: MouseEvent, option: string): void {

@@ -9,7 +9,7 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { NotNullPipe } from 'src/app/shared/not-null.pipe';
 
 @NgModule({
-	declarations: [SettingsComponent, ISmokeComponent],
+	declarations: [SettingsComponent],
 	imports: [
 		CommonModule,
 		MaterialModule,
@@ -25,6 +25,7 @@ import { NotNullPipe } from 'src/app/shared/not-null.pipe';
 		AgoPipe,
 		NotNullPipe,
 		SmokeFormModule,
+		ISmokeComponent,
 	],
 })
 export default class HomeModule {}

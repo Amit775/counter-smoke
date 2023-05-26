@@ -1,0 +1,43 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+	$color-config: mat.get-color-config($theme);
+	$primary-palette: map.get($color-config, 'primary');
+
+	.autocomplete-panel {
+		height: 112px;
+		border: 1px solid mat.get-color-from-palette($primary-palette, '500-contrast');
+		border-radius: 0 0 4px 4px;
+	}
+
+	.mat-mdc-chip-set .mdc-evolution-chip-set__chips {
+		overflow-x: auto;
+		flex-wrap: nowrap;
+
+		.mat-mdc-chip {
+			border: 1px solid;
+		}
+	}
+
+	.mat-mdc-chip.mdc-evolution-chip {
+		max-width: unset;
+	}
+
+	.mat-mdc-option {
+		padding-right: 0 !important;
+		min-height: 32px !important;
+
+		.mdc-list-item__primary-text {
+			display: contents;
+		}
+	}
+}
+
+@mixin theme($theme) {
+	$color-config: mat.get-color-config($theme);
+
+	@if $color-config !=null {
+		@include color($theme);
+	}
+}

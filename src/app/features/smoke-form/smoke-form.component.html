@@ -1,12 +1,20 @@
 <div class="container">
-	<div class="header">Edit Smoke</div>
+	<div class="header">
+		<span class="title"> Edit Smoke </span>
+		<span class="actions">
+			<button mat-icon-button [color]="'warn'" (click)="delete(smoke)">
+				<mat-icon>delete</mat-icon>
+			</button>
+			<button mat-icon-button (click)="cancel()">
+				<mat-icon>close</mat-icon>
+			</button>
+		</span>
+	</div>
 	<div class="fields">
 		<input type="time" #timePicker [value]="smoke.timestamp | date : 'HH:mm'" (keyup)="changeTime(timePicker)" />
-		<app-smoke-label [labels]="smoke.labels" (added)="addLabel($event)" (removed)="removeLabel($event)"></app-smoke-label>
+		<app-smoke-label [(labels)]="smoke.labels" />
 	</div>
 	<div class="actions">
-		<button (click)="edit(smoke)">Edit</button>
-		<button (click)="cancel()">Cancel</button>
-		<button (click)="delete(smoke)">Delete</button>
+		<button mat-stroked-button (click)="edit(smoke)">Edit</button>
 	</div>
 </div>

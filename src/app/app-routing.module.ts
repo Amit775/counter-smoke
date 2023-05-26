@@ -27,7 +27,7 @@ const isAllowedRoute = (route: ActivatedRouteSnapshot): boolean => {
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [CommonModule, MaterialModule],
-	template: '<div class="wrapper"><mat-spinner></mat-spinner></div>',
+	template: '<div class="wrapper"><mat-spinner /></div>',
 	styles: [
 		`
 			.wrapper {
