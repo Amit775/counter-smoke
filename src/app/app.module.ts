@@ -7,7 +7,6 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
 import { MaterialModule } from './shared/material.module';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { MaterialModule } from './shared/material.module';
 		HttpClientModule,
 		environment.production ? [] : AkitaNgDevtools.forRoot(),
 		AppRoutingModule,
-		CoreModule,
 		MaterialModule,
 	],
 	bootstrap: [AppComponent],

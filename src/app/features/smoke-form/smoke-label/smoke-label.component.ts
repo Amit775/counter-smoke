@@ -8,13 +8,14 @@ import {
 	MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable, map, merge, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, map, merge, startWith } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { MaterialModule } from 'src/app/shared/material.module';
 
 const autocompleteOptions: MatAutocompleteDefaultOptions = {
 	overlayPanelClass: 'autocomplete-panel',
+	hideSingleSelectionIndicator: true,
 };
 
 @Component({
@@ -28,7 +29,14 @@ const autocompleteOptions: MatAutocompleteDefaultOptions = {
 })
 export class SmokeLabelComponent implements OnInit {
 	readonly seperatorKeysCodes = [ENTER, COMMA];
-	@Input() labels: Record<string, true> = {};
+
+	private _selectedLabels = new BehaviorSubject<Record<string, true>>({});
+	@Input() set labels(value: Record<string, true>) {
+		this._selectedLabels.next(value);
+	}
+	get labels(): Record<string, true> {
+		return this._selectedLabels.value;
+	}
 
 	@Output() labelsChange = new EventEmitter<Record<string, true>>();
 
@@ -42,12 +50,10 @@ export class SmokeLabelComponent implements OnInit {
 	labelCTRL = new FormControl('');
 
 	ngOnInit(): void {
-		this.labelCTRL.valueChanges.subscribe(value => console.log('ctrl', value));
-		console.log('input', this.labels);
-		this.labelsChange.subscribe(value => console.log('output', value));
 		this.filteredOptions$ = merge(
 			this.labelCTRL.valueChanges,
-			this.query.select(s => s.labels)
+			this.query.select(s => s.labels),
+			this._selectedLabels
 		).pipe(
 			map(() => this.labelCTRL.value),
 			startWith(null),
@@ -62,15 +68,15 @@ export class SmokeLabelComponent implements OnInit {
 	}
 
 	addLabel(label: string): void {
-		this.labelsChange.emit({
-			...this.labels,
-			[label]: true,
-		});
+		const labels: Record<string, true> = { ...this.labels, [label]: true };
+		this.labelsChange.emit(labels);
+		this._selectedLabels.next(labels);
 	}
 
 	removeLabel(label: string): void {
 		const { [label]: remove, ...others } = this.labels;
 		this.labelsChange.emit(others);
+		this._selectedLabels.next(others);
 	}
 
 	selected(event: MatAutocompleteSelectedEvent): void {
@@ -86,6 +92,6 @@ export class SmokeLabelComponent implements OnInit {
 	}
 
 	private _filter(query: string): string[] {
-		return Object.keys(this.query.getValue().labels ?? {}).filter(item => item.includes(query));
+		return Object.keys(this.query.getValue().labels ?? {}).filter(item => !this.labels[item] && item.includes(query));
 	}
 }

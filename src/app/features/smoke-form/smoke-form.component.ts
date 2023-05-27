@@ -30,36 +30,25 @@ export type Action = EditAction | CancelAction | DeleteAction;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmokeFormComponent implements OnInit {
-	private edittedSmoke!: ISmoke;
-
-	@Output() public action = new EventEmitter<Action>();
+	public edittedSmoke!: ISmoke;
 
 	@Input() public smoke!: ISmoke;
 
-	ngOnInit(): void {
-		console.log('smoke', this.smoke);
-		this.edittedSmoke = { ...this.smoke };
-	}
+	@Output() public action = new EventEmitter<Action>();
 
-	changeTime(timestamp: number): void {
-		this.setEdittedSmoke({ ...this.smoke, timestamp });
+	ngOnInit(): void {
+		this.edittedSmoke = { ...this.smoke };
 	}
 
 	cancel(): void {
 		this.action.emit({ type: 'cancel' });
 	}
 
-	delete(smoke: ISmoke): void {
-		console.log('delete', smoke);
-		this.action.emit({ type: 'delete', smoke: smoke });
+	delete(): void {
+		this.action.emit({ type: 'delete', smoke: this.smoke });
 	}
 
-	edit(smoke: ISmoke) {
-		console.log('edit', this.smoke);
+	edit() {
 		this.action.emit({ type: 'edit', smoke: this.edittedSmoke });
-	}
-
-	private setEdittedSmoke(smoke: ISmoke): void {
-		this.edittedSmoke = smoke;
 	}
 }

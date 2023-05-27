@@ -2,7 +2,7 @@
 	<div class="header">
 		<span class="title"> Edit Smoke </span>
 		<span class="actions">
-			<button mat-icon-button [color]="'warn'" (click)="delete(smoke)">
+			<button mat-icon-button [color]="'warn'" (click)="delete()">
 				<mat-icon>delete</mat-icon>
 			</button>
 			<button mat-icon-button (click)="cancel()">
@@ -11,10 +11,10 @@
 		</span>
 	</div>
 	<div class="fields">
-		<app-smoke-time class="field" [(timestamp)]="smoke.timestamp" />
-		<app-smoke-label class="field" [(labels)]="smoke.labels" />
+		<app-smoke-time class="field" [(timestamp)]="edittedSmoke.timestamp" />
+		<app-smoke-label class="field" [(labels)]="edittedSmoke.labels" />
 	</div>
 	<div class="actions">
-		<button mat-stroked-button (click)="edit(smoke)">Edit</button>
+		<button mat-stroked-button (click)="edit()">Edit</button>
 	</div>
 </div>

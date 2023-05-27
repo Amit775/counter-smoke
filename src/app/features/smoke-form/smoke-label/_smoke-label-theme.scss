@@ -6,9 +6,11 @@
 	$primary-palette: map.get($color-config, 'primary');
 
 	.autocomplete-panel {
-		height: 112px;
+		max-height: 112px;
 		border: 1px solid mat.get-color-from-palette($primary-palette, '500-contrast');
 		border-radius: 0 0 4px 4px;
+		background-color: mat.get-color-from-palette($primary-palette, 500);
+		color: mat.get-color-from-palette($primary-palette, '500-contrast');
 	}
 
 	.mat-mdc-chip-set .mdc-evolution-chip-set__chips {
