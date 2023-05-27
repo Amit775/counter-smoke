@@ -1,5 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { SmokeLabelComponent } from './smoke-label/smoke-label.component';
+import { SmokeTimeComponent } from './smoke-time/smoke-time.component';
 
 export type EditAction = {
 	type: 'edit';
@@ -18,6 +22,8 @@ export type DeleteAction = {
 export type Action = EditAction | CancelAction | DeleteAction;
 
 @Component({
+	standalone: true,
+	imports: [CommonModule, MaterialModule, SmokeLabelComponent, SmokeTimeComponent],
 	selector: 'app-smoke-form',
 	templateUrl: './smoke-form.component.html',
 	styleUrls: ['./smoke-form.component.scss'],
@@ -35,9 +41,8 @@ export class SmokeFormComponent implements OnInit {
 		this.edittedSmoke = { ...this.smoke };
 	}
 
-	changeTime(timePicker: HTMLInputElement): void {
-		const [hours, minutes] = timePicker.value.split(':');
-		this.setEdittedSmoke({ ...this.smoke, timestamp: new Date(this.smoke.timestamp).setHours(+hours, +minutes) });
+	changeTime(timestamp: number): void {
+		this.setEdittedSmoke({ ...this.smoke, timestamp });
 	}
 
 	cancel(): void {

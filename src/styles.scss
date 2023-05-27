@@ -8,6 +8,8 @@
 @use './app/features/i-smoke/i-smoke-theme' as i-smoke;
 @use './app/features/smokes-history/smoke-record/smoke-record-theme' as smoke-record;
 @use './app/features/smoke-form/smoke-label/smoke-label-theme' as smoke-label;
+@use './app/features/smoke-form/smoke-form-theme' as smoke-form;
+@use './app/features/smoke-form/smoke-time/smoke-time-theme' as smoke-time;
 
 @use './flatpickr-theme' as flatpickr;
 
@@ -90,6 +92,8 @@ $counter-smoke-theme: mat.define-dark-theme(
 @include flatpickr.theme($counter-smoke-theme);
 @include smoke-record.theme($counter-smoke-theme);
 @include smoke-label.theme($counter-smoke-theme);
+@include smoke-form.theme($counter-smoke-theme);
+@include smoke-time.theme($counter-smoke-theme);
 
 /* You can add global styles to this file, and also import other style files */
 

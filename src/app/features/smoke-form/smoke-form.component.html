@@ -11,8 +11,8 @@
 		</span>
 	</div>
 	<div class="fields">
-		<input type="time" #timePicker [value]="smoke.timestamp | date : 'HH:mm'" (keyup)="changeTime(timePicker)" />
-		<app-smoke-label [(labels)]="smoke.labels" />
+		<app-smoke-time class="field" [(timestamp)]="smoke.timestamp" />
+		<app-smoke-label class="field" [(labels)]="smoke.labels" />
 	</div>
 	<div class="actions">
 		<button mat-stroked-button (click)="edit(smoke)">Edit</button>
