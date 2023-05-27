@@ -22,3 +22,12 @@ $width: $dayWidth * 7;
 		line-height: $dayWidth - 12px;
 	}
 }
+
+.history {
+	display: flex;
+	flex-direction: column;
+
+	.list {
+		max-height: calc(100% - 400px);
+	}
+}

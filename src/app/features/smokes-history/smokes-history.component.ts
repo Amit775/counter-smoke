@@ -4,10 +4,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { default as flatpickr } from 'flatpickr';
 import { DayElement, Instance } from 'flatpickr/dist/types/instance';
 import { Hook } from 'flatpickr/dist/types/options';
-import { tap } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
-import { PanelService } from './panel.service';
 
 @UntilDestroy()
 @Component({
@@ -18,12 +17,14 @@ import { PanelService } from './panel.service';
 })
 export class SmokesHistoryComponent implements AfterViewInit {
 	private query: SmokesQuery = inject(SmokesQuery);
-	private panel: PanelService = inject(PanelService);
 
-	@ViewChild('container', { read: ElementRef }) private container!: ElementRef;
+	@ViewChild('calendar', { read: ElementRef }) private container!: ElementRef;
 	instance!: Instance;
 
 	daysIndex: Record<number, number> = {};
+
+	private _selecedDate = new BehaviorSubject<Date>(new Date());
+	public selectedDate$ = this._selecedDate.asObservable().pipe(map(date => new Date(date.setHours(0, 0, 0, 0))));
 
 	ngAfterViewInit(): void {
 		this.instance = flatpickr(this.container.nativeElement, {
@@ -32,11 +33,8 @@ export class SmokesHistoryComponent implements AfterViewInit {
 			onDayCreate: (a, b, c, dayElement) => this.addCountBadge(dayElement),
 			onReady: [this.indexByDateHook()],
 			onMonthChange: [this.indexByDateHook()],
-			onChange: [
-				(dates, b, c, d) => {
-					this.panel.openPanel(dates[0], this.container, () => this.instance.clear(true, false));
-				},
-			],
+			defaultDate: new Date(),
+			onChange: (dates: Date[]) => this._selecedDate.next(dates[0]),
 		});
 		(window as any).fp = this.instance;
 		this.query

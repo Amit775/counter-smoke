@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'join' })
+@Pipe({ name: 'join', standalone: true })
 export class JoinPipe<T> implements PipeTransform {
 	transform(value: T[] | Record<string, any>): string {
 		if (!value) return '';

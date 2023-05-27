@@ -1,5 +1,5 @@
 <div class="container">
-	<app-smoke-label [(labels)]="emptySmoke.labels" #labels />
+	<app-smoke-label [(labels)]="emptySmoke.labels" />
 	<div class="button-wrapper">
 		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async" #button>I Smoke</button>
 	</div>
