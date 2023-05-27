@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Output, ViewChild, forwardRef, inject } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import {
 	MAT_AUTOCOMPLETE_DEFAULT_OPTIONS,
 	MatAutocompleteDefaultOptions,
@@ -38,7 +38,7 @@ export class SmokeLabelComponent implements OnInit {
 		return this._selectedLabels.value;
 	}
 
-	@Output() labelsChange = new EventEmitter<Record<string, true>>();
+	@Output() labelsChange = this._selectedLabels.asObservable();
 
 	@ViewChild('labelInput', { static: true, read: ElementRef }) private labelInput!: ElementRef;
 
@@ -69,13 +69,12 @@ export class SmokeLabelComponent implements OnInit {
 
 	addLabel(label: string): void {
 		const labels: Record<string, true> = { ...this.labels, [label]: true };
-		this.labelsChange.emit(labels);
+		this.service.addLabelOptions(Object.keys(labels));
 		this._selectedLabels.next(labels);
 	}
 
 	removeLabel(label: string): void {
 		const { [label]: remove, ...others } = this.labels;
-		this.labelsChange.emit(others);
 		this._selectedLabels.next(others);
 	}
 

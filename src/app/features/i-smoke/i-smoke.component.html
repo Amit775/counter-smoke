@@ -1,5 +1,6 @@
 <div class="container">
-	<!-- <div class="button-wrapper">
+	<app-smoke-label [(labels)]="emptySmoke.labels" #labels />
+	<div class="button-wrapper">
 		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async" #button>I Smoke</button>
 	</div>
 	<div class="counter-container">
@@ -10,6 +11,5 @@
 		<ng-template #loader>
 			<mat-spinner color="warn" diameter="40" />
 		</ng-template>
-	</div> -->
-	<app-smoke-form [smoke]="emptySmoke" />
+	</div>
 </div>

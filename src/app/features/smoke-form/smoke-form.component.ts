@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { SmokeLabelComponent } from './smoke-label/smoke-label.component';
@@ -23,7 +24,7 @@ export type Action = EditAction | CancelAction | DeleteAction;
 
 @Component({
 	standalone: true,
-	imports: [CommonModule, MaterialModule, SmokeLabelComponent, SmokeTimeComponent],
+	imports: [CommonModule, MaterialModule, SmokeLabelComponent, SmokeTimeComponent, FormsModule],
 	selector: 'app-smoke-form',
 	templateUrl: './smoke-form.component.html',
 	styleUrls: ['./smoke-form.component.scss'],
