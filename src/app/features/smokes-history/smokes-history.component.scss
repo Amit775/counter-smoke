@@ -1,9 +1,8 @@
-$dayWidth: 56px;
-$width: $dayWidth * 7;
+$width: min(400px, calc(100vw - 10px));
+$dayWidth: calc($width / 7);
 
 ::ng-deep .flatpickr-calendar.inline {
 	font-size: 20px;
-	margin: auto;
 	width: $width;
 
 	.dayContainer {
@@ -19,7 +18,7 @@ $width: $dayWidth * 7;
 	.flatpickr-day {
 		max-width: $dayWidth;
 		height: $dayWidth;
-		line-height: $dayWidth - 12px;
+		line-height: calc($dayWidth - 12px);
 	}
 }
 
@@ -28,6 +27,6 @@ $width: $dayWidth * 7;
 	flex-direction: column;
 
 	.list {
-		max-height: calc(100% - 400px);
+		width: 100%;
 	}
 }

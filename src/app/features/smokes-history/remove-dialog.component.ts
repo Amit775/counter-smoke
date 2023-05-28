@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 @Component({
+	standalone: true,
+	imports: [MaterialModule],
 	template: `
 		<div class="container">
 			<span mat-dialog-title>Are you sure you want to remove that smoke?</span>

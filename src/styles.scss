@@ -197,8 +197,8 @@ app-auth {
 	width: 16px;
 	height: 16px;
 	line-height: 16px;
-	top: 34px;
-	left: 19px;
+	top: calc(50% + 8px);
+	left: calc(50% - 8px);
 }
 
 @mixin day-count($theme) {
