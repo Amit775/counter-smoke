@@ -4,12 +4,10 @@ import { filterNilValue } from '@datorama/akita';
 import { map, switchMapTo, timer } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { ISmoke, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { SmokeLabelComponent } from '../smoke-form/smoke-label/smoke-label.component';
 import { AgoPipe } from './ago.pipe';
-
-const createEmptySmoke = (): ISmoke => ({ id: '', timestamp: Date.now(), labels: {} });
 
 @Component({
 	standalone: true,

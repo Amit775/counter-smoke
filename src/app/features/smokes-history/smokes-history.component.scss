@@ -5,6 +5,10 @@ $dayWidth: calc($width / 7);
 	font-size: 20px;
 	width: $width;
 
+	&.noCalendar {
+		width: unset;
+	}
+
 	.dayContainer {
 		width: $width;
 		min-width: $width;

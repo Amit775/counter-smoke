@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { ISmoke, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { SmokeLabelComponent } from './smoke-label/smoke-label.component';
 import { SmokeTimeComponent } from './smoke-time/smoke-time.component';
@@ -31,14 +31,14 @@ export type Action = EditAction | CancelAction | DeleteAction;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmokeFormComponent implements OnInit {
-	public edittedSmoke!: ISmoke;
+	public edittedSmoke: ISmoke = createEmptySmoke();
 
 	@Input() public smoke!: ISmoke;
 
 	@Output() public action = new EventEmitter<Action>();
 
 	ngOnInit(): void {
-		this.edittedSmoke = { ...this.smoke };
+		this.edittedSmoke = { ...this.edittedSmoke, ...this.smoke };
 	}
 
 	cancel(): void {

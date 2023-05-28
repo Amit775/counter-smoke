@@ -32,7 +32,7 @@ export class SmokeLabelComponent implements OnInit {
 
 	private _selectedLabels = new BehaviorSubject<Record<string, true>>({});
 	@Input() set labels(value: Record<string, true>) {
-		this._selectedLabels.next(value);
+		this._selectedLabels.next(value ?? {});
 	}
 	get labels(): Record<string, true> {
 		return this._selectedLabels.value;

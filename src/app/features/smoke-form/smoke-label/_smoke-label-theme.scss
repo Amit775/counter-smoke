@@ -13,6 +13,10 @@
 		color: mat.get-color-from-palette($primary-palette, '500-contrast');
 	}
 
+	.mat-mdc-form-field {
+		width: 100%;
+	}
+
 	.mat-mdc-chip-set .mdc-evolution-chip-set__chips {
 		overflow-x: auto;
 		flex-wrap: nowrap;
