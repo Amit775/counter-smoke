@@ -1,4 +1,4 @@
-$width: min(400px, calc(100vw - 10px));
+$width: min(400px, 100vw);
 $dayWidth: calc($width / 7);
 
 ::ng-deep .flatpickr-calendar.inline {
