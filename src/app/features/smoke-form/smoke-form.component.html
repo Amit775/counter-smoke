@@ -1,0 +1,15 @@
+<div class="container">
+	<div class="header">
+		<span class="dummy"></span>
+		<span class="title"> {{ formStrategy.action | titlecase }} Smoke </span>
+		<mat-icon (click)="cancel()">close</mat-icon>
+	</div>
+	<div class="fields">
+		<app-smoke-time class="field" [(timestamp)]="edittedSmoke.timestamp" />
+		<app-smoke-label class="field" [(labels)]="edittedSmoke.labels" />
+	</div>
+	<div class="actions">
+		<button mat-raised-button color="warn" *ngIf="!formStrategy.isRemoveDisabled" (click)="delete()">Remove</button>
+		<button mat-raised-button (click)="upsert()">{{ formStrategy.action | titlecase }}</button>
+	</div>
+</div>

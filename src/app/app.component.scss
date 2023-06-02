@@ -17,9 +17,10 @@
 		border-right: 3px solid;
 		border-left: 3px solid;
 		box-sizing: border-box;
+		overflow: hidden;
 
-		router-outlet {
-			max-height: 0;
+		mat-tab-nav-panel {
+			height: 100%;
 		}
 	}
 }

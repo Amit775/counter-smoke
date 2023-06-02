@@ -3,6 +3,7 @@
 }
 
 .smoke {
+	height: 32px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -11,8 +12,12 @@
 		padding-right: 6px;
 	}
 
-	.spacer {
+	.labels {
 		flex-grow: 1;
+		white-space: nowrap;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		margin: 0 4px;
 	}
 
 	.actions {

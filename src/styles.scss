@@ -7,6 +7,9 @@
 @use './app/features/smokes-history/smokes-list/smokes-list-theme' as smokes-list;
 @use './app/features/i-smoke/i-smoke-theme' as i-smoke;
 @use './app/features/smokes-history/smoke-record/smoke-record-theme' as smoke-record;
+@use './app/features/smoke-form/smoke-label/smoke-label-theme' as smoke-label;
+@use './app/features/smoke-form/smoke-form-theme' as smoke-form;
+@use './app/features/smoke-form/smoke-time/smoke-time-theme' as smoke-time;
 
 @use './flatpickr-theme' as flatpickr;
 
@@ -15,6 +18,14 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
 @include mat.core();
 
 $palette: (
@@ -73,13 +84,16 @@ $counter-smoke-theme: mat.define-dark-theme(
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($counter-smoke-theme);
+@include mat.all-legacy-component-themes($counter-smoke-theme);
 
 @include smokes-list.theme($counter-smoke-theme);
 @include i-smoke.theme($counter-smoke-theme);
 @include app.theme($counter-smoke-theme);
 @include flatpickr.theme($counter-smoke-theme);
 @include smoke-record.theme($counter-smoke-theme);
+@include smoke-label.theme($counter-smoke-theme);
+@include smoke-form.theme($counter-smoke-theme);
+@include smoke-time.theme($counter-smoke-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -97,6 +111,7 @@ body {
 /* width */
 ::-webkit-scrollbar {
 	width: 8px;
+	height: 8px;
 }
 
 /* Track */
@@ -182,8 +197,8 @@ app-auth {
 	width: 16px;
 	height: 16px;
 	line-height: 16px;
-	top: 34px;
-	left: 19px;
+	top: calc(50% + 8px);
+	left: calc(50% - 8px);
 }
 
 @mixin day-count($theme) {
@@ -200,3 +215,26 @@ app-auth {
 }
 
 @include day-count($counter-smoke-theme);
+
+a {
+	color: inherit;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: none;
+	}
+
+	&:active {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	&:visited {
+		text-decoration: none;
+		color: inherit;
+	}
+}
+
+mat-icon:hover {
+	cursor: pointer;
+}

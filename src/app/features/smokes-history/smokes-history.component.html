@@ -1,1 +1,4 @@
-<div #container></div>
+<div class="history">
+	<div #calendar></div>
+	<app-smokes-list class="list" *ngIf="selectedDate$ | async as selectedDate" [date]="selectedDate" />
+</div>

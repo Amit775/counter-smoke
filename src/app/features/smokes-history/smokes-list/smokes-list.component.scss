@@ -1,21 +1,29 @@
+$height: calc(6 * min(400px, 100vw) / 7);
+
 .container {
-	width: 320px;
-	height: 320px;
-	border-radius: 20px;
-	padding: 16px;
 	display: flex;
 	flex-direction: column;
+	max-height: calc(100vh - 48px - 34px - 28px - $height - 42px);
 
 	.header {
+		height: 48px;
+		line-height: 48px;
 		font-size: 20px;
-		padding-bottom: 16px;
 		border-bottom: 1px solid;
 		text-align: center;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		.dummy {
+			width: 48px;
+		}
 	}
 
 	.content {
 		overflow-y: auto;
 		flex-grow: 1;
+		max-height: calc(100vh - 48px - 34px - 28px - $height - 48px - 16px);
 	}
 }
 

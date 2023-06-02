@@ -1,6 +1,6 @@
 <div class="width-determination bg">
 	<div class="container">
-		<nav mat-tab-nav-bar disablePagination [tabPanel]="panel">
+		<nav mat-tab-nav-bar disablePagination [tabPanel]="panel" [backgroundColor]="'primary'">
 			<a
 				mat-tab-link
 				*ngFor="let tab of tabs$ | async"
@@ -13,7 +13,7 @@
 			</a>
 		</nav>
 		<mat-tab-nav-panel #panel class="content">
-			<router-outlet></router-outlet>
+			<router-outlet />
 		</mat-tab-nav-panel>
 	</div>
 </div>

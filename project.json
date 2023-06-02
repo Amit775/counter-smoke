@@ -19,7 +19,7 @@
 				"outputPath": "dist/counter-smoke",
 				"index": "src/index.html",
 				"main": "src/main.ts",
-				"polyfills": "src/polyfills.ts",
+				"polyfills": ["zone.js"],
 				"tsConfig": "tsconfig.app.json",
 				"inlineStyleLanguage": "scss",
 				"assets": ["src/favicon.ico", "src/assets"],
@@ -82,7 +82,7 @@
 			"executor": "@angular-devkit/build-angular:karma",
 			"options": {
 				"main": "src/test.ts",
-				"polyfills": "src/polyfills.ts",
+				"polyfills": ["zone.js"],
 				"tsConfig": "tsconfig.spec.json",
 				"inlineStyleLanguage": "scss",
 				"assets": ["src/favicon.ico", "src/assets"],
