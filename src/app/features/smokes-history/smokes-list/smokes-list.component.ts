@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 import { PanelService } from 'src/app/core/panel.service';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { Action, SmokeFormComponent } from '../../smoke-form/smoke-form.component';
 import { DialogComponent as RemoveDialogComponent } from '../remove-dialog.component';
 import { SmokeRecordComponent } from '../smoke-record/smoke-record.component';
+import { D } from '@angular/cdk/keycodes';
 
 @Component({
 	standalone: true,
@@ -44,9 +45,13 @@ export class SmokesListComponent implements OnChanges {
 		this.selectedSmoke = selected.options?.[0]?.value;
 		if (this.selectedSmoke == null) return;
 
-		const portal = new TemplatePortal(this.editSmoke!, this.vcr, { $implicit: this.selectedSmoke });
-		const ref = this.panel.open(portal, () => selected.source.deselectAll());
-		ref.backdropClick().subscribe(() => this.do({ type: 'cancel' }));
+		this.openPanel(this.selectedSmoke, () => selected.source.deselectAll());
+	}
+
+	createSmoke(): void {
+		const now = new Date();
+		const nowAtDate = new Date(this.date).setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+		this.openPanel(createEmptySmoke(nowAtDate));
 	}
 
 	do(action: Action): void {
@@ -64,12 +69,21 @@ export class SmokesListComponent implements OnChanges {
 		});
 	}
 
+	private openPanel(smoke: ISmoke | SmokeContent, onClose?: () => void): void {
+		const portal = new TemplatePortal(this.editSmoke!, this.vcr, { $implicit: smoke });
+		const ref = this.panel.open(portal, onClose);
+		ref.backdropClick().subscribe(() => this.do({ type: 'cancel' }));
+	}
+
 	private executeAction(action: Action): void {
 		switch (action.type) {
 			case 'delete':
 				return this.smokeRemoved(action.smoke);
 			case 'edit':
 				return this.service.updateSmoke(action.smoke);
+			case 'create':
+				delete action.smoke.id;
+				return this.service.addSmoke(action.smoke);
 			case 'cancel':
 			default:
 				return;

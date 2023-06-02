@@ -1,8 +1,8 @@
 <div class="container">
 	<div class="header">
-		<span class="title"> Edit Smoke </span>
+		<span class="title"> {{ formStrategy.action | titlecase }} Smoke </span>
 		<span class="actions">
-			<button mat-icon-button [color]="'warn'" (click)="delete()">
+			<button mat-icon-button [color]="'warn'" *ngIf="!formStrategy.isRemovedDisabled" (click)="delete()">
 				<mat-icon>delete</mat-icon>
 			</button>
 			<button mat-icon-button (click)="cancel()">
@@ -15,6 +15,6 @@
 		<app-smoke-label class="field" [(labels)]="edittedSmoke.labels" />
 	</div>
 	<div class="actions">
-		<button mat-stroked-button (click)="edit()">Edit</button>
+		<button mat-stroked-button (click)="upsert()">{{ formStrategy.action | titlecase }}</button>
 	</div>
 </div>

@@ -9,11 +9,11 @@ export class PanelService {
 	private ref: OverlayRef | undefined = undefined;
 	private onCloseFns: (() => void)[] = [];
 
-	public open<C>(portal: TemplatePortal<C> | ComponentPortal<C>, onClose: () => void): OverlayRef {
+	public open<C>(portal: TemplatePortal<C> | ComponentPortal<C>, onClose?: () => void): OverlayRef {
 		this.close();
 
 		this.ref = this.overlay.create(this.config());
-		this.onCloseFns.push(onClose);
+		onClose && this.onCloseFns.push(onClose);
 
 		this.ref.attach(portal);
 		return this.ref;

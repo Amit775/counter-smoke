@@ -1,5 +1,9 @@
 <div class="container">
-	<div class="header">{{ date | date : 'dd/MM' }}</div>
+	<div class="header">
+		<button mat-icon-button (click)="createSmoke()"><mat-icon>add_circle_outline</mat-icon></button>
+		<span>{{ date | date : 'dd/MM' }}</span>
+		<span class="dummy"></span>
+	</div>
 	<mat-selection-list class="content" [multiple]="false" hideSingleSelectionIndicator="true" (selectionChange)="setSelectedSmoke($event)">
 		<mat-list-option *ngFor="let smoke of smokes$ | async; let index = index" [value]="smoke">
 			<app-smoke-record [smoke]="smoke" [index]="index + 1" />

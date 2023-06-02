@@ -11,10 +11,12 @@ export class SmokesService {
 	private store: SmokesStore = inject(SmokesStore);
 	private query: SmokesQuery = inject(SmokesQuery);
 
-	inc(labels: Record<string, true> = {}): void {
-		const smokerId = this.query.getSmokerId();
+	addSmokeNow(labels: Record<string, true> = {}): void {
+		this.addSmoke({ labels, timestamp: Date.now() });
+	}
 
-		const smoke: SmokeContent = { timestamp: Date.now(), labels: labels };
+	addSmoke(smoke: SmokeContent): void {
+		const smokerId = this.query.getSmokerId();
 		this.store.setLoading(true);
 		this.api.createSmoke(smokerId, smoke);
 	}

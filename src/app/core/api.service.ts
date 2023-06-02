@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { Database, Unsubscribe, onValue, ref, set } from '@firebase/database';
 import { DataSnapshot, DatabaseReference, onChildAdded, onChildChanged, onChildRemoved, push, update } from 'firebase/database';
 import { recordToList } from '../utils/record-to-list';

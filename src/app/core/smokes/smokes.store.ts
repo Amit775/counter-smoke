@@ -9,11 +9,12 @@ export type ISmoker = {
 export type SmokeContent = {
 	timestamp: number;
 	labels: Record<string, true>;
+	id?: string;
 };
 
 export type ISmoke = WithId<SmokeContent>;
 
-export const createEmptySmoke = (): ISmoke => ({ id: '', timestamp: Date.now(), labels: {} });
+export const createEmptySmoke = (timestamp: number = Date.now()): SmokeContent => ({ timestamp, labels: {} });
 
 export interface SmokesState extends EntityState<ISmoke, string> {
 	isInitialized: boolean;

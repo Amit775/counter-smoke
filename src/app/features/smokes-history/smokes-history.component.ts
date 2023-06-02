@@ -1,14 +1,14 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, NgZone, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EntityAction, EntityActions } from '@datorama/akita';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { default as flatpickr } from 'flatpickr';
 import { DayElement, Instance } from 'flatpickr/dist/types/instance';
 import { Hook } from 'flatpickr/dist/types/options';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { enterZone } from 'src/app/utils/enter-zone';
 
-@UntilDestroy()
 @Component({
 	selector: 'app-smokes-history',
 	templateUrl: './smokes-history.component.html',
@@ -17,6 +17,8 @@ import { ISmoke } from 'src/app/core/smokes/smokes.store';
 })
 export class SmokesHistoryComponent implements AfterViewInit {
 	private query: SmokesQuery = inject(SmokesQuery);
+	private zone: NgZone = inject(NgZone);
+	private destroy: DestroyRef = inject(DestroyRef);
 
 	@ViewChild('calendar', { read: ElementRef }) private container!: ElementRef;
 	instance!: Instance;
@@ -36,25 +38,20 @@ export class SmokesHistoryComponent implements AfterViewInit {
 			defaultDate: new Date(),
 			onChange: (dates: Date[]) => this._selecedDate.next(dates[0]),
 		});
-		(window as any).fp = this.instance;
 		this.query
 			.selectEntityAction([EntityActions.Add, EntityActions.Remove])
 			.pipe(
-				tap((action: EntityAction<string>) => {
-					const changedDates =
-						action.type === EntityActions.Add
-							? action.ids.map(id => new Date(this.query.getEntity(id)!.timestamp).setHours(0, 0, 0, 0))
-							: this.instance.selectedDates;
-					changedDates.forEach(date => this.addCountBadge(this.getDayElement(new Date(date))));
-				}),
-				untilDestroyed(this)
+				enterZone(this.zone),
+				map((action: EntityAction<string>) => this.extractChangedDates(action)),
+				tap(changedDates => changedDates.forEach(date => this.addCountBadge(this.getDayElement(date)))),
+				takeUntilDestroyed(this.destroy)
 			)
 			.subscribe();
 	}
 
-	getDayElement(date: Date): DayElement | null {
+	getDayElement(dateTimestamp: number): DayElement | null {
 		const nodes = this.instance.days.childNodes;
-		const index = this.daysIndex[date.valueOf()];
+		const index = this.daysIndex[dateTimestamp] ?? -1;
 
 		if (index < 0) return null;
 		return nodes[index] as DayElement;
@@ -62,7 +59,9 @@ export class SmokesHistoryComponent implements AfterViewInit {
 
 	indexByDateHook(): Hook {
 		return (a, b, instance) => {
-			this.daysIndex = this.indexByDate(instance.days.childNodes);
+			setTimeout(() => {
+				this.daysIndex = this.indexByDate(instance.days.childNodes);
+			}, 0);
 		};
 	}
 
@@ -102,5 +101,11 @@ export class SmokesHistoryComponent implements AfterViewInit {
 	isDateInFuture(date: Date): boolean {
 		const today = new Date(new Date().setHours(0, 0, 0, 0));
 		return date > today;
+	}
+
+	extractChangedDates(action: EntityAction<string>): number[] {
+		return action.type === EntityActions.Add
+			? action.ids.map(id => new Date(this.query.getEntity(id)!.timestamp).setHours(0, 0, 0, 0))
+			: this.instance.selectedDates.map(date => date.valueOf());
 	}
 }

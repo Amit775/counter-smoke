@@ -1,15 +1,22 @@
 $height: min(400px, calc(100vw - 10px));
 
 .container {
-	padding-top: 16px;
 	display: flex;
 	flex-direction: column;
 
 	.header {
+		height: 48px;
+		line-height: 48px;
 		font-size: 20px;
-		padding-bottom: 16px;
 		border-bottom: 1px solid;
 		text-align: center;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		.dummy {
+			width: 48px;
+		}
 	}
 
 	.content {
