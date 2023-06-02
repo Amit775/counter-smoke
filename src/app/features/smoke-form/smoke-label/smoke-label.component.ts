@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Output, 
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
 	MAT_AUTOCOMPLETE_DEFAULT_OPTIONS,
+	MatAutocomplete,
 	MatAutocompleteDefaultOptions,
 	MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
@@ -41,6 +42,7 @@ export class SmokeLabelComponent implements OnInit {
 	@Output() labelsChange = this._selectedLabels.asObservable();
 
 	@ViewChild('labelInput', { static: true, read: ElementRef }) private labelInput!: ElementRef;
+	@ViewChild('auto', { static: true, read: MatAutocomplete }) private matAutocomplete!: MatAutocomplete;
 
 	private service: SmokesService = inject(SmokesService);
 	private query: SmokesQuery = inject(SmokesQuery);

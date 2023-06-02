@@ -28,17 +28,17 @@ export type DeleteAction = {
 export type Action = EditAction | CancelAction | DeleteAction | CreateSmoke;
 
 interface FormStrategy {
-	isRemovedDisabled: boolean;
+	isRemoveDisabled: boolean;
 	action: 'edit' | 'create';
 }
 
 const editStrategy: FormStrategy = {
-	isRemovedDisabled: false,
+	isRemoveDisabled: false,
 	action: 'edit',
 };
 
 const createStrategy: FormStrategy = {
-	isRemovedDisabled: true,
+	isRemoveDisabled: true,
 	action: 'create',
 };
 
