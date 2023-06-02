@@ -26,6 +26,6 @@ export interface SmokesState extends EntityState<ISmoke, string> {
 @StoreConfig({ name: 'smokes' })
 export class SmokesStore extends EntityStore<SmokesState> {
 	constructor() {
-		super({ isInitialized: false });
+		super({ isInitialized: false, labels: {} });
 	}
 }

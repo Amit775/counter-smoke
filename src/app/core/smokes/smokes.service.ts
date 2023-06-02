@@ -86,13 +86,13 @@ export class SmokesService {
 	private syncLabels(smokerId: string): () => void {
 		return this.api.syncLabels(smokerId, {
 			getAll: labels => {
-				this.store.update(
-					state =>
-						(state.labels = listToRecordAsKeys(
-							labels.map(l => l.id),
-							true
-						))
-				);
+				this.store.update(state => ({
+					...state,
+					labels: listToRecordAsKeys(
+						labels.map(l => l.id),
+						true
+					),
+				}));
 				this.store.setLoading(false);
 			},
 			onAdd: label => {
