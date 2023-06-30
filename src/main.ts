@@ -1,13 +1,23 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { AppComponent } from './app/app.component';
+import { APP_ROUTES } from './app/app.routes';
 import { environment } from './environments/environment';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 if (environment.production) {
 	enableProdMode();
 }
 
-platformBrowserDynamic()
-	.bootstrapModule(AppModule)
-	.catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+	providers: [
+		importProvidersFrom(BrowserModule, environment.production ? [] : AkitaNgDevtools.forRoot(), MatSnackBarModule),
+		provideAnimations(),
+		provideHttpClient(withInterceptorsFromDi()),
+		provideRouter(APP_ROUTES),
+	],
+}).catch(err => console.error(err));

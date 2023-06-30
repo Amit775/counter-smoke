@@ -2,21 +2,22 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, TemplateRef, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSelectionListChange } from '@angular/material/list';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { Observable } from 'rxjs';
 import { PanelService } from 'src/app/core/panel.service';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
-import { MaterialModule } from 'src/app/shared/material.module';
+
 import { Action, SmokeFormComponent } from '../../smoke-form/smoke-form.component';
-import { DialogComponent as RemoveDialogComponent } from '../remove-dialog.component';
+import { RemoveDialogComponent } from '../remove-dialog.component';
 import { SmokeRecordComponent } from '../smoke-record/smoke-record.component';
-import { D } from '@angular/cdk/keycodes';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
 	standalone: true,
-	imports: [CommonModule, MaterialModule, SmokeRecordComponent, SmokeFormComponent],
+	imports: [CommonModule, SmokeRecordComponent, SmokeFormComponent, MatListModule, MatIconModule, MatButtonModule],
 	selector: 'app-smokes-list',
 	templateUrl: './smokes-list.component.html',
 	styleUrls: ['./smokes-list.component.scss'],

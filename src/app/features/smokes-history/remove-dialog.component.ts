@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MaterialModule } from 'src/app/shared/material.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
 	standalone: true,
-	imports: [MaterialModule],
+	imports: [MatDialogModule, MatButtonModule],
 	template: `
 		<div class="container">
 			<span mat-dialog-title>Are you sure you want to remove that smoke?</span>
@@ -15,4 +16,4 @@ import { MaterialModule } from 'src/app/shared/material.module';
 	`,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent {}
+export class RemoveDialogComponent {}

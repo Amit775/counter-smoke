@@ -1,15 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { TeardownLogic, map } from 'rxjs';
 import { SmokesQuery } from './core/smokes/smokes.query';
 import { SmokesService } from './core/smokes/smokes.service';
-import { SignInService } from './layout/sign-in/sign-in.service';
+import { NgFor, AsyncPipe } from '@angular/common';
+import { SignInService } from './sign-in/sign-in.service';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [NgFor, RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe, MatTabsModule, MatIconModule],
 })
 export class AppComponent implements OnInit, OnDestroy {
 	private service: SmokesService = inject(SmokesService);
