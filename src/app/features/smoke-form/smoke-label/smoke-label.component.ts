@@ -106,6 +106,8 @@ export class SmokeLabelComponent implements OnInit {
 	}
 
 	private _filter(query: string): string[] {
-		return Object.keys(this.query.getValue().labels ?? {}).filter(item => !this.labels[item] && item.includes(query));
+		const labels = this.query.getValue().labels;
+		const items = [...(query && !labels[query] ? [query] : []), ...Object.keys(labels ?? {})];
+		return items.filter(item => !this.labels[item] && item.includes(query));
 	}
 }

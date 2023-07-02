@@ -18,15 +18,13 @@
 			[matAutocomplete]="auto"
 			matAutocompletePosition="below" />
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-			<mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
-				<div class="option">
-					<span class="label" [matTooltip]="option">{{ option }}</span>
-					<span class="remove">
-						<button mat-icon-button (click)="removeLabelOption($event, option)">
-							<mat-icon>cancel</mat-icon>
-						</button>
-					</span>
-				</div>
+			<mat-option class="option" [matTooltip]="option" *ngFor="let option of filteredOptions$ | async" [value]="option">
+				<span class="label">{{ option }}</span>
+				<span class="remove">
+					<button mat-icon-button (click)="removeLabelOption($event, option)">
+						<mat-icon>cancel</mat-icon>
+					</button>
+				</span>
 			</mat-option>
 		</mat-autocomplete>
 	</mat-form-field>
