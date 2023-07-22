@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, NgZone, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EntityAction, EntityActions } from '@datorama/akita';
@@ -8,14 +9,18 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { enterZone } from 'src/app/utils/enter-zone';
+import { SmokesListComponent } from './smokes-list/smokes-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-smokes-history',
 	templateUrl: './smokes-history.component.html',
 	styleUrls: ['./smokes-history.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [NgIf, SmokesListComponent, AsyncPipe, MatDialogModule],
 })
-export class SmokesHistoryComponent implements AfterViewInit {
+export default class SmokesHistoryComponent implements AfterViewInit {
 	private query: SmokesQuery = inject(SmokesQuery);
 	private zone: NgZone = inject(NgZone);
 	private destroy: DestroyRef = inject(DestroyRef);

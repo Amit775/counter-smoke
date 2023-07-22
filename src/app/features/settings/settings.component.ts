@@ -6,8 +6,9 @@ import { SmokesService } from 'src/app/core/smokes/smokes.service';
 	templateUrl: './settings.component.html',
 	styleUrls: ['./settings.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
 })
-export class SettingsComponent {
+export default class SettingsComponent {
 	private service: SmokesService = inject(SmokesService);
 
 	reset(): void {

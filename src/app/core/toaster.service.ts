@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Injectable, inject } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
-import { MaterialModule } from '../shared/material.module';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
+
 import { NgFor } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 type SnackBarContent = {
 	message: string;
@@ -44,7 +46,7 @@ export class ToasterService {
 
 @Component({
 	standalone: true,
-	imports: [MaterialModule, NgFor],
+	imports: [NgFor, MatIconModule, MatSnackBarModule, MatButtonModule, MatIconModule],
 	template: `
 		<div class="container">
 			<span class="message"> {{ data.message }} </span>

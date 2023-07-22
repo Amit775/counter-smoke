@@ -6,13 +6,17 @@ import {
 	MAT_AUTOCOMPLETE_DEFAULT_OPTIONS,
 	MatAutocomplete,
 	MatAutocompleteDefaultOptions,
+	MatAutocompleteModule,
 	MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BehaviorSubject, Observable, map, merge, startWith } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { MaterialModule } from 'src/app/shared/material.module';
 
 const autocompleteOptions: MatAutocompleteDefaultOptions = {
 	overlayPanelClass: 'autocomplete-panel',
@@ -25,7 +29,16 @@ const autocompleteOptions: MatAutocompleteDefaultOptions = {
 	templateUrl: './smoke-label.component.html',
 	styleUrls: ['./smoke-label.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule, ReactiveFormsModule, MaterialModule],
+	imports: [
+		CommonModule,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatChipsModule,
+		MatIconModule,
+		MatAutocompleteModule,
+		MatTooltipModule,
+		MatButtonModule,
+	],
 	providers: [{ provide: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS, useValue: autocompleteOptions }],
 })
 export class SmokeLabelComponent implements OnInit {
@@ -93,6 +106,8 @@ export class SmokeLabelComponent implements OnInit {
 	}
 
 	private _filter(query: string): string[] {
-		return Object.keys(this.query.getValue().labels ?? {}).filter(item => !this.labels[item] && item.includes(query));
+		const labels = this.query.getValue().labels;
+		const items = [...(query && !labels[query] ? [query] : []), ...Object.keys(labels ?? {})];
+		return items.filter(item => !this.labels[item] && item.includes(query));
 	}
 }
