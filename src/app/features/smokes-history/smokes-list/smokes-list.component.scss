@@ -3,7 +3,7 @@ $height: calc(6 * min(400px, 100vw) / 7);
 .container {
 	display: flex;
 	flex-direction: column;
-	max-height: calc(100vh - 48px - 34px - 28px - $height - 42px);
+	max-height: calc(100dvh - 48px - 34px - 28px - $height);
 
 	.header {
 		height: 48px;
@@ -23,7 +23,7 @@ $height: calc(6 * min(400px, 100vw) / 7);
 	.content {
 		overflow-y: auto;
 		flex-grow: 1;
-		max-height: calc(100vh - 48px - 34px - 28px - $height - 48px - 16px);
+		max-height: calc(100dvh - 48px - 34px - 28px - $height);
 	}
 }
 
