@@ -24,8 +24,8 @@ export class SignInService {
 		this.verifier = this.injector.get(FIREBASE_VERIFIER);
 	}
 
-	checkAuth(): void {
-		this.auth.onAuthStateChanged(user => {
+	checkAuth(): () => void {
+		return this.auth.onAuthStateChanged(user => {
 			applyTransaction(() => {
 				if (user != null) {
 					this.service.setSmoker({ id: user.uid });
@@ -49,9 +49,7 @@ export class SignInService {
 						.catch(error => {
 							return (window as any).verifier
 								.render()
-								.then((id: any) => {
-									grecaptcha.reset();
-								})
+								.then((id: any) => grecaptcha.reset())
 								.then(() => this.fail(error.message));
 						})
 				)
@@ -75,12 +73,12 @@ export class SignInService {
 		);
 	}
 
-	pass: (message: string) => true = (message: string) => {
+	pass = (message: string): true => {
 		this.toaster.success(message);
 		return true;
 	};
 
-	fail: (message: string) => false = (message: string) => {
+	fail = (message: string): false => {
 		this.toaster.error(message);
 		return false;
 	};

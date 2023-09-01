@@ -1,12 +1,13 @@
+import { AsyncPipe, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TeardownLogic, filter, map, merge } from 'rxjs';
 import { SmokesQuery } from './core/smokes/smokes.query';
 import { SmokesService } from './core/smokes/smokes.service';
-import { NgFor, AsyncPipe } from '@angular/common';
 import { SignInService } from './sign-in/sign-in.service';
+import { authTabs, homeTabs } from './tabs';
 
 @Component({
 	selector: 'app-root',
@@ -22,32 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
 	private signInService: SignInService = inject(SignInService);
 	private router: Router = inject(Router);
 
-	homeTabs = [
-		{
-			route: 'home',
-			icon: 'add_alarm',
-		},
-		{
-			route: 'home/history',
-			icon: 'history',
-		},
-		{
-			route: 'home/settings',
-			icon: 'settings',
-		},
-	];
-
-	authTabs = [
-		{
-			route: 'sign-in/phone',
-			icon: 'phone',
-		},
-		{
-			route: 'sign-in/code',
-			icon: 'sms',
-		},
-	];
-
 	tabs$ = merge(
 		this.query
 			.select(state => state.isInitialized)
@@ -55,14 +30,14 @@ export class AppComponent implements OnInit, OnDestroy {
 				filter(isInitialized => !isInitialized),
 				map(() => [])
 			),
-		this.query.select(state => state.smoker?.id).pipe(map(smokerId => (smokerId == null ? this.authTabs : this.homeTabs)))
+		this.query.select(state => state.smoker?.id).pipe(map(smokerId => (smokerId == null ? authTabs : homeTabs)))
 	);
 
-	private sub: TeardownLogic[] = [];
+	private disposes: TeardownLogic[] = [];
 
 	ngOnInit(): void {
-		this.signInService.checkAuth();
-		this.sub.push(
+		this.disposes.push(this.signInService.checkAuth());
+		this.disposes.push(
 			this.query
 				.select(s => s.isInitialized)
 				.subscribe(() => {
@@ -72,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
 						return this.ensureRoute('loading');
 					}
 					if (appState?.smoker?.id) {
-						this.service.syncData();
+						this.disposes.push(this.service.syncData());
 						return this.ensureRoute('home');
 					} else {
 						return this.ensureRoute('sign-in');
@@ -81,19 +56,22 @@ export class AppComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	public ngOnDestroy(): void {
+		this._unsubscribe();
+	}
+
 	private ensureRoute(route: string): void {
 		if (!this.router.url.startsWith(`/${route}`)) {
 			this.router.navigate([route]);
 		}
 	}
 
-	ngOnDestroy(): void {
-		this._unsubscribe();
-	}
-
 	private _unsubscribe(): void {
-		this.sub.forEach(sub => {
-			if (typeof sub === 'function') sub();
+		this.disposes.forEach(subscription => {
+			if (typeof subscription === 'undefined') return;
+			if (typeof subscription === 'function') return subscription();
+
+			subscription.unsubscribe();
 		});
 	}
 }
