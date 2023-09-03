@@ -46,21 +46,21 @@ export class AppComponent implements OnInit, OnDestroy {
 		});
 
 		setTimeout(() => {
-			this.disposer.sink = this.query
-				.select(s => s.isInitialized)
-				.subscribe(() => {
-					this.disposer.dispose();
-					const appState = this.query.getValue();
-					if (!appState.isInitialized) {
-						return this.ensureRoute('loading');
-					}
-					if (appState?.smoker?.id) {
-						this.disposer.sink = this.service.syncData();
-						return this.ensureRoute('home');
-					} else {
-						return this.ensureRoute('sign-in');
-					}
-				});
+			this.disposer.sink = merge(
+				this.query.select(s => s.isInitialized),
+				this.query.select(s => s.smoker?.id)
+			).subscribe(() => {
+				this.disposer.dispose();
+				const appState = this.query.getValue();
+				if (!appState.isInitialized) {
+					return this.ensureRoute('loading');
+				}
+				if (appState.smoker?.id) {
+					return this.ensureRoute('home');
+				} else {
+					return this.ensureRoute('sign-in');
+				}
+			});
 			this.disposer.sink = this.signInService.checkAuth();
 		}, 0);
 	}
@@ -71,7 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 	private ensureRoute(route: string): void {
 		if (!this.router.url.startsWith(`/${route}`)) {
-			this.router.navigate([route], { preserveFragment: true, queryParamsHandling: 'preserve', fragment: 'shortcut' });
+			this.router.navigate([route]);
 		}
 	}
 }
