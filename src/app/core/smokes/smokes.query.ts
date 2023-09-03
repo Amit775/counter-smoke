@@ -16,7 +16,7 @@ export class SmokesQuery extends QueryEntity<SmokesState> {
 	}
 
 	getSmokerId(): string {
-		return this.getValue().smoker.id;
+		return this.getValue().smoker!.id;
 	}
 
 	selectCountToday(): Observable<number> {

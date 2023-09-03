@@ -2,7 +2,7 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { EventType, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { EventType, Router, RouterLink, RouterLinkActive, RouterOutlet, UrlTree } from '@angular/router';
 import { filter, map, merge } from 'rxjs';
 import { SmokesQuery } from './core/smokes/smokes.query';
 import { SmokesService } from './core/smokes/smokes.service';
@@ -40,7 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
 		this.disposer.sink = this.router.events.subscribe(event => {
 			if (event.type === EventType.NavigationStart) {
 				if (event.url.toLowerCase().includes('shortcut')) {
-					this.service.setFromShortcut(true);
+					const urlTree: UrlTree = this.router.parseUrl(event.url);
+					this.service.setShortcut(true, urlTree.queryParams['label']);
 				}
 			}
 		});

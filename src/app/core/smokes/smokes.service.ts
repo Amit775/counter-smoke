@@ -11,8 +11,13 @@ export class SmokesService {
 	private store: SmokesStore = inject(SmokesStore);
 	private query: SmokesQuery = inject(SmokesQuery);
 
-	setFromShortcut(value: boolean): void {
-		this.store.update({ fromShortcut: value });
+	setShortcut(value: boolean, label?: string): void {
+		this.store.update({
+			shortcut: {
+				isFromShortcut: value,
+				label: value ? label : undefined,
+			},
+		});
 	}
 
 	addSmokeNow(labels: Record<string, true> = {}): void {

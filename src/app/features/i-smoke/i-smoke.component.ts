@@ -4,7 +4,7 @@ import { filterNilValue } from '@datorama/akita';
 import { filter, map, switchMap, tap, timer } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
+import { Shortcut, SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -39,12 +39,12 @@ export default class ISmokeComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.disposer.sink = this.service.syncData();
 		this.disposer.sink = this.query
-			.select(s => s.fromShortcut)
+			.select(s => s.shortcut)
 			.pipe(
-				filter((isFromShortcut: boolean) => isFromShortcut),
-				tap(() => {
-					this.inc();
-					this.service.setFromShortcut(false);
+				filter((shortcut: Shortcut) => shortcut.isFromShortcut),
+				tap((shortcut: Shortcut) => {
+					this.service.addSmokeNow(shortcut.label ? { [shortcut.label]: true } : {});
+					this.service.setShortcut(false);
 				})
 			)
 			.subscribe();
