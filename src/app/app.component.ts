@@ -2,12 +2,13 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TeardownLogic, filter, map, merge } from 'rxjs';
+import { EventType, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { filter, map, merge } from 'rxjs';
 import { SmokesQuery } from './core/smokes/smokes.query';
 import { SmokesService } from './core/smokes/smokes.service';
 import { SignInService } from './sign-in/sign-in.service';
 import { authTabs, homeTabs } from './tabs';
+import { DisposerSink } from './utils/sink';
 
 @Component({
 	selector: 'app-root',
@@ -33,45 +34,44 @@ export class AppComponent implements OnInit, OnDestroy {
 		this.query.select(state => state.smoker?.id).pipe(map(smokerId => (smokerId == null ? authTabs : homeTabs)))
 	);
 
-	private disposes: TeardownLogic[] = [];
+	private disposer = new DisposerSink();
 
 	ngOnInit(): void {
-		this.disposes.push(this.signInService.checkAuth());
-		this.disposes.push(
-			this.query
+		this.disposer.sink = this.router.events.subscribe(event => {
+			if (event.type === EventType.NavigationStart) {
+				if (event.url.toLowerCase().includes('shortcut')) {
+					this.service.setFromShortcut(true);
+				}
+			}
+		});
+
+		setTimeout(() => {
+			this.disposer.sink = this.query
 				.select(s => s.isInitialized)
 				.subscribe(() => {
-					this._unsubscribe();
+					this.disposer.dispose();
 					const appState = this.query.getValue();
 					if (!appState.isInitialized) {
 						return this.ensureRoute('loading');
 					}
 					if (appState?.smoker?.id) {
-						this.disposes.push(this.service.syncData());
+						this.disposer.sink = this.service.syncData();
 						return this.ensureRoute('home');
 					} else {
 						return this.ensureRoute('sign-in');
 					}
-				})
-		);
+				});
+			this.disposer.sink = this.signInService.checkAuth();
+		}, 0);
 	}
 
 	public ngOnDestroy(): void {
-		this._unsubscribe();
+		this.disposer.dispose();
 	}
 
 	private ensureRoute(route: string): void {
 		if (!this.router.url.startsWith(`/${route}`)) {
-			this.router.navigate([route]);
+			this.router.navigate([route], { preserveFragment: true, queryParamsHandling: 'preserve', fragment: 'shortcut' });
 		}
-	}
-
-	private _unsubscribe(): void {
-		this.disposes.forEach(subscription => {
-			if (typeof subscription === 'undefined') return;
-			if (typeof subscription === 'function') return subscription();
-
-			subscription.unsubscribe();
-		});
 	}
 }

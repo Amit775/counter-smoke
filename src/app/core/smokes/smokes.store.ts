@@ -20,12 +20,13 @@ export interface SmokesState extends EntityState<ISmoke, string> {
 	isInitialized: boolean;
 	smoker: ISmoker;
 	labels: Record<string, true>;
+	fromShortcut: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'smokes' })
 export class SmokesStore extends EntityStore<SmokesState> {
 	constructor() {
-		super({ isInitialized: false, labels: {} });
+		super({ isInitialized: false, labels: {}, fromShortcut: false });
 	}
 }

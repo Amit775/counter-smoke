@@ -8,7 +8,7 @@ import { Hook } from 'flatpickr/dist/types/options';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
-import { enterZone } from 'src/app/utils/enter-zone';
+import { enterZone } from 'src/app/utils/enter-zone.operator';
 import { SmokesListComponent } from './smokes-list/smokes-list.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
