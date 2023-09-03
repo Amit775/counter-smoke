@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { filterNilValue } from '@datorama/akita';
-import { map, switchMap, timer } from 'rxjs';
+import { filter, map, switchMap, tap, timer } from 'rxjs';
 import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
 import { SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DisposerSink } from 'src/app/utils/sink';
 import { SmokeLabelComponent } from '../smoke-form/smoke-label/smoke-label.component';
 import { AgoPipe } from './ago.pipe';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
 	standalone: true,
@@ -19,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 	imports: [CommonModule, AgoPipe, SmokeLabelComponent, MatProgressSpinnerModule, MatButtonModule],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ISmokeComponent {
+export default class ISmokeComponent implements OnInit, OnDestroy {
 	private query: SmokesQuery = inject(SmokesQuery);
 	private service: SmokesService = inject(SmokesService);
 
@@ -32,6 +33,25 @@ export default class ISmokeComponent {
 		map(smokeTime => Date.now() - smokeTime)
 	);
 	loading$ = this.query.selectLoading();
+
+	private disposer = new DisposerSink();
+
+	ngOnInit(): void {
+		this.disposer.sink = this.query
+			.select(s => s.fromShortcut)
+			.pipe(
+				filter((isFromShortcut: boolean) => isFromShortcut),
+				tap(() => {
+					this.inc();
+					this.service.setFromShortcut(false);
+				})
+			)
+			.subscribe();
+	}
+
+	ngOnDestroy(): void {
+		this.disposer.dispose();
+	}
 
 	inc(): void {
 		this.service.addSmokeNow(this.emptySmoke.labels);
