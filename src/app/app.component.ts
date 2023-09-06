@@ -3,12 +3,14 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { EventType, Router, RouterLink, RouterLinkActive, RouterOutlet, UrlTree } from '@angular/router';
+import { filterNilValue } from '@datorama/akita';
 import { filter, map, merge } from 'rxjs';
 import { SmokesQuery } from './core/smokes/smokes.query';
 import { SmokesService } from './core/smokes/smokes.service';
 import { SignInService } from './sign-in/sign-in.service';
 import { authTabs, homeTabs } from './tabs';
 import { DisposerSink } from './utils/sink';
+import { debug } from './shared/debug.operator';
 
 @Component({
 	selector: 'app-root',
@@ -46,12 +48,19 @@ export class AppComponent implements OnInit, OnDestroy {
 			}
 		});
 
+		this.disposer.sink = this.query
+			.select(state => state.smoker?.id)
+			.pipe(
+				filterNilValue(),
+				map((smokerId: string) => (this.disposer.sink = this.service.syncData(smokerId)))
+			)
+			.subscribe();
+
 		setTimeout(() => {
 			this.disposer.sink = merge(
 				this.query.select(s => s.isInitialized),
 				this.query.select(s => s.smoker?.id)
 			).subscribe(() => {
-				this.disposer.dispose();
 				const appState = this.query.getValue();
 				if (!appState.isInitialized) {
 					return this.ensureRoute('loading');

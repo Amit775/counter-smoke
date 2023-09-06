@@ -13,6 +13,7 @@ import { SmokesService } from 'src/app/core/smokes/smokes.service';
 export default class SettingsComponent {
 	private service: SmokesService = inject(SmokesService);
 	private auth: Auth = inject(FIREBASE_AUTH);
+	public phone = this.auth.currentUser?.phoneNumber;
 
 	logOut(): void {
 		this.auth.signOut();
