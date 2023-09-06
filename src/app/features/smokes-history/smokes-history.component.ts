@@ -1,6 +1,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, NgZone, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialogModule } from '@angular/material/dialog';
 import { EntityAction, EntityActions } from '@datorama/akita';
 import { default as flatpickr } from 'flatpickr';
 import { DayElement, Instance } from 'flatpickr/dist/types/instance';
@@ -10,7 +11,6 @@ import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { enterZone } from 'src/app/utils/enter-zone.operator';
 import { SmokesListComponent } from './smokes-list/smokes-list.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-smokes-history',
@@ -43,6 +43,7 @@ export default class SmokesHistoryComponent implements AfterViewInit {
 			defaultDate: new Date(),
 			onChange: (dates: Date[]) => this._selecedDate.next(dates[0]),
 		});
+
 		this.query
 			.selectEntityAction([EntityActions.Add, EntityActions.Remove])
 			.pipe(
@@ -59,6 +60,7 @@ export default class SmokesHistoryComponent implements AfterViewInit {
 		const index = this.daysIndex[dateTimestamp] ?? -1;
 
 		if (index < 0) return null;
+
 		return nodes[index] as DayElement;
 	}
 
@@ -109,8 +111,13 @@ export default class SmokesHistoryComponent implements AfterViewInit {
 	}
 
 	extractChangedDates(action: EntityAction<string>): number[] {
-		return action.type === EntityActions.Add
-			? action.ids.map(id => new Date(this.query.getEntity(id)!.timestamp).setHours(0, 0, 0, 0))
-			: this.instance.selectedDates.map(date => date.valueOf());
+		switch (action.type) {
+			case EntityActions.Add:
+				return action.ids.map(id => new Date(this.query.getEntity(id)!.timestamp).setHours(0, 0, 0, 0));
+			case EntityActions.Remove:
+				return this.instance.selectedDates.map(date => date.setHours(0, 0, 0, 0));
+			default:
+				return [];
+		}
 	}
 }

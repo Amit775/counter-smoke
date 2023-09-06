@@ -37,7 +37,6 @@ export default class ISmokeComponent implements OnInit, OnDestroy {
 	private disposer = new DisposerSink();
 
 	ngOnInit(): void {
-		this.disposer.sink = this.service.syncData();
 		this.disposer.sink = this.query
 			.select(s => s.shortcut)
 			.pipe(
