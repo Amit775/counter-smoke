@@ -35,8 +35,7 @@ export class SmokesService {
 		this.api.reset(smokerId);
 	}
 
-	syncData(): () => void {
-		const smokerId = this.query.getSmokerId();
+	syncData(smokerId: string): () => void {
 		this.store.setLoading(true);
 		const subSmokes = this.syncSmokes(smokerId);
 		const subLabels = this.syncLabels(smokerId);
