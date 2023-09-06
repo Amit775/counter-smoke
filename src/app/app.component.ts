@@ -10,6 +10,7 @@ import { SmokesService } from './core/smokes/smokes.service';
 import { SignInService } from './sign-in/sign-in.service';
 import { authTabs, homeTabs } from './tabs';
 import { DisposerSink } from './utils/sink';
+import { debug } from './shared/debug.operator';
 
 @Component({
 	selector: 'app-root',
