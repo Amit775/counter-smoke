@@ -1,9 +1,9 @@
 <div class="width-determination bg">
 	<div class="container">
 		<nav mat-tab-nav-bar disablePagination [tabPanel]="panel" backgroundColor="primary">
+			@for (tab of tabs$ | async; track tab) {
 			<a
 				mat-tab-link
-				*ngFor="let tab of tabs$ | async"
 				[routerLink]="tab.route"
 				routerLinkActive
 				#rla="routerLinkActive"
@@ -11,6 +11,7 @@
 				[active]="rla.isActive">
 				<mat-icon>{{ tab.icon }}</mat-icon>
 			</a>
+			}
 		</nav>
 		<mat-tab-nav-panel #panel class="content">
 			<router-outlet />

@@ -1,10 +1,12 @@
 <div class="container">
 	<mat-form-field>
 		<mat-chip-grid #chipGrid>
-			<mat-chip-row *ngFor="let label of labels | keyvalue" (removed)="removeLabel(label.key)">
+			@for (label of labels | keyvalue; track label) {
+			<mat-chip-row (removed)="removeLabel(label.key)">
 				{{ label.key }}
 				<button matChipRemove><mat-icon>cancel</mat-icon></button>
 			</mat-chip-row>
+			}
 		</mat-chip-grid>
 		<input
 			matInput
@@ -18,7 +20,9 @@
 			[matAutocomplete]="auto"
 			matAutocompletePosition="below" />
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-			<mat-option class="option" [matTooltip]="option" *ngFor="let option of filteredOptions$ | async" [value]="option">
+			@for (option of filteredOptions$ | async; track $index) {
+
+			<mat-option class="option" [matTooltip]="option" [value]="option">
 				<span class="label">{{ option }}</span>
 				<span class="remove">
 					<button mat-icon-button (click)="removeLabelOption($event, option)">
@@ -26,6 +30,7 @@
 					</button>
 				</span>
 			</mat-option>
+			}
 		</mat-autocomplete>
 	</mat-form-field>
 </div>
