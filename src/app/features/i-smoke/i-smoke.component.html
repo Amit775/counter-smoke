@@ -4,12 +4,13 @@
 		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async" #button>I Smoke</button>
 	</div>
 	<div class="counter-container">
-		<div class="counter" *ngIf="(loading$ | async) === false; else loader">
+		@if (loading$ | async) {
+		<div class="counter">
 			<span class="count">{{ todayCount$ | async }}</span>
 			<span class="last">Last Cigarete: {{ lastCigareteDiff$ | async | ago }} </span>
 		</div>
-		<ng-template #loader>
-			<mat-spinner color="warn" diameter="40" />
-		</ng-template>
+		}@else {
+		<mat-spinner color="warn" diameter="40" />
+		}
 	</div>
 </div>

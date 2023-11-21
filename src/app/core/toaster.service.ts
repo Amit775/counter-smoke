@@ -51,9 +51,11 @@ export class ToasterService {
 		<div class="container">
 			<span class="message"> {{ data.message }} </span>
 			<span class="actions">
-				<button mat-icon-button *ngFor="let action of data.actions" (click)="action.act()">
+				@for (action of data.actions; track action) {
+				<button mat-icon-button (click)="action.act()">
 					<mat-icon>{{ action.icon }}</mat-icon>
 				</button>
+				}
 			</span>
 		</div>
 	`,
