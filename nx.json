@@ -1,7 +1,4 @@
 {
-	"affected": {
-		"defaultBase": "main"
-	},
 	"namedInputs": {
 		"sharedGlobals": [],
 		"default": ["{projectRoot}/**/*", "sharedGlobals"],
@@ -28,5 +25,7 @@
 			"cache": true
 		}
 	},
-	"nxCloudAccessToken": "MWZmNDZmZGQtZTBiOS00MjdlLTk0YTYtODUwOGE0YThmMGY1fHJlYWQtd3JpdGU="
+	"nxCloudAccessToken": "MWZmNDZmZGQtZTBiOS00MjdlLTk0YTYtODUwOGE0YThmMGY1fHJlYWQtd3JpdGU=",
+	"useInferencePlugins": false,
+	"defaultBase": "main"
 }
