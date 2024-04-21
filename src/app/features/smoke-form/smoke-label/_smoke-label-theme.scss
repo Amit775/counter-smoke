@@ -13,24 +13,24 @@
 		color: mat.get-color-from-palette($primary-palette, '500-contrast');
 	}
 
-	.mat-mdc-form-field {
+	.mat-mdc-mdc-form-field {
 		width: 100%;
 	}
 
-	.mat-mdc-chip-set .mdc-evolution-chip-set__chips {
+	.mat-mdc-mdc-chip-set .mdc-evolution-chip-set__chips {
 		overflow-x: auto;
 		flex-wrap: nowrap;
 
-		.mat-mdc-chip {
+		.mat-mdc-mdc-chip {
 			border: 1px solid;
 		}
 	}
 
-	.mat-mdc-chip.mdc-evolution-chip {
+	.mat-mdc-mdc-chip.mdc-evolution-chip {
 		max-width: unset;
 	}
 
-	.mat-mdc-option {
+	.mat-mdc-mdc-option {
 		padding-right: 0 !important;
 		min-height: 32px !important;
 

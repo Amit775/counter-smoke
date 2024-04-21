@@ -19,7 +19,7 @@
 		box-sizing: border-box;
 		overflow: hidden;
 
-		mat-tab-nav-panel {
+		mat-mdc-tab-nav-panel {
 			height: 100%;
 		}
 	}
@@ -29,12 +29,12 @@
 	height: 100%;
 }
 
-[mat-tab-link] {
+[mat-mdc-tab-link] {
 	min-width: unset;
 	flex: 1;
 }
 
-.mat-mdc-tab-link {
+.mat-mdc-mdc-tab-link {
 	opacity: 0.7;
 	min-width: 100px;
 }
