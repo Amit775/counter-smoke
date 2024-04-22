@@ -10,7 +10,7 @@
 	</div>
 	<div class="actions">
 		@if (formStrategy.isRemoveDisabled) {
-		<button mat-raised-button color="warn" (click)="delete()">Remove</button>
+			<button mat-raised-button color="warn" (click)="delete()">Remove</button>
 		}
 
 		<button mat-raised-button (click)="upsert()">{{ formStrategy.action | titlecase }}</button>

@@ -5,12 +5,12 @@
 	</div>
 	<div class="counter-container">
 		@if (loading$ | async) {
-		<div class="counter">
-			<span class="count">{{ todayCount$ | async }}</span>
-			<span class="last">Last Cigarete: {{ lastCigareteDiff$ | async | ago }} </span>
-		</div>
-		}@else {
-		<mat-spinner color="warn" diameter="40" />
+			<div class="counter">
+				<span class="count">{{ todayCount$ | async }}</span>
+				<span class="last">Last Cigarete: {{ lastCigareteDiff$ | async | ago }} </span>
+			</div>
+		} @else {
+			<mat-spinner color="warn" diameter="40" />
 		}
 	</div>
 </div>

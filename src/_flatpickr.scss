@@ -7,22 +7,22 @@
 	$accent-palette: map.get($color-config, 'accent');
 	$warn-palette: map.get($color-config, 'warn');
 
-	$calendarBackground: mat.get-color-from-palette($primary-palette, 100); // 100
-	$calendarBorderColor: mat.get-color-from-palette($primary-palette, '100-contrast', 0.2); // contrast-100
+	$calendarBackground: mat.get-color-from-palette($primary-palette, 100);
+	$calendarBorderColor: mat.get-color-from-palette($primary-palette, '100-contrast', 0.2);
 
-	$monthForeground: mat.get-color-from-palette($primary-palette, '500-contrast'); // contrast-500
-	$monthBackground: mat.get-color-from-palette($primary-palette, 500); // 500
+	$monthForeground: mat.get-color-from-palette($primary-palette, '500-contrast');
+	$monthBackground: mat.get-color-from-palette($primary-palette, 500);
 
-	$weekdaysBackground: mat.get-color-from-palette($primary-palette, 500); // 500
+	$weekdaysBackground: mat.get-color-from-palette($primary-palette, 500);
 
-	$dayForeground: mat.get-color-from-palette($primary-palette, '200-contrast'); // contrast-100
-	$dayHoverBackground: mat.get-color-from-palette($primary-palette, 200); // 200
+	$dayForeground: mat.get-color-from-palette($primary-palette, '200-contrast');
+	$dayHoverBackground: mat.get-color-from-palette($primary-palette, 200);
 
-	$todayColor: mat.get-color-from-palette($primary-palette, 300); // 300
+	$todayColor: mat.get-color-from-palette($primary-palette, 300);
 
-	$selectedDayBackground: mat.get-color-from-palette($primary-palette, 500); // 500
-	$selectedDayForeground: mat.get-color-from-palette($primary-palette, '500-contrast'); // contrast-500
-	$weekdaysForeground: mat.get-color-from-palette($primary-palette, '500-contrast'); // contrast-500
+	$selectedDayBackground: mat.get-color-from-palette($primary-palette, 500);
+	$selectedDayForeground: mat.get-color-from-palette($primary-palette, '500-contrast');
+	$weekdaysForeground: mat.get-color-from-palette($primary-palette, '500-contrast');
 
 	.flatpickr-calendar {
 		background: transparent;
@@ -138,6 +138,7 @@
 		}
 
 		&.arrowCenter {
+
 			&:before,
 			&:after {
 				left: 50%;
@@ -156,6 +157,7 @@
 		}
 
 		&.arrowTop {
+
 			&:before,
 			&:after {
 				bottom: 100%;
@@ -171,6 +173,7 @@
 		}
 
 		&.arrowBottom {
+
 			&:before,
 			&:after {
 				top: 100%;
@@ -243,54 +246,17 @@
 		}
 
 		.flatpickr-prev-month.flatpickr-prev-month {
-			/*
-			/*rtl:begin:ignore*/
-			/*
-			*/
 			left: 0;
-
-			/*
-			/*rtl:end:ignore*/
-			/*
-			*/
 		}
 
 		.flatpickr-next-month {
 			&.flatpickr-prev-month {
-				/*
-			  /*rtl:begin:ignore*/
-				/*
-			  */
 				left: 0;
-
-				/*
-			  /*rtl:end:ignore*/
-				/*
-			  */
-
-				/*
-			  /*rtl:begin:ignore*/
-				/*
-			  */
 				right: 0;
-
-				/*
-			  /*rtl:end:ignore*/
-				/*
-			  */
 			}
 
 			&.flatpickr-next-month {
-				/*
-			  /*rtl:begin:ignore*/
-				/*
-			  */
 				right: 0;
-
-				/*
-			  /*rtl:end:ignore*/
-				/*
-			  */
 			}
 		}
 
@@ -316,16 +282,6 @@
 			fill: inherit;
 		}
 	}
-
-	/*
-		/*rtl:begin:ignore*/
-	/*
-		/*rtl:end:ignore*/
-
-	/*
-		/*rtl:begin:ignore*/
-	/*
-		/*rtl:end:ignore*/
 
 	.numInputWrapper {
 		position: relative;
@@ -596,7 +552,7 @@
 		transform: translate3d(0px, 0px, 0px);
 		opacity: 1;
 
-		+ .dayContainer {
+		+.dayContainer {
 			box-shadow: -1px 0 0 $calendarBorderColor;
 		}
 	}
@@ -685,9 +641,9 @@
 			border-radius: 0 50px 50px 0;
 		}
 
-		&.selected.startRange + .endRange:not(:nth-child(7n + 1)),
-		&.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
-		&.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
+		&.selected.startRange+.endRange:not(:nth-child(7n + 1)),
+		&.startRange.startRange+.endRange:not(:nth-child(7n + 1)),
+		&.endRange.startRange+.endRange:not(:nth-child(7n + 1)) {
 			box-shadow: -10px 0 0 $selectedDayBackground;
 		}
 
@@ -749,6 +705,7 @@
 		}
 
 		span.flatpickr-day {
+
 			&,
 			&:hover {
 				display: block;

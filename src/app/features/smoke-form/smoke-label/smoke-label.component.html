@@ -2,10 +2,10 @@
 	<mat-form-field>
 		<mat-chip-grid #chipGrid>
 			@for (label of labels | keyvalue; track label) {
-			<mat-chip-row (removed)="removeLabel(label.key)">
-				{{ label.key }}
-				<button matChipRemove><mat-icon>cancel</mat-icon></button>
-			</mat-chip-row>
+				<mat-chip-row (removed)="removeLabel(label.key)">
+					{{ label.key }}
+					<button matChipRemove><mat-icon>cancel</mat-icon></button>
+				</mat-chip-row>
 			}
 		</mat-chip-grid>
 		<input
@@ -21,15 +21,14 @@
 			matAutocompletePosition="below" />
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
 			@for (option of filteredOptions$ | async; track $index) {
-
-			<mat-option class="option" [matTooltip]="option" [value]="option">
-				<span class="label">{{ option }}</span>
-				<span class="remove">
-					<button mat-icon-button (click)="removeLabelOption($event, option)">
-						<mat-icon>cancel</mat-icon>
-					</button>
-				</span>
-			</mat-option>
+				<mat-option class="option" [matTooltip]="option" [value]="option">
+					<span class="label">{{ option }}</span>
+					<span class="remove">
+						<button mat-icon-button (click)="removeLabelOption($event, option)">
+							<mat-icon>cancel</mat-icon>
+						</button>
+					</span>
+				</mat-option>
 			}
 		</mat-autocomplete>
 	</mat-form-field>
