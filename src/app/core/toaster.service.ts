@@ -52,9 +52,9 @@ export class ToasterService {
 			<span class="message"> {{ data.message }} </span>
 			<span class="actions">
 				@for (action of data.actions; track action) {
-				<button mat-icon-button (click)="action.act()">
-					<mat-icon>{{ action.icon }}</mat-icon>
-				</button>
+					<button mat-icon-button (click)="action.act()">
+						<mat-icon>{{ action.icon }}</mat-icon>
+					</button>
 				}
 			</span>
 		</div>

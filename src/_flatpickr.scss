@@ -83,7 +83,9 @@
 			}
 
 			&:nth-child(n + 2) .flatpickr-day.inRange:nth-child(7n + 1) {
-				box-shadow: -2px 0 0 #e6e6e6, 5px 0 0 #e6e6e6;
+				box-shadow:
+					-2px 0 0 #e6e6e6,
+					5px 0 0 #e6e6e6;
 			}
 		}
 
@@ -138,7 +140,6 @@
 		}
 
 		&.arrowCenter {
-
 			&:before,
 			&:after {
 				left: 50%;
@@ -157,7 +158,6 @@
 		}
 
 		&.arrowTop {
-
 			&:before,
 			&:after {
 				bottom: 100%;
@@ -173,7 +173,6 @@
 		}
 
 		&.arrowBottom {
-
 			&:before,
 			&:after {
 				top: 100%;
@@ -552,7 +551,7 @@
 		transform: translate3d(0px, 0px, 0px);
 		opacity: 1;
 
-		+.dayContainer {
+		+ .dayContainer {
 			box-shadow: -1px 0 0 $calendarBorderColor;
 		}
 	}
@@ -641,9 +640,9 @@
 			border-radius: 0 50px 50px 0;
 		}
 
-		&.selected.startRange+.endRange:not(:nth-child(7n + 1)),
-		&.startRange.startRange+.endRange:not(:nth-child(7n + 1)),
-		&.endRange.startRange+.endRange:not(:nth-child(7n + 1)) {
+		&.selected.startRange + .endRange:not(:nth-child(7n + 1)),
+		&.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
+		&.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
 			box-shadow: -10px 0 0 $selectedDayBackground;
 		}
 
@@ -654,7 +653,9 @@
 
 		&.inRange {
 			border-radius: 0;
-			box-shadow: -5px 0 0 $dayHoverBackground, 5px 0 0 $dayHoverBackground;
+			box-shadow:
+				-5px 0 0 $dayHoverBackground,
+				5px 0 0 $dayHoverBackground;
 		}
 
 		&.flatpickr-disabled,
@@ -678,7 +679,9 @@
 
 		&.week.selected {
 			border-radius: 0;
-			box-shadow: -5px 0 0 $selectedDayBackground, 5px 0 0 $selectedDayBackground;
+			box-shadow:
+				-5px 0 0 $selectedDayBackground,
+				5px 0 0 $selectedDayBackground;
 		}
 
 		&.hidden {
@@ -705,7 +708,6 @@
 		}
 
 		span.flatpickr-day {
-
 			&,
 			&:hover {
 				display: block;
