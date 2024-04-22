@@ -9,7 +9,7 @@
 		"test": "nx test",
 		"lint": "nx lint",
 		"format": "nx format",
-		"precommit": "npm run lint && npm run format"
+		"precommit": "npm run lint --fix && npm run format --fix"
 	},
 	"private": true,
 	"dependencies": {

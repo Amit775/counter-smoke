@@ -9,16 +9,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 	template: '<div class="wrapper"><mat-spinner /></div>',
 	styles: [
 		`
-   			.wrapper {
-   				height: 100%;
-   				display: flex;
-   				justify-content: center;
-   				align-items: center;
-   			}
-   			:host {
-   				height: 100%;
-   			}
-   		`,
+			.wrapper {
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			:host {
+				height: 100%;
+			}
+		`,
 	],
 })
 export default class LoadingComponent {}
