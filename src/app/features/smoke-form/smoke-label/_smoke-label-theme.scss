@@ -11,32 +11,40 @@
 		border-radius: 0 0 4px 4px;
 		background-color: mat.get-color-from-palette($primary-palette, 500);
 		color: mat.get-color-from-palette($primary-palette, '500-contrast');
+
+		.mat-mdc-autocomplete-panel {
+			background-color: unset;
+		}
 	}
 
-	.mat-mdc-mdc-form-field {
+	.mat-mdc-form-field {
 		width: 100%;
 	}
 
-	.mat-mdc-mdc-chip-set .mdc-evolution-chip-set__chips {
+	.mat-mdc-chip-set .mdc-evolution-chip-set__chips {
 		overflow-x: auto;
 		flex-wrap: nowrap;
 
-		.mat-mdc-mdc-chip {
+		.mat-mdc-chip {
 			border: 1px solid;
 		}
 	}
 
-	.mat-mdc-mdc-chip.mdc-evolution-chip {
+	.mat-mdc-chip.mdc-evolution-chip {
 		max-width: unset;
 	}
 
-	.mat-mdc-mdc-option {
+	.mat-mdc-option {
 		padding-right: 0 !important;
 		min-height: 32px !important;
 
 		.mdc-list-item__primary-text {
 			display: contents;
 		}
+	}
+
+	.container .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+		background-color: unset;
 	}
 }
 

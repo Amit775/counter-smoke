@@ -28,23 +28,23 @@ $height: calc(6 * min(400px, 100vw) / 7);
 }
 
 ::ng-deep .container {
-	.mat-mdc-mdc-list-base {
-		.mat-mdc-mdc-list-item,
-		.mat-mdc-mdc-list-option,
-		.mat-mdc-mdc-list-item.mat-mdc-mdc-list-option {
+	.mat-mdc-list-base {
+		.mat-mdc-list-item,
+		.mat-mdc-list-option,
+		.mat-mdc-list-item.mat-mdc-list-option {
 			height: 32px;
 			border-radius: 16px;
 
-			.mat-mdc-mdc-list-item-content,
-			.mat-mdc-mdc-list-item-content-reverse {
+			.mat-mdc-list-item-content,
+			.mat-mdc-list-item-content-reverse {
 				padding: 0;
 				padding-right: 8px;
 
-				.mat-mdc-mdc-list-item-ripple {
+				.mat-mdc-list-item-ripple {
 					border-radius: 16px;
 				}
 
-				.mat-mdc-mdc-list-text {
+				.mat-mdc-list-text {
 					padding: 0;
 					padding-left: 4px;
 				}
