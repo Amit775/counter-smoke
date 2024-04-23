@@ -1,7 +1,7 @@
 <div class="container">
 	<mat-form-field>
 		<mat-chip-grid #chipGrid>
-			@for (label of labels | keyvalue; track label) {
+			@for (label of labels() | keyvalue; track label.key) {
 				<mat-chip-row (removed)="removeLabel(label.key)">
 					{{ label.key }}
 					<button matChipRemove><mat-icon>cancel</mat-icon></button>

@@ -1,7 +1,7 @@
 <div class="width-determination bg">
 	<div class="container">
 		<nav mat-tab-nav-bar disablePagination [tabPanel]="panel" backgroundColor="primary">
-			@for (tab of tabs$ | async; track tab) {
+			@for (tab of tabs(); track tab) {
 				<a
 					mat-tab-link
 					[routerLink]="tab.route"

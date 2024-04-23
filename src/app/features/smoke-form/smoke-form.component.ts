@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 import { SmokeLabelComponent } from './smoke-label/smoke-label.component';
 import { SmokeTimeComponent } from './smoke-time/smoke-time.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 export type EditAction = {
 	type: 'edit';
@@ -52,30 +52,22 @@ const createStrategy: FormStrategy = {
 	styleUrls: ['./smoke-form.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SmokeFormComponent implements OnChanges {
-	public formStrategy: FormStrategy = editStrategy;
-	public edittedSmoke: ISmoke = { ...createEmptySmoke(), id: '' };
+export class SmokeFormComponent {
+	public smoke = input.required<ISmoke>();
+	public formStrategy = computed(() => (this.smoke().id ? editStrategy : createStrategy));
+	public edittedSmoke = computed(() => ({ ...{ ...createEmptySmoke(), id: '' }, ...this.smoke() }));
 
-	@Input() public smoke!: ISmoke;
-
-	@Output() public action = new EventEmitter<Action>();
-
-	ngOnChanges(): void {
-		this.edittedSmoke = { ...this.edittedSmoke, ...this.smoke };
-		if (!this.smoke.id) {
-			this.formStrategy = createStrategy;
-		}
-	}
+	public action = output<Action>();
 
 	cancel(): void {
 		this.action.emit({ type: 'cancel' });
 	}
 
 	delete(): void {
-		this.action.emit({ type: 'delete', smoke: this.smoke });
+		this.action.emit({ type: 'delete', smoke: this.smoke() });
 	}
 
 	upsert() {
-		this.action.emit({ type: this.formStrategy.action, smoke: this.edittedSmoke });
+		this.action.emit({ type: this.formStrategy().action, smoke: this.edittedSmoke() });
 	}
 }
