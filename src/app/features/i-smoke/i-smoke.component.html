@@ -1,12 +1,12 @@
 <div class="container">
 	<app-smoke-label [(labels)]="emptySmoke.labels" />
 	<div class="button-wrapper">
-		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading$ | async" #button>I Smoke</button>
+		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading()" #button>I Smoke</button>
 	</div>
 	<div class="counter-container">
-		@if (loading$ | async) {
+		@if (!loading()) {
 			<div class="counter">
-				<span class="count">{{ todayCount$ | async }}</span>
+				<span class="count">{{ todayCount()}}</span>
 				<span class="last">Last Cigarete: {{ lastCigareteDiff$ | async | ago }} </span>
 			</div>
 		} @else {

@@ -1,20 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-const minuteInMs = 1000 * 60;
-const hourInMs = minuteInMs * 60;
-const hourInMins = hourInMs / minuteInMs;
-const dayInMs = hourInMs * 24;
+
+const MINUTE_IN_MS = 1000 * 60;
+const HOUR_IN_MS = MINUTE_IN_MS * 60;
+const HOUR_IN_MINUTES = HOUR_IN_MS / MINUTE_IN_MS;
+const DAY_IN_MS = HOUR_IN_MS * 24;
 
 @Pipe({ name: 'ago', standalone: true })
 export class AgoPipe implements PipeTransform {
 	transform(diffTime: number | undefined | null): string {
-		if (!diffTime) return '';
+		if (diffTime == null) return '';
 
-		if (diffTime > dayInMs) return 'more than a day ago';
+		if (diffTime > DAY_IN_MS) return 'more than a day ago';
 
-		const diffInMinutes = Math.floor(diffTime / minuteInMs);
-		const diffHours = Math.floor(diffInMinutes / hourInMins);
-		const diffMins = Math.floor(diffInMinutes % hourInMins);
+		const diffInMinutes = Math.floor(diffTime / MINUTE_IN_MS);
+		const diffHours = Math.floor(diffInMinutes / HOUR_IN_MINUTES);
+		const diffMins = Math.floor(diffInMinutes % HOUR_IN_MINUTES);
 
 		if (diffHours === 0 && diffMins === 0) return 'just now';
 

@@ -1,15 +1,24 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, NgZone, ViewChild, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	DestroyRef,
+	ElementRef,
+	NgZone,
+	computed,
+	inject,
+	viewChild,
+} from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MatDialogModule } from '@angular/material/dialog';
-import { EntityAction, EntityActions } from '@datorama/akita';
+import { filterNilValue } from '@datorama/akita';
 import { default as flatpickr } from 'flatpickr';
-import { DayElement, Instance } from 'flatpickr/dist/types/instance';
+import { DayElement } from 'flatpickr/dist/types/instance';
 import { Hook } from 'flatpickr/dist/types/options';
-import { BehaviorSubject, map, tap } from 'rxjs';
-import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
-import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { BehaviorSubject, filter, map, tap } from 'rxjs';
+import { EventState, SmokesStore } from 'src/app/core/smokes/smokes.store';
 import { enterZone } from 'src/app/utils/enter-zone.operator';
+import { DisposerSink } from 'src/app/utils/sink';
 import { SmokesListComponent } from './smokes-list/smokes-list.component';
 
 @Component({
@@ -20,43 +29,52 @@ import { SmokesListComponent } from './smokes-list/smokes-list.component';
 	standalone: true,
 	imports: [NgIf, SmokesListComponent, AsyncPipe, MatDialogModule],
 })
-export default class SmokesHistoryComponent implements AfterViewInit {
-	private query: SmokesQuery = inject(SmokesQuery);
+export default class SmokesHistoryComponent {
+	private store = inject(SmokesStore);
 	private zone: NgZone = inject(NgZone);
 	private destroy: DestroyRef = inject(DestroyRef);
 
-	@ViewChild('calendar', { read: ElementRef }) private container!: ElementRef;
-	instance!: Instance;
-
-	daysIndex: Record<number, number> = {};
-
-	private _selecedDate = new BehaviorSubject<Date>(new Date());
-	public selectedDate$ = this._selecedDate.asObservable().pipe(map(date => new Date(date.setHours(0, 0, 0, 0))));
-
-	ngAfterViewInit(): void {
-		this.instance = flatpickr(this.container.nativeElement, {
+	private container = viewChild.required('calendar', { read: ElementRef });
+	instance = computed(() => {
+		return flatpickr(this.container().nativeElement, {
 			inline: true,
 			maxDate: new Date(),
 			onDayCreate: (a, b, c, dayElement) => this.addCountBadge(dayElement),
 			onReady: [this.indexByDateHook()],
 			onMonthChange: [this.indexByDateHook()],
 			defaultDate: new Date(),
-			onChange: (dates: Date[]) => this._selecedDate.next(dates[0]),
+			onChange: (dates: Date[]) => {
+				this._selecedDate.next(dates[0]);
+			},
 		});
+	});
 
-		this.query
-			.selectEntityAction([EntityActions.Add, EntityActions.Remove])
+	daysIndex: Record<number, number> = {};
+
+	private _selecedDate = new BehaviorSubject<Date>(new Date());
+	public selectedDate$ = this._selecedDate
+		.asObservable()
+		.pipe(map(date => new Date(date.setHours(0, 0, 0, 0))));
+
+	private disposer = new DisposerSink().add([
+		toObservable(this.store.event)
+			.pipe(
+				filterNilValue(),
+				filter(event => ['add', 'remove'].includes(event.name))
+			)
 			.pipe(
 				enterZone(this.zone),
-				map((action: EntityAction<string>) => this.extractChangedDates(action)),
-				tap(changedDates => changedDates.forEach(date => this.addCountBadge(this.getDayElement(date)))),
+				map((action: EventState) => this.extractChangedDates(action)),
+				tap(changedDates =>
+					changedDates.forEach(date => this.addCountBadge(this.getDayElement(date)))
+				),
 				takeUntilDestroyed(this.destroy)
 			)
-			.subscribe();
-	}
+			.subscribe(),
+	]);
 
 	getDayElement(dateTimestamp: number): DayElement | null {
-		const nodes = this.instance.days.childNodes;
+		const nodes = this.instance().days.childNodes;
 		const index = this.daysIndex[dateTimestamp] ?? -1;
 
 		if (index < 0) return null;
@@ -102,7 +120,9 @@ export default class SmokesHistoryComponent implements AfterViewInit {
 	}
 
 	getCountAtDay(day: Date): number {
-		return this.query.getCount((smoke: ISmoke) => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf());
+		return Object.values(this.store.smokes()).filter(
+			smoke => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf()
+		).length;
 	}
 
 	isDateInFuture(date: Date): boolean {
@@ -110,12 +130,12 @@ export default class SmokesHistoryComponent implements AfterViewInit {
 		return date > today;
 	}
 
-	extractChangedDates(action: EntityAction<string>): number[] {
-		switch (action.type) {
-			case EntityActions.Add:
-				return action.ids.map(id => new Date(this.query.getEntity(id)!.timestamp).setHours(0, 0, 0, 0));
-			case EntityActions.Remove:
-				return this.instance.selectedDates.map(date => date.setHours(0, 0, 0, 0));
+	extractChangedDates(action: EventState): number[] {
+		switch (action.name) {
+			case 'add':
+				return action.payload.map(smoke => new Date(smoke.timestamp).setHours(0, 0, 0, 0));
+			case 'remove':
+				return this.instance().selectedDates.map(date => date.setHours(0, 0, 0, 0));
 			default:
 				return [];
 		}

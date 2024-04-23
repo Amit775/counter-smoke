@@ -1,19 +1,26 @@
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges, TemplateRef, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	TemplateRef,
+	ViewContainerRef,
+	computed,
+	inject,
+	input,
+	viewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
-import { Observable } from 'rxjs';
 import { PanelService } from 'src/app/core/panel.service';
-import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ISmoke, SmokeContent, SmokesStore, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
 import { Action, SmokeFormComponent } from '../../smoke-form/smoke-form.component';
 import { RemoveDialogComponent } from '../remove-dialog.component';
 import { SmokeRecordComponent } from '../smoke-record/smoke-record.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
 	standalone: true,
@@ -23,24 +30,31 @@ import { MatButtonModule } from '@angular/material/button';
 	styleUrls: ['./smokes-list.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SmokesListComponent implements OnChanges {
-	@Input() public date!: Date;
+export class SmokesListComponent {
+	public date = input.required<Date>();
 
 	private dialog: MatDialog = inject(MatDialog);
 	private service: SmokesService = inject(SmokesService);
-	private query: SmokesQuery = inject(SmokesQuery);
+	private store = inject(SmokesStore);
 	private panel: PanelService = inject(PanelService);
 	private vcr: ViewContainerRef = inject(ViewContainerRef);
 
-	@ViewChild('editSmoke', { static: true, read: TemplateRef }) private editSmoke: TemplateRef<unknown> | undefined;
+	private editSmoke = viewChild.required('editSmoke', { read: TemplateRef });
 
-	smokes$!: Observable<ISmoke[]>;
+	smokes = computed(() => {
+		const date = this.date();
+		const smokes = this.store.smokes();
+
+		return Object.entries(smokes).reduce(
+			(acc, [_id, smoke]) => [
+				...acc,
+				...(new Date(smoke.timestamp).setHours(0, 0, 0, 0) === date.setHours(0, 0, 0, 0) ? [smoke] : []),
+			],
+			[] as ISmoke[]
+		);
+	});
 
 	public selectedSmoke: ISmoke | undefined = undefined;
-
-	ngOnChanges(): void {
-		this.smokes$ = this.query.selectSmokesAtDate(this.date);
-	}
 
 	setSelectedSmoke(selected: MatSelectionListChange): void {
 		this.selectedSmoke = selected.options?.[0]?.value;
@@ -51,7 +65,7 @@ export class SmokesListComponent implements OnChanges {
 
 	createSmoke(): void {
 		const now = new Date();
-		const nowAtDate = new Date(this.date).setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+		const nowAtDate = new Date(this.date()).setHours(now.getHours(), now.getMinutes(), now.getSeconds());
 		this.openPanel(createEmptySmoke(nowAtDate));
 	}
 
@@ -71,7 +85,7 @@ export class SmokesListComponent implements OnChanges {
 	}
 
 	private openPanel(smoke: ISmoke | SmokeContent, onClose?: () => void): void {
-		const portal = new TemplatePortal(this.editSmoke!, this.vcr, { $implicit: smoke });
+		const portal = new TemplatePortal(this.editSmoke(), this.vcr, { $implicit: smoke });
 		const ref = this.panel.open(portal, onClose);
 		ref.backdropClick().subscribe(() => this.do({ type: 'cancel' }));
 	}

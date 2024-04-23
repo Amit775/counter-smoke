@@ -1,6 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, computed, model, untracked, viewChild } from '@angular/core';
 import flatpickr from 'flatpickr';
-import { Instance } from 'flatpickr/dist/types/instance';
 
 @Component({
 	standalone: true,
@@ -9,24 +8,23 @@ import { Instance } from 'flatpickr/dist/types/instance';
 	styleUrls: ['./smoke-time.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SmokeTimeComponent implements AfterViewInit {
-	@Input() public timestamp!: number;
-	@Output() public timestampChange = new EventEmitter<number>();
+export class SmokeTimeComponent {
+	timestamp = model.required<number>();
 
-	@ViewChild('timePicker') public timePicker!: ElementRef<HTMLInputElement>;
-	private instance!: Instance;
+	timePicker = viewChild.required('timePicker', { read: ElementRef<HTMLInputElement> });
+	private instance = computed(() => {
+		if (this.timePicker() == null) return null;
 
-	public ngAfterViewInit(): void {
-		this.instance = flatpickr(this.timePicker.nativeElement, {
+		return flatpickr(this.timePicker().nativeElement, {
 			enableTime: true,
 			noCalendar: true,
 			dateFormat: 'H:i',
 			inline: true,
 			time_24hr: true,
-			defaultDate: new Date(this.timestamp),
+			defaultDate: new Date(untracked(() => this.timestamp())),
 			onChange: (selectedDates: Date[]) => {
-				this.timestampChange.emit(selectedDates[0].getTime());
+				this.timestamp.set(selectedDates[0].getTime());
 			},
 		});
-	}
+	});
 }

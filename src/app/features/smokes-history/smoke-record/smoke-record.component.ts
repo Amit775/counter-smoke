@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ISmoke } from 'src/app/core/smokes/smokes.store';
 import { JoinPipe } from './join.pipe';
@@ -13,6 +13,6 @@ import { JoinPipe } from './join.pipe';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmokeRecordComponent {
-	@Input() smoke!: ISmoke;
-	@Input() index!: number;
+	smoke = input.required<ISmoke>();
+	index = input.required<number>();
 }

@@ -3103,6 +3103,13 @@
     "@material/theme" "15.0.0-canary.7f224ddd4.0"
     tslib "^2.1.0"
 
+"@ngrx/signals@^17.2.0":
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/signals/-/signals-17.2.0.tgz#30d2e75cf3786111356115bf3cdb10e81517ac23"
+  integrity sha512-tkkxifeOVPOhpTqbHyK1WOx4qz49HLR/h0vhaa/MRGRIZoOR/6gR4KB3hbC8FD3FdnuNqOgOZ2lGsTfWPB/6BQ==
+  dependencies:
+    tslib "^2.3.0"
+
 "@ngtools/webpack@17.3.5":
   version "17.3.5"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-17.3.5.tgz#5f1a8d6e59e8fb37b8f1a4fe69116d9f46f2102f"

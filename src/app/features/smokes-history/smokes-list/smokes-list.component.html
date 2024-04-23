@@ -1,11 +1,15 @@
 <div class="container">
 	<div class="header">
 		<button mat-icon-button (click)="createSmoke()"><mat-icon>add_circle_outline</mat-icon></button>
-		<span>{{ date | date: 'dd/MM' }}</span>
+		<span>{{ date() | date: 'dd/MM' }}</span>
 		<span class="dummy"></span>
 	</div>
-	<mat-selection-list class="content" [multiple]="false" hideSingleSelectionIndicator="true" (selectionChange)="setSelectedSmoke($event)">
-		@for (smoke of smokes$ | async; track smoke.id; let index = $index) {
+	<mat-selection-list
+		class="content"
+		[multiple]="false"
+		hideSingleSelectionIndicator="true"
+		(selectionChange)="setSelectedSmoke($event)">
+		@for (smoke of smokes(); track smoke.id; let index = $index) {
 			<mat-list-option [value]="smoke">
 				<app-smoke-record [smoke]="smoke" [index]="index + 1" />
 			</mat-list-option>

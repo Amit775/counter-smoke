@@ -1,6 +1,14 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	ElementRef,
+	inject,
+	model,
+	viewChild,
+} from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
 	MAT_AUTOCOMPLETE_DEFAULT_OPTIONS,
@@ -14,9 +22,9 @@ import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BehaviorSubject, Observable, map, merge, startWith } from 'rxjs';
-import { SmokesQuery } from 'src/app/core/smokes/smokes.query';
+import { map, merge, startWith } from 'rxjs';
 import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { SmokesStore } from 'src/app/core/smokes/smokes.store';
 
 const autocompleteOptions: MatAutocompleteDefaultOptions = {
 	overlayPanelClass: 'autocomplete-panel',
@@ -41,40 +49,28 @@ const autocompleteOptions: MatAutocompleteDefaultOptions = {
 	],
 	providers: [{ provide: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS, useValue: autocompleteOptions }],
 })
-export class SmokeLabelComponent implements OnInit {
+export class SmokeLabelComponent {
 	readonly seperatorKeysCodes = [ENTER, COMMA];
 
-	private _selectedLabels = new BehaviorSubject<Record<string, true>>({});
-	@Input() set labels(value: Record<string, true>) {
-		this._selectedLabels.next(value ?? {});
-	}
-	get labels(): Record<string, true> {
-		return this._selectedLabels.value;
-	}
+	labels = model<Record<string, true>>({});
 
-	@Output() labelsChange = this._selectedLabels.asObservable();
-
-	@ViewChild('labelInput', { static: true, read: ElementRef }) private labelInput!: ElementRef;
-	@ViewChild('auto', { static: true, read: MatAutocomplete }) private matAutocomplete!: MatAutocomplete;
+	labelInput = viewChild.required<ElementRef>('labelInput');
+	autoComplete = viewChild.required<MatAutocomplete>('auto');
 
 	private service: SmokesService = inject(SmokesService);
-	private query: SmokesQuery = inject(SmokesQuery);
-
-	filteredOptions$!: Observable<string[]>;
+	private store = inject(SmokesStore);
 
 	labelCTRL = new FormControl('');
 
-	ngOnInit(): void {
-		this.filteredOptions$ = merge(
-			this.labelCTRL.valueChanges,
-			this.query.select(s => s.labels),
-			this._selectedLabels
-		).pipe(
-			map(() => this.labelCTRL.value),
-			startWith(null),
-			map((query: string | null) => this._filter(query ?? ''))
-		);
-	}
+	filteredOptions$ = merge(
+		this.labelCTRL.valueChanges,
+		toObservable(this.store.labels),
+		toObservable(this.labels)
+	).pipe(
+		map(() => this.labelCTRL.value),
+		startWith(null),
+		map((query: string | null) => this._filter(query ?? ''))
+	);
 
 	add(event: MatChipInputEvent): void {
 		this.addLabel(event.value);
@@ -83,20 +79,20 @@ export class SmokeLabelComponent implements OnInit {
 	}
 
 	addLabel(label: string): void {
-		const labels: Record<string, true> = { ...this.labels, [label]: true };
+		const labels: Record<string, true> = { ...this.labels(), [label]: true };
 		this.service.addLabelOptions(Object.keys(labels));
-		this._selectedLabels.next(labels);
+		this.labels.set(labels);
 	}
 
 	removeLabel(label: string): void {
-		const { [label]: remove, ...others } = this.labels;
-		this._selectedLabels.next(others);
+		const { [label]: remove, ...others } = this.labels();
+		this.labels.set(others);
 	}
 
 	selected(event: MatAutocompleteSelectedEvent): void {
 		this.addLabel(event.option.value);
 		this.labelCTRL.setValue('');
-		this.labelInput.nativeElement.value = '';
+		this.labelInput().nativeElement.value = '';
 	}
 
 	removeLabelOption(event: MouseEvent, option: string): void {
@@ -106,8 +102,12 @@ export class SmokeLabelComponent implements OnInit {
 	}
 
 	private _filter(query: string): string[] {
-		const labels = this.query.getValue().labels;
-		const items = [...(query && !labels[query] ? [query] : []), ...Object.keys(labels ?? {})];
-		return items.filter(item => !this.labels[item] && item.includes(query));
+		const storeLabels = this.store.labels();
+		const labels = this.labels();
+		const items = [
+			...(query && !storeLabels[query] ? [query] : []),
+			...Object.keys(storeLabels ?? {}),
+		];
+		return items.filter(item => !labels[item] && item.includes(query));
 	}
 }

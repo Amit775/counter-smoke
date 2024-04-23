@@ -26,6 +26,7 @@
 		"@datorama/akita": "8.0.1",
 		"@datorama/akita-ng-entity-service": "^8.0.0",
 		"@datorama/akita-ng-router-store": "^8.0.0",
+		"@ngrx/signals": "^17.2.0",
 		"firebase": "^10.11.0",
 		"flatpickr": "^4.6.13",
 		"rxjs": "^7.8.1",
