@@ -1,13 +1,15 @@
 <div class="container">
 	<app-smoke-label [(labels)]="emptySmoke.labels" />
 	<div class="button-wrapper">
-		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading()" #button>I Smoke</button>
+		<button mat-button class="smoke-button" (click)="inc()" [disabled]="loading()">
+			I Smoke
+		</button>
 	</div>
 	<div class="counter-container">
 		@if (!loading()) {
 			<div class="counter">
-				<span class="count">{{ todayCount()}}</span>
-				<span class="last">Last Cigarete: {{ lastCigareteDiff$ | async | ago }} </span>
+				<span class="count">{{ todayCount() }}</span>
+				<span class="last">Last Cigarete: {{ lastCigareteDiff() | ago }} </span>
 			</div>
 		} @else {
 			<mat-spinner color="warn" diameter="40" />

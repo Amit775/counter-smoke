@@ -1,12 +1,18 @@
 import { Injectable, Injector, inject } from '@angular/core';
-import { applyTransaction } from '@datorama/akita';
 import { FirebaseError } from 'firebase/app';
-import { Auth, ConfirmationResult, RecaptchaVerifier, UserCredential, browserLocalPersistence, signInWithPhoneNumber } from 'firebase/auth';
+import {
+	Auth,
+	ConfirmationResult,
+	RecaptchaVerifier,
+	UserCredential,
+	browserLocalPersistence,
+	signInWithPhoneNumber,
+} from 'firebase/auth';
 import { Observable, catchError, from, map, of, switchMap } from 'rxjs';
 import { FIREBASE_AUTH, FIREBASE_VERIFIER } from 'src/app/core/firebase.app';
-import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { Service } from 'src/app/core/store/service';
 import { ToasterService } from 'src/app/core/toaster.service';
-import { ISmoker } from '../core/smokes/smokes.store';
+import { ISmoker } from '../models/smoker';
 
 declare var grecaptcha: any;
 
@@ -14,7 +20,7 @@ declare var grecaptcha: any;
 export class SignInService {
 	private auth: Auth = inject(FIREBASE_AUTH);
 	private injector: Injector = inject(Injector);
-	private service: SmokesService = inject(SmokesService);
+	private service: Service = inject(Service);
 	private toaster: ToasterService = inject(ToasterService);
 
 	verifier!: RecaptchaVerifier | undefined;
@@ -26,13 +32,11 @@ export class SignInService {
 
 	checkAuth(): () => void {
 		return this.auth.onAuthStateChanged(user => {
-			applyTransaction(() => {
-				if (user != null) {
-					this.service.setSmoker({ id: user.uid });
-				}
+			if (user != null) {
+				this.service.setSmoker({ id: user.uid });
+			}
 
-				this.service.setIsInitialized();
-			});
+			this.service.setIsInitialized();
 		});
 	}
 

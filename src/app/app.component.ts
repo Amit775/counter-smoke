@@ -1,17 +1,24 @@
 import { AsyncPipe, NgFor } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { EventType, Router, RouterLink, RouterLinkActive, RouterOutlet, UrlTree } from '@angular/router';
-import { filterNilValue } from '@datorama/akita';
-import { filter, map, merge } from 'rxjs';
-import { SmokesService } from './core/smokes/smokes.service';
+import {
+	EventType,
+	Router,
+	RouterLink,
+	RouterLinkActive,
+	RouterOutlet,
+	UrlTree,
+} from '@angular/router';
+import { getState } from '@ngrx/signals';
+import { map, merge } from 'rxjs';
+import { Service } from './core/store/service';
+import { Store } from './core/store/store';
 import { SignInService } from './sign-in/sign-in.service';
 import { authTabs, homeTabs } from './tabs';
 import { DisposerSink } from './utils/sink';
-import { SmokesStore } from './core/smokes/smokes.store';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { getState } from '@ngrx/signals';
+import { filterNil } from './utils/filter-nil';
 
 @Component({
 	selector: 'app-root',
@@ -19,11 +26,19 @@ import { getState } from '@ngrx/signals';
 	styleUrls: ['./app.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [NgFor, RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe, MatTabsModule, MatIconModule],
+	imports: [
+		NgFor,
+		RouterLinkActive,
+		RouterLink,
+		RouterOutlet,
+		AsyncPipe,
+		MatTabsModule,
+		MatIconModule,
+	],
 })
 export class AppComponent {
-	private service: SmokesService = inject(SmokesService);
-	private store = inject(SmokesStore);
+	private service: Service = inject(Service);
+	private store = inject(Store);
 	private signInService: SignInService = inject(SignInService);
 	private router: Router = inject(Router);
 
@@ -42,26 +57,26 @@ export class AppComponent {
 				}
 			}
 		}),
-		toObservable(this.store.smokerId).pipe(
-			filterNilValue(),
-			map((smokerId: string) => (this.disposer.sink = this.service.syncData(smokerId)))
-		)
-		.subscribe(),
-		merge(
-			toObservable(this.store.isInitialized),
-			toObservable(this.store.smokerId)
-		).subscribe(() => {
-			const appState = getState(this.store);
-			if (!appState.isInitialized) {
-				return this.ensureRoute('loading');
+		toObservable(this.store.smokerId)
+			.pipe(
+				filterNil(),
+				map((smokerId: string) => (this.disposer.sink = this.service.syncData(smokerId)))
+			)
+			.subscribe(),
+		merge(toObservable(this.store.isInitialized), toObservable(this.store.smokerId)).subscribe(
+			() => {
+				const appState = getState(this.store);
+				if (!appState.isInitialized) {
+					return this.ensureRoute('loading');
+				}
+				if (appState.smoker?.id) {
+					return this.ensureRoute('home');
+				} else {
+					return this.ensureRoute('sign-in');
+				}
 			}
-			if (appState.smoker?.id) {
-				return this.ensureRoute('home');
-			} else {
-				return this.ensureRoute('sign-in');
-			}
-		}),
-		this.signInService.checkAuth()
+		),
+		this.signInService.checkAuth(),
 	]);
 
 	private ensureRoute(route: string): void {

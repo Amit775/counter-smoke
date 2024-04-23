@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
+import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/models/smoke';
 import { SmokeLabelComponent } from './smoke-label/smoke-label.component';
 import { SmokeTimeComponent } from './smoke-time/smoke-time.component';
 
@@ -46,7 +46,14 @@ const createStrategy: FormStrategy = {
 
 @Component({
 	standalone: true,
-	imports: [CommonModule, SmokeLabelComponent, SmokeTimeComponent, FormsModule, MatIconModule, MatButtonModule],
+	imports: [
+		CommonModule,
+		SmokeLabelComponent,
+		SmokeTimeComponent,
+		FormsModule,
+		MatIconModule,
+		MatButtonModule,
+	],
 	selector: 'app-smoke-form',
 	templateUrl: './smoke-form.component.html',
 	styleUrls: ['./smoke-form.component.scss'],
@@ -55,7 +62,10 @@ const createStrategy: FormStrategy = {
 export class SmokeFormComponent {
 	public smoke = input.required<ISmoke>();
 	public formStrategy = computed(() => (this.smoke().id ? editStrategy : createStrategy));
-	public edittedSmoke = computed(() => ({ ...{ ...createEmptySmoke(), id: '' }, ...this.smoke() }));
+	public edittedSmoke = computed(() => ({
+		...{ ...createEmptySmoke(), id: '' },
+		...this.smoke(),
+	}));
 
 	public action = output<Action>();
 

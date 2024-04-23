@@ -1,4 +1,4 @@
-import { ISmoke, SmokeContent } from '../core/smokes/smokes.store';
+import { ISmoke, SmokeContent } from '../models/smoke';
 import { withoutId } from './without-id';
 
 export function listToRecord(items: ISmoke[]): Record<string, SmokeContent> {

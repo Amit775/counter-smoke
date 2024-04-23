@@ -1552,32 +1552,6 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@datorama/akita-ng-entity-service@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@datorama/akita-ng-entity-service/-/akita-ng-entity-service-8.0.0.tgz#25bc7edb969877416821479c41480177152c5882"
-  integrity sha512-iUOnU5vHOevdum/GLlqewtTDnnK5/xd3rVzkswI8f1f9+/7ffnqAYYIjqA/a8Z3OPO/wizYo9kePaFhUIAE4Qw==
-  dependencies:
-    tslib "^2.3.0"
-
-"@datorama/akita-ng-router-store@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@datorama/akita-ng-router-store/-/akita-ng-router-store-8.0.0.tgz#0cdd4c51d5339847447ffd7932383447fdda9d15"
-  integrity sha512-S+d01OYA01QbUkXJZaOwy+EH76tmLVYC/RRqnjAh4ccx43agBRghoHE+fLwFA8qWZ2eVRIfvNalHbNYD7JLTgQ==
-  dependencies:
-    tslib "^2.3.0"
-
-"@datorama/akita-ngdevtools@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@datorama/akita-ngdevtools/-/akita-ngdevtools-7.0.0.tgz#81494fc2cc3e70f6a2cab52c75acb72b711bb0f9"
-  integrity sha512-ufUYu+mG9LFxDlbF4A8HYB6RhWLWy0U8iadu1ORUIEwpKhNZ6f+H4UH8ntzNxtKgf2yf61yV+s2CJ4i+WezfzA==
-  dependencies:
-    tslib "^2.3.0"
-
-"@datorama/akita@8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-8.0.1.tgz#b37df94941e84f27ceb8ac875579c3a10c4bc536"
-  integrity sha512-0VnPWd+Sy3ColhzjDSBNcEnzAQtbezk6bYmJHvPaLMK5Ysl90KcNls2bE4sj5vaLeGLjhMtqtfp/RgrigPXDxA==
-
 "@discoveryjs/json-ext@0.5.7":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"

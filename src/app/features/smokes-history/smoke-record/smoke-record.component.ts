@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ISmoke } from 'src/app/core/smokes/smokes.store';
+import { ISmoke } from 'src/app/models/smoke';
 import { JoinPipe } from './join.pipe';
 
 @Component({

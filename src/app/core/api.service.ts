@@ -9,9 +9,9 @@ import {
 	push,
 	update,
 } from 'firebase/database';
+import { ISmoke, SmokeContent } from '../models/smoke';
 import { recordToList } from '../utils/record-to-list';
 import { FIREBASE_DB } from './firebase.app';
-import { ISmoke, SmokeContent } from './smokes/smokes.store';
 
 interface IListeners<T> {
 	onAdd?: (item: T) => void;
@@ -86,12 +86,20 @@ export class ApiService {
 	private listenToRefChanges<T>(ref: DatabaseReference, listeners: IListeners<T>): Unsubscribe {
 		const subs = [
 			listeners.onAdd
-				? onChildAdded(ref, (s: DataSnapshot) => listeners.onAdd!({ id: s.key, ...s.val() }))
+				? onChildAdded(ref, (s: DataSnapshot) =>
+						listeners.onAdd!({ id: s.key, ...s.val() })
+					)
 				: () => {},
-			listeners.onUpdate ? onChildChanged(ref, s => listeners.onUpdate!({ id: s.key, ...s.val() })) : () => {},
-			listeners.onRemove ? onChildRemoved(ref, s => listeners.onRemove!({ id: s.key, ...s.val() })) : () => {},
+			listeners.onUpdate
+				? onChildChanged(ref, s => listeners.onUpdate!({ id: s.key, ...s.val() }))
+				: () => {},
+			listeners.onRemove
+				? onChildRemoved(ref, s => listeners.onRemove!({ id: s.key, ...s.val() }))
+				: () => {},
 			listeners.getAll
-				? onValue(ref, s => listeners.getAll!(recordToList(s.val() ?? {})), { onlyOnce: true })
+				? onValue(ref, s => listeners.getAll!(recordToList(s.val() ?? {})), {
+						onlyOnce: true,
+					})
 				: () => {},
 		];
 
