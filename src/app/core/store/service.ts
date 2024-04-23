@@ -1,13 +1,15 @@
 import { Injectable, inject } from '@angular/core';
+import { ISmoke, SmokeContent } from 'src/app/models/smoke';
+import { ISmoker } from 'src/app/models/smoker';
 import { listToRecordAsKeys } from 'src/app/utils/list-to-record';
 import { withoutId } from 'src/app/utils/without-id';
 import { ApiService } from '../api.service';
-import { ISmoke, ISmoker, SmokeContent, SmokesStore } from './smokes.store';
+import { Store } from './store';
 
 @Injectable({ providedIn: 'root' })
-export class SmokesService {
+export class Service {
 	private api: ApiService = inject(ApiService);
-	private store = inject(SmokesStore);
+	private store = inject(Store);
 
 	setShortcut(value: boolean, label?: string): void {
 		this.store.setShortcut(value, label);

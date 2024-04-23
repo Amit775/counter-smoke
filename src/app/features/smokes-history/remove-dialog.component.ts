@@ -6,7 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 	standalone: true,
 	imports: [MatDialogModule, MatButtonModule],
 	template: `
-		<div class="container">
+		<div>
 			<span mat-dialog-title>Are you sure you want to remove that smoke?</span>
 			<div mat-dialog-actions>
 				<button mat-button [mat-dialog-close]="false">No</button>

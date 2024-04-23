@@ -7,17 +7,20 @@ import {
 	NgZone,
 	computed,
 	inject,
+	signal,
 	viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MatDialogModule } from '@angular/material/dialog';
-import { filterNilValue } from '@datorama/akita';
 import { default as flatpickr } from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { Hook } from 'flatpickr/dist/types/options';
 import { BehaviorSubject, filter, map, tap } from 'rxjs';
-import { EventState, SmokesStore } from 'src/app/core/smokes/smokes.store';
+import { Store } from 'src/app/core/store';
+import { EventState } from 'src/app/models/event';
+import { ISmoke } from 'src/app/models/smoke';
 import { enterZone } from 'src/app/utils/enter-zone.operator';
+import { filterNil } from 'src/app/utils/filter-nil';
 import { DisposerSink } from 'src/app/utils/sink';
 import { SmokesListComponent } from './smokes-list/smokes-list.component';
 
@@ -30,7 +33,7 @@ import { SmokesListComponent } from './smokes-list/smokes-list.component';
 	imports: [NgIf, SmokesListComponent, AsyncPipe, MatDialogModule],
 })
 export default class SmokesHistoryComponent {
-	private store = inject(SmokesStore);
+	private store = inject(Store);
 	private zone: NgZone = inject(NgZone);
 	private destroy: DestroyRef = inject(DestroyRef);
 
@@ -44,6 +47,7 @@ export default class SmokesHistoryComponent {
 			onMonthChange: [this.indexByDateHook()],
 			defaultDate: new Date(),
 			onChange: (dates: Date[]) => {
+				this.selectedDate.set(dates[0]);
 				this._selecedDate.next(dates[0]);
 			},
 		});
@@ -51,6 +55,7 @@ export default class SmokesHistoryComponent {
 
 	daysIndex: Record<number, number> = {};
 
+	public selectedDate = signal<Date | undefined>(undefined);
 	private _selecedDate = new BehaviorSubject<Date>(new Date());
 	public selectedDate$ = this._selecedDate
 		.asObservable()
@@ -59,12 +64,12 @@ export default class SmokesHistoryComponent {
 	private disposer = new DisposerSink().add([
 		toObservable(this.store.event)
 			.pipe(
-				filterNilValue(),
+				filterNil(),
 				filter(event => ['add', 'remove'].includes(event.name))
 			)
 			.pipe(
 				enterZone(this.zone),
-				map((action: EventState) => this.extractChangedDates(action)),
+				map((action: EventState<ISmoke[]>) => this.extractChangedDates(action)),
 				tap(changedDates =>
 					changedDates.forEach(date => this.addCountBadge(this.getDayElement(date)))
 				),
@@ -108,29 +113,20 @@ export default class SmokesHistoryComponent {
 		dayElement.innerHTML = `${date}<span class="day-count">${count}</span>`;
 	}
 
-	getBadgeClass(count: number): string {
-		switch (true) {
-			case count <= 9:
-				return 'success';
-			case count <= 11:
-				return 'regular';
-			default:
-				return 'warn';
-		}
-	}
-
 	getCountAtDay(day: Date): number {
-		return Object.values(this.store.smokes()).filter(
-			smoke => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf()
-		).length;
+		return this.store
+			.smokesEntities()
+			.filter(smoke => new Date(smoke.timestamp).setHours(0, 0, 0, 0) === day.valueOf())
+			.length;
 	}
 
 	isDateInFuture(date: Date): boolean {
 		const today = new Date(new Date().setHours(0, 0, 0, 0));
+
 		return date > today;
 	}
 
-	extractChangedDates(action: EventState): number[] {
+	extractChangedDates(action: EventState<ISmoke[]>): number[] {
 		switch (action.name) {
 			case 'add':
 				return action.payload.map(smoke => new Date(smoke.timestamp).setHours(0, 0, 0, 0));

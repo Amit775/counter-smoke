@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { getState } from '@ngrx/signals';
-import { SmokesStore } from '../core/smokes/smokes.store';
+import { Store } from '../core/store/store';
 
 export const isAllowedRoute = (route: ActivatedRouteSnapshot): boolean => {
-	const store = inject(SmokesStore);
+	const store = inject(Store);
 	
 	const allowRoute = (route: ActivatedRouteSnapshot, path: string): boolean => {
 		return route.url?.[0].path === path;

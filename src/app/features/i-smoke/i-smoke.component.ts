@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { filterNilValue } from '@datorama/akita';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { map, timer } from 'rxjs';
-import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { Service } from 'src/app/core/store/service';
 
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SmokeContent, SmokesStore, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
+import { Store } from 'src/app/core/store';
+import { SmokeContent, createEmptySmoke } from 'src/app/models/smoke';
 import { SmokeLabelComponent } from '../smoke-form/smoke-label/smoke-label.component';
 import { AgoPipe } from './ago.pipe';
 
@@ -25,17 +26,15 @@ import { AgoPipe } from './ago.pipe';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ISmokeComponent implements OnInit {
-	private store = inject(SmokesStore);
-	private service: SmokesService = inject(SmokesService);
+	private store = inject(Store);
+	private service: Service = inject(Service);
 
 	public emptySmoke: SmokeContent = createEmptySmoke();
 
+	now = toSignal(timer(0, 1000 * 60).pipe(map(() => Date.now())), { initialValue: Date.now() });
 	todayCount = this.store.countToday;
-	lastCigareteDiff$ = timer(0, 1000 * 60).pipe(
-		map(() => this.store.lastCigarette()),
-		filterNilValue(),
-		map(smokeTime => Date.now() - smokeTime)
-	);
+	lastCigareteDiff = computed(() => Math.max(this.now() - this.store.lastCigarette(), 0));
+
 	loading = this.store.isLoading;
 
 	ngOnInit(): void {

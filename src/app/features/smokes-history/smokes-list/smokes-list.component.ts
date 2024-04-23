@@ -13,18 +13,27 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { PanelService } from 'src/app/core/panel.service';
-import { SmokesService } from 'src/app/core/smokes/smokes.service';
+import { Service } from 'src/app/core/store/service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ISmoke, SmokeContent, SmokesStore, createEmptySmoke } from 'src/app/core/smokes/smokes.store';
+
+import { Store } from 'src/app/core/store';
+import { ISmoke, SmokeContent, createEmptySmoke } from 'src/app/models/smoke';
 import { Action, SmokeFormComponent } from '../../smoke-form/smoke-form.component';
 import { RemoveDialogComponent } from '../remove-dialog.component';
 import { SmokeRecordComponent } from '../smoke-record/smoke-record.component';
 
 @Component({
 	standalone: true,
-	imports: [CommonModule, SmokeRecordComponent, SmokeFormComponent, MatListModule, MatIconModule, MatButtonModule],
+	imports: [
+		CommonModule,
+		SmokeRecordComponent,
+		SmokeFormComponent,
+		MatListModule,
+		MatIconModule,
+		MatButtonModule,
+	],
 	selector: 'app-smokes-list',
 	templateUrl: './smokes-list.component.html',
 	styleUrls: ['./smokes-list.component.scss'],
@@ -34,8 +43,8 @@ export class SmokesListComponent {
 	public date = input.required<Date>();
 
 	private dialog: MatDialog = inject(MatDialog);
-	private service: SmokesService = inject(SmokesService);
-	private store = inject(SmokesStore);
+	private service: Service = inject(Service);
+	private store = inject(Store);
 	private panel: PanelService = inject(PanelService);
 	private vcr: ViewContainerRef = inject(ViewContainerRef);
 
@@ -43,15 +52,19 @@ export class SmokesListComponent {
 
 	smokes = computed(() => {
 		const date = this.date();
-		const smokes = this.store.smokes();
+		const smokes = this.store.smokesEntities();
 
-		return Object.entries(smokes).reduce(
-			(acc, [_id, smoke]) => [
-				...acc,
-				...(new Date(smoke.timestamp).setHours(0, 0, 0, 0) === date.setHours(0, 0, 0, 0) ? [smoke] : []),
-			],
-			[] as ISmoke[]
-		);
+		return smokes
+			.reduce(
+				(acc, smoke) => [
+					...acc,
+					...(new Date(smoke.timestamp).setHours(0, 0, 0, 0) === date.setHours(0, 0, 0, 0)
+						? [smoke]
+						: []),
+				],
+				[] as ISmoke[]
+			)
+			.sort((a, b) => a.timestamp - b.timestamp);
 	});
 
 	public selectedSmoke: ISmoke | undefined = undefined;
@@ -65,7 +78,11 @@ export class SmokesListComponent {
 
 	createSmoke(): void {
 		const now = new Date();
-		const nowAtDate = new Date(this.date()).setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+		const nowAtDate = new Date(this.date()).setHours(
+			now.getHours(),
+			now.getMinutes(),
+			now.getSeconds()
+		);
 		this.openPanel(createEmptySmoke(nowAtDate));
 	}
 

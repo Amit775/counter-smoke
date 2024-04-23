@@ -23,8 +23,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { map, merge, startWith } from 'rxjs';
-import { SmokesService } from 'src/app/core/smokes/smokes.service';
-import { SmokesStore } from 'src/app/core/smokes/smokes.store';
+import { Service } from 'src/app/core/store/service';
+import { Store } from 'src/app/core/store/store';
 
 const autocompleteOptions: MatAutocompleteDefaultOptions = {
 	overlayPanelClass: 'autocomplete-panel',
@@ -57,8 +57,8 @@ export class SmokeLabelComponent {
 	labelInput = viewChild.required<ElementRef>('labelInput');
 	autoComplete = viewChild.required<MatAutocomplete>('auto');
 
-	private service: SmokesService = inject(SmokesService);
-	private store = inject(SmokesStore);
+	private service: Service = inject(Service);
+	private store = inject(Store);
 
 	labelCTRL = new FormControl('');
 
