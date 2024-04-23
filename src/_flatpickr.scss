@@ -7,22 +7,22 @@
 	$accent-palette: map.get($color-config, 'accent');
 	$warn-palette: map.get($color-config, 'warn');
 
-	$calendarBackground: mat.get-color-from-palette($primary-palette, 100); // 100
-	$calendarBorderColor: mat.get-color-from-palette($primary-palette, '100-contrast', 0.2); // contrast-100
+	$calendarBackground: mat.get-color-from-palette($primary-palette, 100);
+	$calendarBorderColor: mat.get-color-from-palette($primary-palette, '100-contrast', 0.2);
 
-	$monthForeground: mat.get-color-from-palette($primary-palette, '500-contrast'); // contrast-500
-	$monthBackground: mat.get-color-from-palette($primary-palette, 500); // 500
+	$monthForeground: mat.get-color-from-palette($primary-palette, '500-contrast');
+	$monthBackground: mat.get-color-from-palette($primary-palette, 500);
 
-	$weekdaysBackground: mat.get-color-from-palette($primary-palette, 500); // 500
+	$weekdaysBackground: mat.get-color-from-palette($primary-palette, 500);
 
-	$dayForeground: mat.get-color-from-palette($primary-palette, '200-contrast'); // contrast-100
-	$dayHoverBackground: mat.get-color-from-palette($primary-palette, 200); // 200
+	$dayForeground: mat.get-color-from-palette($primary-palette, '200-contrast');
+	$dayHoverBackground: mat.get-color-from-palette($primary-palette, 200);
 
-	$todayColor: mat.get-color-from-palette($primary-palette, 300); // 300
+	$todayColor: mat.get-color-from-palette($primary-palette, 300);
 
-	$selectedDayBackground: mat.get-color-from-palette($primary-palette, 500); // 500
-	$selectedDayForeground: mat.get-color-from-palette($primary-palette, '500-contrast'); // contrast-500
-	$weekdaysForeground: mat.get-color-from-palette($primary-palette, '500-contrast'); // contrast-500
+	$selectedDayBackground: mat.get-color-from-palette($primary-palette, 500);
+	$selectedDayForeground: mat.get-color-from-palette($primary-palette, '500-contrast');
+	$weekdaysForeground: mat.get-color-from-palette($primary-palette, '500-contrast');
 
 	.flatpickr-calendar {
 		background: transparent;
@@ -83,7 +83,9 @@
 			}
 
 			&:nth-child(n + 2) .flatpickr-day.inRange:nth-child(7n + 1) {
-				box-shadow: -2px 0 0 #e6e6e6, 5px 0 0 #e6e6e6;
+				box-shadow:
+					-2px 0 0 #e6e6e6,
+					5px 0 0 #e6e6e6;
 			}
 		}
 
@@ -243,54 +245,17 @@
 		}
 
 		.flatpickr-prev-month.flatpickr-prev-month {
-			/*
-			/*rtl:begin:ignore*/
-			/*
-			*/
 			left: 0;
-
-			/*
-			/*rtl:end:ignore*/
-			/*
-			*/
 		}
 
 		.flatpickr-next-month {
 			&.flatpickr-prev-month {
-				/*
-			  /*rtl:begin:ignore*/
-				/*
-			  */
 				left: 0;
-
-				/*
-			  /*rtl:end:ignore*/
-				/*
-			  */
-
-				/*
-			  /*rtl:begin:ignore*/
-				/*
-			  */
 				right: 0;
-
-				/*
-			  /*rtl:end:ignore*/
-				/*
-			  */
 			}
 
 			&.flatpickr-next-month {
-				/*
-			  /*rtl:begin:ignore*/
-				/*
-			  */
 				right: 0;
-
-				/*
-			  /*rtl:end:ignore*/
-				/*
-			  */
 			}
 		}
 
@@ -316,16 +281,6 @@
 			fill: inherit;
 		}
 	}
-
-	/*
-		/*rtl:begin:ignore*/
-	/*
-		/*rtl:end:ignore*/
-
-	/*
-		/*rtl:begin:ignore*/
-	/*
-		/*rtl:end:ignore*/
 
 	.numInputWrapper {
 		position: relative;
@@ -698,7 +653,9 @@
 
 		&.inRange {
 			border-radius: 0;
-			box-shadow: -5px 0 0 $dayHoverBackground, 5px 0 0 $dayHoverBackground;
+			box-shadow:
+				-5px 0 0 $dayHoverBackground,
+				5px 0 0 $dayHoverBackground;
 		}
 
 		&.flatpickr-disabled,
@@ -722,7 +679,9 @@
 
 		&.week.selected {
 			border-radius: 0;
-			box-shadow: -5px 0 0 $selectedDayBackground, 5px 0 0 $selectedDayBackground;
+			box-shadow:
+				-5px 0 0 $selectedDayBackground,
+				5px 0 0 $selectedDayBackground;
 		}
 
 		&.hidden {

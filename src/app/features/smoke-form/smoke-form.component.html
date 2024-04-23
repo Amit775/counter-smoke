@@ -9,7 +9,9 @@
 		<app-smoke-label class="field" [(labels)]="edittedSmoke.labels" />
 	</div>
 	<div class="actions">
-		<button mat-raised-button color="warn" *ngIf="!formStrategy.isRemoveDisabled" (click)="delete()">Remove</button>
+		@if (formStrategy.isRemoveDisabled) {
+			<button mat-raised-button color="warn" (click)="delete()">Remove</button>
+		}
 		<button mat-raised-button (click)="upsert()">{{ formStrategy.action | titlecase }}</button>
 	</div>
 </div>

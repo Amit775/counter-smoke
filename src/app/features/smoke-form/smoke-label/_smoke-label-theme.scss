@@ -11,6 +11,10 @@
 		border-radius: 0 0 4px 4px;
 		background-color: mat.get-color-from-palette($primary-palette, 500);
 		color: mat.get-color-from-palette($primary-palette, '500-contrast');
+
+		.mat-mdc-autocomplete-panel {
+			background-color: unset;
+		}
 	}
 
 	.mat-mdc-form-field {
@@ -37,6 +41,10 @@
 		.mdc-list-item__primary-text {
 			display: contents;
 		}
+	}
+
+	.container .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+		background-color: unset;
 	}
 }
 
