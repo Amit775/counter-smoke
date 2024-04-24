@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, computed, model, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, model, untracked, viewChild } from '@angular/core';
 import flatpickr from 'flatpickr';
 
 @Component({
@@ -12,7 +12,7 @@ export class SmokeTimeComponent {
 	timestamp = model.required<number>();
 
 	timePicker = viewChild.required('timePicker', { read: ElementRef<HTMLInputElement> });
-	private instance = computed(() => {
+	private instance = effect(() => {
 		if (this.timePicker() == null) return null;
 
 		return flatpickr(this.timePicker().nativeElement, {

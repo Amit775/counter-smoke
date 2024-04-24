@@ -24,28 +24,28 @@ export function withSmokesFeature() {
 			),
 		})),
 		withMethods(store => ({
-			setSmokes(smokes: ISmoke[]): void {
+			setSmokes: (smokes: ISmoke[]) => {
 				patchState(
 					store,
 					setAllEntities(smokes, { collection: 'smokes' }),
 					setEvent('add', smokes)
 				);
 			},
-			addSmoke(smoke: ISmoke): void {
+			addSmoke: (smoke: ISmoke) => {
 				patchState(
 					store,
 					addEntity(smoke, { collection: 'smokes' }),
 					setEvent('add', [smoke])
 				);
 			},
-			updateSmoke(smoke: ISmoke): void {
+			updateSmoke: (smoke: ISmoke) => {
 				patchState(
 					store,
 					updateEntity({ id: smoke.id, changes: smoke }, { collection: 'smokes' }),
 					setEvent('update', [smoke])
 				);
 			},
-			removeSmoke(smoke: ISmoke): void {
+			removeSmoke: (smoke: ISmoke) => {
 				patchState(
 					store,
 					removeEntity(smoke.id, { collection: 'smokes' }),
