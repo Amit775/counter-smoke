@@ -13,7 +13,7 @@ export function withEventFeature<T>() {
 	return signalStoreFeature(
 		withState<{ event: EventState<T[]> | undefined }>(() => ({ event: undefined })),
 		withMethods(store => ({
-			setEvent(name: string, payload: T[]) {
+			setEvent: (name: string, payload: T[]) => {
 				patchState(store, setEvent(name, payload));
 			},
 		}))

@@ -12,7 +12,7 @@ export function withSmokerFeature() {
 	return signalStoreFeature(
 		withState<{ smoker: ISmoker | undefined }>(() => ({ smoker: undefined })),
 		withMethods(store => ({
-			setSmoker(smoker: ISmoker): void {
+			setSmoker: (smoker: ISmoker) => {
 				patchState(store, state => ({ ...state, smoker }));
 			},
 		})),

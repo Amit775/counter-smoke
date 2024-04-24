@@ -4,7 +4,7 @@ export function withLoadingFeature() {
 	return signalStoreFeature(
 		withState(() => ({ isLoading: false })),
 		withMethods(store => ({
-			setLoading(value: boolean) {
+			setLoading: (value: boolean) => {
 				patchState(store, state => ({ ...state, isLoading: value }));
 			},
 		}))

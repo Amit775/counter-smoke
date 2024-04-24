@@ -11,7 +11,7 @@ export function withShortcutFeature() {
 			shortcut: { isFromShortcut: false, label: undefined },
 		})),
 		withMethods(store => ({
-			setShortcut(value: boolean, label?: string): void {
+			setShortcut: (value: boolean, label?: string) => {
 				patchState(store, state => ({
 					...state,
 					shortcut: { isFromShortcut: value, label: value ? label : undefined },
